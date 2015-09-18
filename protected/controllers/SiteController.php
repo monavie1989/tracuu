@@ -77,25 +77,27 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
-		$model=new LoginForm;
+		if (!Yii::app()->user->isGuest)
+			$this->redirect(Yii::app()->homeUrl);
+
+		$model = new LoginForm('login');
 
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 
 		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
+		if (isset($_POST['LoginForm'])) {
+			$model->attributes = $_POST['LoginForm'];
+
+			if ($model->validate('login') && $model->login()) {
 				$this->redirect(Yii::app()->user->returnUrl);
+			}
 		}
-		// display the login form
-		$this->render('login',array('model'=>$model));
+
+		$this->render('login', array('model' => $model));
 	}
 
 	/**
@@ -103,6 +105,17 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
+		//obtains all assigned roles for this user id
+		$roleAssigned = Yii::app()->authManager->getRoles(Yii::app()->user->id);
+
+		if (!empty($roleAssigned)) { //checks that there are assigned roles
+			$auth = Yii::app()->authManager; //initializes the authManager
+			foreach ($roleAssigned as $n => $role) {
+				if ($auth->revoke($n, Yii::app()->user->id)) //remove each assigned role for this user
+					Yii::app()->authManager->save(); //again always save the result
+			}
+		}
+
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}

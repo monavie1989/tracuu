@@ -111,6 +111,14 @@ class ModelCode extends CCodeModel
 				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
 				$this->render($templatePath.'/model.php', $params)
 			);
+                        /* magin modify */
+                        // add template modelBase inside framework/gii/generators/model/templates/default/modelBase.php
+                        // create folder Base inside protected/model/Base
+			$this->files[]=new CCodeFile(
+				Yii::getPathOfAlias($this->modelPath).'/base/'.$className.'Base.php',
+				$this->render($templatePath.'/modelBase.php', $params)
+			);
+                        /* magin modify */
 		}
 	}
 

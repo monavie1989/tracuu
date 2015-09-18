@@ -50,114 +50,37 @@
 <?php endforeach; ?>
 <?php endif; ?>
  */
-class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
+class <?php echo $modelClass; ?> extends <?php echo $modelClass."Base\n"; ?>
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return '<?php echo $tableName; ?>';
-	}
+    /**
+        * Returns the static model of the specified AR class.
+        * @param string $className active record class name.
+        * @return <?php echo $modelClass; ?> the static model class
+        */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+    protected function afterDelete() {
+        // code modify insert here
+        foreach (<?php echo $modelClass; ?>Detail::model()->findAllByAttributes(array('<?php echo strtolower($modelClass); ?>_id'=>$this->id)) as $item) {
+            $item->delete();
+        }
+        return parent::afterDelete();
+    }
+    public function beforeSave() {
+        // code modify insert here
+        if ($this->isNewRecord)
+            $this->create_date = new CDbExpression('NOW()');
+        else
+            $this->modified_date = new CDbExpression('NOW()');
+        return parent::beforeSave();
+    }
+    public function afterFind() {
+        // code modify insert here
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-<?php foreach($rules as $rule): ?>
-			<?php echo $rule.",\n"; ?>
-<?php endforeach; ?>
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-<?php foreach($relations as $name=>$relation): ?>
-			<?php echo "'$name' => $relation,\n"; ?>
-<?php endforeach; ?>
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-<?php foreach($labels as $name=>$label): ?>
-			<?php echo "'".$name."' => '".str_replace("'","\'",$label)."',\n"; ?>
-<?php endforeach; ?>
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-<?php
-foreach($columns as $name=>$column)
-{
-	if($column->type==='string')
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n";
-	}
-	else
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name);\n";
-	}
-}
-?>
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
-<?php if($connectionId!='db'):?>
-	/**
-	 * @return CDbConnection the database connection used for this class
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()-><?php echo $connectionId ?>;
-	}
-
-<?php endif?>
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return <?php echo $modelClass; ?> the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+        return parent::afterFind();
+    }
+    
+    
 }

@@ -15,6 +15,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+		'application.models.base.*',
 		'application.components.*',
 	),
 
@@ -37,6 +38,14 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+		),
+		'authManager'=>array(
+			'class' => 'CDbAuthManager',
+			'connectionID' => 'db',
+			'itemTable' => 'tbl_user_auth', //tc_user_auth_item
+			'itemChildTable' => 'tbl_user_auth_item_child',
+			'assignmentTable' => 'tbl_user_auth_assignment',
+			'defaultRoles' => array('guest'),
 		),
 
 		// uncomment the following to enable URLs in path-format
