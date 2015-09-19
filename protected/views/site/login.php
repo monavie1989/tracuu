@@ -35,7 +35,7 @@ $this->breadcrumbs=array(
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">
-			Hint: You may login with <kbd>superuser</kbd>/<kbd>123456</kbd> or <kbd>admin</kbd>/<kbd>123456</kbd>.
+			Hint: Đăng nhập với tài khoản <kbd>superuser</kbd>/<kbd>123456</kbd> or <kbd>admin</kbd>/<kbd>123456</kbd>.
 		</p>
 	</div>
 
