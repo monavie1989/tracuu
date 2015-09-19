@@ -17,13 +17,7 @@
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'role'); ?>
-		<?php echo $form->textField($model,'role',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'role'); ?>
-	</div>
+	<?php echo $form->errorSummary($model); ?>	
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
@@ -42,28 +36,38 @@
 		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
 		<?php echo $form->error($model,'email'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'registered_date'); ?>
-		<?php echo $form->textField($model,'registered_date'); ?>
-		<?php echo $form->error($model,'registered_date'); ?>
+        <?php
+            /*
+             * @type of Role
+             * 0 - Super user
+             * 1 - Administrator
+             * 2 - Moderator
+             * 3 - Publisher & Author
+             * 4 - Member
+             */
+            $role_type = Yii::app()->user->role_type;
+            var_dump($role_type);
+            $cb_role = array();
+            if($role_type == 0) {
+                $cb_role = UserAuth::model()->findAllByAttributes(array('type'=>array(0,1,2,3,4)));
+            }
+            if($role_type == 1) {
+                $cb_role = UserAuth::model()->findAllByAttributes(array('type'=>array(1,2,3,4)));
+            }
+            if($role_type == 2) {
+                $cb_role = UserAuth::model()->findAllByAttributes(array('type'=>3));
+            }
+        ?>
+        
+         <div class="row">
+		<?php echo $form->labelEx($model,'role'); ?>
+		<?php echo $form->dropDownList($model,'role', CHtml::listData($cb_role, 'name', 'title')); ?>
+		<?php echo $form->error($model,'role'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'last_visited_date'); ?>
-		<?php echo $form->textField($model,'last_visited_date'); ?>
-		<?php echo $form->error($model,'last_visited_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'activekey'); ?>
-		<?php echo $form->textField($model,'activekey',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'activekey'); ?>
-	</div>
-
+        
 	<div class="row">
 		<?php echo $form->labelEx($model,'active'); ?>
-		<?php echo $form->textField($model,'active'); ?>
+		<?php echo $form->dropDownList($model,'active',array(0=>'Inactive',1=>'Active')); ?>
 		<?php echo $form->error($model,'active'); ?>
 	</div>
 

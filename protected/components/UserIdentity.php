@@ -38,16 +38,17 @@ class UserIdentity extends CUserIdentity {
                  }
  
                  // RBAC
-                 $roles = CJSON::decode($user->role);
+                 $role = $user->role;
+                 $role_info = UserAuth::model()->findByAttributes(array('name'=>$role));
                  $auth = Yii::app()->authManager;
-                 foreach ($roles as $role) {
+                 //foreach ($roles as $role) {
                      if (!$auth->isAssigned($role, $this->_id)) {
                          if ($auth->assign($role, $this->_id)) {
                              Yii::app()->authManager->save();
                          }
                      }
-                 }
-                //$this->setState('username', $user->username);
+                 //}
+                 $this->setState('role_type', $role_info->type);
                  $this->setState('email', $user->email);
                  $this->setState('last_visited_date', $lastLogin);
                  $this->errorCode = self::ERROR_NONE;
