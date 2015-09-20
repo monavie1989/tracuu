@@ -6,7 +6,9 @@ $this->breadcrumbs=array(
 	'Users'=>array('index'),
 	'Manage',
 );
-
+$this->menu=array(
+	array('label'=>'Thêm mới', 'url'=>array('create')),
+);
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();

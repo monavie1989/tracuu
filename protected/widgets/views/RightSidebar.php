@@ -35,7 +35,7 @@
     <a href="/peterculak/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="peterculak" src="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" class="" data-src-url="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" data-src-url-2x="https://bitbucket.org/account/peterculak/avatar/96/?ts=1441087108">
+            <img alt="peterculak" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="" data-src-url="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" data-src-url-2x="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png">
           </div>
       </div>
     </a>
@@ -83,7 +83,7 @@
     <a href="/peterculak/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="peterculak" src="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" class="" data-src-url="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" data-src-url-2x="https://bitbucket.org/account/peterculak/avatar/96/?ts=1441087108">
+            <img alt="peterculak" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="" data-src-url="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" data-src-url-2x="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png">
           </div>
       </div>
     </a>
@@ -131,7 +131,7 @@
     <a href="/peterculak/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="peterculak" src="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" class="" data-src-url="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" data-src-url-2x="https://bitbucket.org/account/peterculak/avatar/96/?ts=1441087108">
+            <img alt="peterculak" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="" data-src-url="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" data-src-url-2x="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png">
           </div>
       </div>
     </a>
@@ -179,7 +179,7 @@
     <a href="/peterculak/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="peterculak" src="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" class="" data-src-url="https://bitbucket.org/account/peterculak/avatar/48/?ts=1441087108" data-src-url-2x="https://bitbucket.org/account/peterculak/avatar/96/?ts=1441087108">
+            <img alt="peterculak" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="" data-src-url="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" data-src-url-2x="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png">
           </div>
       </div>
     </a>
@@ -227,7 +227,7 @@
     <a href="/micc83/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Alessandro Benoit" src="https://bitbucket.org/account/micc83/avatar/48/?ts=1436439743" class="" data-src-url="https://bitbucket.org/account/micc83/avatar/48/?ts=1436439743" data-src-url-2x="https://bitbucket.org/account/micc83/avatar/96/?ts=1436439743">
+            <img alt="Alessandro Benoit" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -275,7 +275,7 @@
     <a href="/micahwalter/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Micah Walter" src="https://bitbucket.org/account/micahwalter/avatar/48/?ts=0" class="" data-src-url="https://bitbucket.org/account/micahwalter/avatar/48/?ts=0" data-src-url-2x="https://bitbucket.org/account/micahwalter/avatar/96/?ts=0">
+            <img alt="Micah Walter" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -323,7 +323,7 @@
     <a href="/sefus/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Roman Dolgopolov" src="https://bitbucket.org/account/sefus/avatar/48/?ts=0" class="" data-src-url="https://bitbucket.org/account/sefus/avatar/48/?ts=0" data-src-url-2x="https://bitbucket.org/account/sefus/avatar/96/?ts=0">
+            <img alt="Roman Dolgopolov" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -371,7 +371,7 @@
     <a href="/micahwalter/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Micah Walter" src="https://bitbucket.org/account/micahwalter/avatar/48/?ts=0" class="" data-src-url="https://bitbucket.org/account/micahwalter/avatar/48/?ts=0" data-src-url-2x="https://bitbucket.org/account/micahwalter/avatar/96/?ts=0">
+            <img alt="Micah Walter" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -419,7 +419,7 @@
     <a href="/vicdelfant/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Vic D'Elfant" src="https://bitbucket.org/account/vicdelfant/avatar/48/?ts=0" class="" data-src-url="https://bitbucket.org/account/vicdelfant/avatar/48/?ts=0" data-src-url-2x="https://bitbucket.org/account/vicdelfant/avatar/96/?ts=0">
+            <img alt="Vic D'Elfant" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -467,7 +467,7 @@
     <a href="/phillprice/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Phill Price" src="https://bitbucket.org/account/phillprice/avatar/48/?ts=1442399985" class="" data-src-url="https://bitbucket.org/account/phillprice/avatar/48/?ts=1442399985" data-src-url-2x="https://bitbucket.org/account/phillprice/avatar/96/?ts=1442399985">
+            <img alt="Phill Price" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>
@@ -515,7 +515,7 @@
     <a href="/gjerokrsteski/">
       <div class="aui-avatar aui-avatar-small">
           <div class="aui-avatar-inner">
-            <img alt="Gjero Krsteski" src="https://bitbucket.org/account/gjerokrsteski/avatar/48/?ts=0" class="" data-src-url="https://bitbucket.org/account/gjerokrsteski/avatar/48/?ts=0" data-src-url-2x="https://bitbucket.org/account/gjerokrsteski/avatar/96/?ts=0">
+            <img alt="Gjero Krsteski" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/32/user_blue.png" class="">
           </div>
       </div>
     </a>

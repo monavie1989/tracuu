@@ -74,16 +74,34 @@
                     <div id="repo-content" class="aui-page-panel-content" data-modules="repo/index">                   
                         <div id="repo-overview" class="aui-group">
                             <div class="aui-item">
-                                <div class="aui-group repo-page-header">
-                                    <div class="aui-item section-title">
-                                        <?php if(isset($this->breadcrumbs)):?>
-                                            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                                                'links'=>$this->breadcrumbs,
-                                            )); ?><!-- breadcrumbs -->
-                                        <?php endif?>
-                                        <h1><?php echo CHtml::encode($this->pageTitle); ?></h1>
+                                <header class="aui-page-header" style="margin-bottom: 30px;">
+                                    <div class="aui-page-header-inner">
+                                        <div class="aui-page-header-image">
+                                            <span class="aui-avatar aui-avatar-large aui-avatar-project">
+                                                <span class="aui-avatar-inner">
+                                                    <img alt="Atlassian logo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/project-48.png">
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="aui-page-header-main">
+                                            <?php if(isset($this->breadcrumbs)):?>
+                                                <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+                                                    'links'=>$this->breadcrumbs,
+                                                )); ?><!-- breadcrumbs -->
+                                            <?php endif?>
+                                            <h1><?php echo CHtml::encode($this->pageTitle); ?></h1>
+                                        </div>
+                                        <div class="aui-page-header-actions">
+                                        <?php
+                                            $this->widget('zii.widgets.CMenu', array(
+                                                    'itemCssClass'=>'aui-button',
+                                                    'items'=>$this->menu,
+                                                    'htmlOptions'=>array('class'=>'aui-buttons'),
+                                            ));
+                                        ?>
+                                        </div>
                                     </div>
-                                </div>
+                                </header>
                                 <?php
                                     $flash = Yii::app()->user->getFlashes();
                                     foreach ($flash as $key=>$msg)
