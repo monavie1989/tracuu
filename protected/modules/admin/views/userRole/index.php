@@ -6,7 +6,9 @@ $this->breadcrumbs=array(
 	'User Auths'=>array('index'),
 	'Manage',
 );
-
+$this->menu=array(
+	array('label'=>'<span class="aui-icon aui-icon-small aui-iconfont-add"></span> Thêm mới', 'url'=>array('create')),
+);
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -35,21 +37,47 @@ $('.search-form form').submit(function(){
             'id'=>'user-auth-grid',
             'dataProvider'=>$model->search(),
             'rowCssClass'=>array('iterable-item'),
-            'itemsCssClass'=>'aui aui-table-interactive bb-list iterable pullrequest-list open',
+            'itemsCssClass'=>'aui  aui-table-sortable aui-table-interactive bb-list iterable pullrequest-list open',
+            'enableHistory'=>FALSE,
             'columns'=>array(
-                'title',
+                array(
+                    'name'=>'title',
+                    'header'=>'Tên nhóm',
+                ),
                 array(
                     'name'=>'type',
-                    'value'=> array($model,'renderRoleGroup')
+                    'header'=>'Nhóm cha',
+                    'value'=> array($model,'renderRoleGroup'),
                 ),
-                'description',
+                array(
+                    'name'=>'description',
+                    'header'=>'Mô tả',
+                ),
                 /*
                 'data',
                 'ordering',
                 'status',
                 */
                 array(
-                        'class'=>'CButtonColumn',
+                    'class'=>'CButtonColumn',
+                    'afterDelete'=>'function(link,success,data){
+                        if(success) {
+                            AJS.flag({
+                                type: \'success\',
+                                title: \'Delete Successful.\',
+                                persistent: false,
+                                body: data
+                            });
+                        } else {
+                            AJS.flag({
+                                type: \'error\',
+                                title: \'Delete not successful.\',
+                                persistent: false,
+                                body: JSON.stringify(data,[\'responseText\', \'statusText\'],\'<br/>\')
+                            });
+                            return false;
+                        }
+                    }',
                 ),
             ),
         )); ?>

@@ -1,10 +1,10 @@
-<div class="aui-sidebar repo-sidebar" data-modules="components/repo-sidebar">
-  <div class="aui-sidebar-wrapper" style="height: 628px;">
+<div class="aui-sidebar repo-sidebar">
+  <div id="left-sidebar" class="aui-sidebar-wrapper" style="height: 9999px;">
     <div class="aui-sidebar-body">
       <header class="aui-page-header">
         <div class="aui-page-header-inner">
           <div class="aui-page-header-image">
-            <a href="mandrill-api-php.html" id="repo-avatar-link" class="repo-link">
+            <a href="#" id="repo-avatar-link" class="repo-link">
               <span class="aui-avatar aui-avatar-large aui-avatar-project">
                 <span class="aui-avatar-inner">
                   <img  src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/images/default_avatar/64/user_blue.png" class="deferred-image" alt="">
@@ -27,14 +27,13 @@
       <nav class="aui-navgroup aui-navgroup-vertical">
           
         <div class="aui-navgroup-inner">
-            <div class="aui-sidebar-group aui-sidebar-group-actions repository-actions forks-enabled">
+            <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
                 <div class="aui-nav-heading">
-                  <strong>Quản lý người dùng</strong>
+                    <strong>Quản lý người dùng</strong>
                 </div>
                 <div id="mainmenu">
                     <?php $this->widget('zii.widgets.CMenu',array(
                         'htmlOptions'=>array('class' => 'aui-nav'),
-                        'itemCssClass'=>'aui-nav-item',
                         'activeCssClass'=>'aui-nav-selected',
                         'encodeLabel'=>false,
                         'items'=>array(
@@ -43,74 +42,56 @@
                                 'url'=>array('/admin/user'),
                                 'linkOptions'=> array(
                                     'class' => 'aui-nav-item ',
+                                    'original-title'=>'Danh sách người dùng',
                                 ),
-                                'visible'=>!Yii::app()->user->isGuest
+                                'visible'=>Yii::app()->user->checkAccess('admin.user.index')
                             ),
                             array(
                                 'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Nhóm người dùng</span>',
                                 'url'=>array('/admin/userrole'),
                                 'linkOptions'=> array(
                                     'class' => 'aui-nav-item ',
+                                    'original-title'=>'Nhóm người dùng',
                                 ),
-                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.*')
+                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
                             ),
                         ),
                     )); ?>
                 </div><!-- mainmenu -->
             </div>
-          
             
-              <div class="aui-sidebar-group aui-sidebar-group-actions repository-actions forks-enabled">
+            <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
                 <div class="aui-nav-heading">
-                  <strong>Actions</strong>
+                    <strong>Quản lý bài viết</strong>
                 </div>
-                <ul id="repo-actions" class="aui-nav">
-                  
-                  
-                    <li>
-                      <a id="repo-clone-button" class="aui-nav-item "
-                        href="#clone"
-                        data-ct="sidebar.actions.repository.clone"
-                        data-ct-data=""
-                        data-modules="components/clone/clone-dialog"
-                        target="_self">
-                        
-                          <span class="aui-icon aui-icon-large icon-clone"></span>
-                        
-                        <span class="aui-nav-item-label">Clone</span>
-                      </a>
-                    </li>
-                  
-                    <li>
-                      <a id="repo-compare-link" class="aui-nav-item "
-                        href="mandrill-api-php/branches/compare.html"
-                        data-ct="sidebar.actions.repository.compare"
-                        data-ct-data=""
-                        
-                        target="_self">
-                        
-                          <span class="aui-icon aui-icon-large aui-icon-small aui-iconfont-devtools-compare"></span>
-                        
-                        <span class="aui-nav-item-label">Compare</span>
-                      </a>
-                    </li>
-                  
-                    <li>
-                      <a id="repo-fork-link" class="aui-nav-item "
-                        href="https://bitbucket.org/account/signin/?next=/mailchimp/mandrill-api-php/fork"
-                        data-ct="sidebar.actions.repository.fork"
-                        data-ct-data=""
-                        
-                        target="_self">
-                        
-                          <span class="aui-icon aui-icon-large icon-fork"></span>
-                        
-                        <span class="aui-nav-item-label">Fork</span>
-                      </a>
-                    </li>
-                  
-                </ul>
-              </div>
+                <div id="mainmenu">
+                    <?php $this->widget('zii.widgets.CMenu',array(
+                        'htmlOptions'=>array('class' => 'aui-nav'),
+                        'activeCssClass'=>'aui-nav-selected',
+                        'encodeLabel'=>false,
+                        'items'=>array(
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Danh sách bài viết</span>',
+                                'url'=>array('/admin/user'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Danh sách bài viết',
+                                ),
+                                'visible'=>!Yii::app()->user->isGuest
+                            ),
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large aui-iconfont-admin-jira-settings"></span><span class="aui-nav-item-label">Danh mục bài viết</span>',
+                                'url'=>array('/admin/userrole'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Danh mục bài viết',
+                                ),
+                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
+                            ),
+                        ),
+                    )); ?>
+                </div><!-- mainmenu -->
+            </div>
         </div>
       </nav>
     </div>

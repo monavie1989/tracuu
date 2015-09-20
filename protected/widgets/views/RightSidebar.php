@@ -1,4 +1,4 @@
-    <section class="bb-banner" id="signup-banner" data-modules="components/banner">
+    <section class="bb-banner" id="signup-banner">
   <div>
     <p>
       

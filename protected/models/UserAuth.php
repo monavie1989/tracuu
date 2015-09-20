@@ -27,17 +27,10 @@ class UserAuth extends UserAuthBase
     }
     protected function afterDelete() {
         // code modify insert here
-        foreach (UserAuthDetail::model()->findAllByAttributes(array('userauth_id'=>$this->id)) as $item) {
-            $item->delete();
-        }
         return parent::afterDelete();
     }
     public function beforeSave() {
         // code modify insert here
-        if ($this->isNewRecord)
-            $this->create_date = new CDbExpression('NOW()');
-        else
-            $this->modified_date = new CDbExpression('NOW()');
         return parent::beforeSave();
     }
     public function afterFind() {
@@ -46,9 +39,60 @@ class UserAuth extends UserAuthBase
         return parent::afterFind();
     }
     
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('type',$this->type);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('title',$this->title,true);
+        $criteria->compare('description',$this->description,true);
+        $criteria->compare('bizrule',$this->bizrule,true);
+        $criteria->compare('data',$this->data,true);
+        $criteria->compare('ordering',$this->ordering);
+        $criteria->compare('status',$this->status);
+        $display_role = Yii::app()->params['display_role'];
+        $role_type = Yii::app()->user->role_type;
+        if (!empty($display_role[$role_type]) && is_array($display_role[$role_type])) {
+            $criteria->addInCondition('type', $display_role[$role_type]);
+        }
+        return new CActiveDataProvider($this, array(
+                'criteria'=>$criteria,
+        ));
+    }
+    
     public function renderRoleGroup($data,$row) {
         $group = '';
         switch ($data->type) {
+            case 0:
+                $group = 'Super User';
+                break;
+            case 1:
+                $group = 'Administrator';
+                break;
+            case 2:
+                $group = 'Modertator';
+                break;
+            case 3:
+                $group = 'Publisher & Author';
+                break;
+            case 4:
+                $group = 'Member';
+                break;
+            default :
+                $group = 'Other';
+                break;
+        }
+        return $group;
+    }
+    
+    public function getParentRole() {
+        $group = '';
+        switch ($this->type) {
             case 0:
                 $group = 'Super User';
                 break;

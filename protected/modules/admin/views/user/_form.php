@@ -62,13 +62,13 @@
         
          <div class="field-group">
 		<?php echo $form->labelEx($model,'role'); ?>
-		<?php echo $form->dropDownList($model,'role', CHtml::listData($cb_role, 'name', 'title'),array('class'=>'aui-dropdown2-trigger aui-button')); ?>
+		<?php echo $form->dropDownList($model,'role', CHtml::listData($cb_role, 'name', 'title'),array('class'=>'select')); ?>
 		<?php echo $form->error($model,'role'); ?>
 	</div>
         
 	<div class="field-group">
 		<?php echo $form->labelEx($model,'active'); ?>
-		<?php echo $form->dropDownList($model,'active',array(0=>'Inactive',1=>'Active'),array('class'=>'aui-dropdown2-trigger aui-button')); ?>
+		<?php echo $form->dropDownList($model,'active',array(0=>'Inactive',1=>'Active'),array('class'=>'select')); ?>
 		<?php echo $form->error($model,'active'); ?>
 	</div>
 

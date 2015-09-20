@@ -63,11 +63,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
         {
                 if(++$count==7)
                         echo "\t\t/*\n";
-                echo "\t\ttarray(".
-                    "\t\t\t'name'=>'".$column->name."'\n,".
-                    "\t\t\t'header'=>'".$column->name."'\n,".
-                    "\t\t\t'value'=>'".$column->name."'\n".
-                "\t\t),\n";
+                echo "\t\t'".$column->name."',\n";
         }
         if($count>=7)
                 echo "\t\t*/\n";

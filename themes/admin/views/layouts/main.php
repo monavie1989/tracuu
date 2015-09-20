@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<div id="page">
+    <div id="page" style="overflow: hidden;">
     <div id="wrapper">
         <header id="header" role="banner">
             <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
@@ -38,22 +38,7 @@
                                 <span id="ace-stp-menu-icon" class="aui-icon aui-icon-small aui-iconfont-help"></span>
                             </a>
                         </li>
-
-                        <li>
-                            <a class="aui-dropdown2-trigger" href="#header-language" aria-controls="header-language" aria-owns="header-language" aria-haspopup="true" data-container="#header .aui-header-inner">
-                              <span>English</span></a>
-                            <nav id="header-language" class="aui-dropdown2 aui-style-default aui-dropdown2-radio aui-dropdown2-in-header"
-                            aria-hidden="true">
-                                <form method="post" action="#"  data-modules="i18n/header-language-form">
-                                    <input type="hidden" name="language" value="">
-                                    <ul>
-                                    <li><a class="aui-dropdown2-radio interactive checked"  data-value="en" href="#en">English</a></li>
-
-                                    <li><a class="aui-dropdown2-radio interactive "  data-value="ja" href="#ja">日本語</a></li>
-                                    </ul>
-                                </form>
-                            </nav>
-                        </li>
+                        
                         <?php if(Yii::app()->user->isGuest) { ?>
                         <li id="header-signup-button">
                             <a id="sign-up-link" class="aui-button aui-button-primary" href="#">Đăng ký</a>
@@ -61,7 +46,20 @@
                         <li id="user-options">
                             <a href="#" class="aui-nav-link login-link">Đăng nhập</a>
                         </li>
-                        <?php } ?>
+                        <?php } else { ?>
+                        <li>
+                            <a class="" href="#header-language" aria-controls="header-language" aria-owns="header-language" aria-haspopup="true" data-container="#header .aui-header-inner">
+                              <span class="aui-icon aui-icon-small aui-iconfont-configure"></span></a>
+                            <nav id="header-language" class="aui-dropdown2 aui-style-default aui-dropdown2-radio aui-dropdown2-in-header"
+                            aria-hidden="true">
+                                <ul>
+                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
+                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
+                                    <li><a href="<?php echo $this->createUrl('site/logout'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-devtools-fork"></span>  Thoát</a></li>
+                                </ul>
+                            </nav>
+                        </li>
+                         <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -71,7 +69,7 @@
             <?php $this->widget('application.widgets.adminmenu'); ?>      
             <div class="aui-page-panel ">
                 <div class="aui-page-panel-inner">
-                    <div id="repo-content" class="aui-page-panel-content" data-modules="repo/index">                   
+                    <div id="repo-content" class="aui-page-panel-content">                   
                         <div id="repo-overview" class="aui-group">
                             <div class="aui-item">
                                 <header class="aui-page-header" style="margin-bottom: 30px;">
@@ -94,9 +92,10 @@
                                         <div class="aui-page-header-actions">
                                         <?php
                                             $this->widget('zii.widgets.CMenu', array(
-                                                    'itemCssClass'=>'aui-button',
-                                                    'items'=>$this->menu,
-                                                    'htmlOptions'=>array('class'=>'aui-buttons'),
+                                                'itemCssClass'=>'aui-button',
+                                                'items'=>$this->menu,
+                                                'encodeLabel'=>false,
+                                                'htmlOptions'=>array('class'=>'aui-buttons'),
                                             ));
                                         ?>
                                         </div>
@@ -122,15 +121,15 @@
         </div>
     </div>
 
-    <footer id="footer" role="contentinfo" data-modules="components/footer">
+    <footer id="footer" role="contentinfo">
         <section class="footer-body">
             <div id="footer-logo">
             </div>
         </section>
     </footer>
-</div>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/js/djangojs.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/js/vendor.js"></script>
+    </div>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/aui/js/aui.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/aui/js/aui-experimental.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/js/app.js"></script>
 </body>
 </html>

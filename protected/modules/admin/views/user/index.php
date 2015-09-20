@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	'Manage',
 );
 $this->menu=array(
-	array('label'=>'Thêm mới', 'url'=>array('create')),
+	array('label'=>'<span class="aui-icon aui-icon-small aui-iconfont-add"></span> Thêm mới', 'url'=>array('create')),
 );
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

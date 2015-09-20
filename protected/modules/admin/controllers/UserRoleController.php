@@ -29,15 +29,15 @@ class UserRoleController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'users'=>array('*'),
+				'roles'=>array('admin.userrole.index','admin.userrole.view'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
-				'users'=>array('@'),
+				'roles'=>array('admin.userrole.create','admin.userrole.update'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'actions'=>array('delete'),
+				'roles'=>array('admin.userrole.delete'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -110,11 +110,23 @@ class UserRoleController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+            try{
+                $model = $this->loadModel($id);
+                $model->delete();
+                if(!isset($_GET['ajax']))
+                    Yii::app()->user->setFlash('success','Normal - Deleted Successfully');
+                else
+                    echo 'Xóa nhóm người dùng <strong>'.$model->title.'</strong> thành công!';
+            }catch(CDbException $e){
+                if(!isset($_GET['ajax']))
+                    Yii::app()->user->setFlash('error','Normal - error message');
+                else
+                    echo 'Có lỗi xảy ra. Xóa nhóm người dùng <strong>'.$model->title.'</strong> không thành công!'; //for ajax
+            }
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if(!isset($_GET['ajax']))
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**
