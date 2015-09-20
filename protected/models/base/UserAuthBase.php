@@ -70,7 +70,7 @@ class UserAuthBase extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'type' => 'Type',
+			'type' => 'Role Group',
 			'name' => 'Name',
 			'title' => 'Title',
 			'description' => 'Description',

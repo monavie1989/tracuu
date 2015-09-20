@@ -53,7 +53,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+	'rowCssClass'=>array('iterable-item'),
+        'itemsCssClass'=>'aui aui-table-interactive bb-list iterable pullrequest-list open',
 	'columns'=>array(
 <?php
 $count=0;

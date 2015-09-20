@@ -14,6 +14,7 @@
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'id'=>'".$this->class2id($this->modelClass)."-form',
+        'htmlOptions'=>array('class'=>'aui registration-form ab-testing'),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -31,7 +32,7 @@ foreach($this->tableSchema->columns as $column)
 	if($column->autoIncrement)
 		continue;
 ?>
-	<div class="row">
+	<div class="field-group">
 		<?php echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
@@ -40,9 +41,11 @@ foreach($this->tableSchema->columns as $column)
 <?php
 }
 ?>
-	<div class="row buttons">
-		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Create' : 'Save'); ?>\n"; ?>
-	</div>
+	<div class="buttons-container">
+          <div class="buttons">
+            <?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Create' : 'Save',array('class'=>'aui-button aui-button-primary')); ?>\n"; ?>
+          </div>
+        </div>
 
 <?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 

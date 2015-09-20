@@ -12,6 +12,7 @@ class AdminModule extends CWebModule
 			'admin.models.*',
 			'admin.components.*',
 		));
+                Yii::app()->theme = 'admin';
 	}
 
 	public function beforeControllerAction($controller, $action)

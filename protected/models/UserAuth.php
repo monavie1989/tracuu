@@ -46,5 +46,28 @@ class UserAuth extends UserAuthBase
         return parent::afterFind();
     }
     
-    
+    public function renderRoleGroup($data,$row) {
+        $group = '';
+        switch ($data->type) {
+            case 0:
+                $group = 'Super User';
+                break;
+            case 1:
+                $group = 'Administrator';
+                break;
+            case 2:
+                $group = 'Modertator';
+                break;
+            case 3:
+                $group = 'Publisher & Author';
+                break;
+            case 4:
+                $group = 'Member';
+                break;
+            default :
+                $group = 'Other';
+                break;
+        }
+        return $group;
+    }
 }

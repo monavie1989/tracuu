@@ -118,27 +118,16 @@ class UserRoleController extends Controller
 	}
 
 	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('UserAuth');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionIndex()
 	{
 		$model=new UserAuth('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserAuth']))
 			$model->attributes=$_GET['UserAuth'];
 
-		$this->render('admin',array(
+		$this->render('index',array(
 			'model'=>$model,
 		));
 	}

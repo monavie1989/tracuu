@@ -44,7 +44,13 @@
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
-
+        <?php
+            $flash = Yii::app()->user->getFlashes();
+            foreach ($flash as $key=>$msg)
+            {
+                echo '<div class="flash-'.$key.'">'.$msg.'</div>';
+            }
+        ?>
 	<?php echo $content; ?>
 
 	<div class="clear"></div>

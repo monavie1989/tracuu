@@ -36,8 +36,8 @@ class UserController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+                            'actions'=>array('admin','delete'),
+                            'roles'=>array('admin.*','admin.user.*','admin.user.admin','admin.user.delete')
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -62,22 +62,41 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+            $model=new User;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-                        $model->registered_date = new CDbCriteria('NOW()');
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+            if(isset($_POST['User']))
+            {
+                    $model->attributes=$_POST['User'];
+                    $assign_role = array(
+                        0 => array(0,1,2,3,4),
+                        1 => array(1,2,3,4),
+                        2 => array(3),
+                        3 => array(),
+                        4 => array(),
+                    );
+                    $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
+                    if(!Yii::app()->user->isGuest) {
+                        if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
+                            Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                            $this->redirect(array('index'));
+                        }
+                            //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                    } else {
+                        $model->role = 'member';
+                    }
+                    $model->password = md5($model->password);
+                    $model->activekey = String::randomString('alphabet', 10);
+                    $model->registered_date = new CDbExpression('NOW()');
+                    if($model->save())
+                        $this->redirect(array('view','id'=>$model->id));
+            }
+            $this->pageTitle = 'Thêm tài khoản mới';
+            $this->render('create',array(
+                    'model'=>$model,
+            ));
 	}
 
 	/**
@@ -95,6 +114,7 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+                        $model->password = md5($model->password);
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -123,25 +143,14 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new User('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+            $model=new User('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['User']))
+                    $model->attributes=$_GET['User'];
+            $this->pageTitle = 'Danh sách người dùng';
+            $this->render('index',array(
+                    'model'=>$model,
+            ));
 	}
 
 	/**
