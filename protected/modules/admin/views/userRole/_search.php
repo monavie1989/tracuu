@@ -9,56 +9,29 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
+        'htmlOptions'=>array('class'=>'aui registration-form ab-testing'),
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-	</div>
-
-	<div class="row">
+	<div class="field-group">
 		<?php echo $form->label($model,'type'); ?>
 		<?php echo $form->textField($model,'type'); ?>
 	</div>
 
-	<div class="row">
+	<div class="field-group">
 		<?php echo $form->label($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>64)); ?>
+		<?php echo $form->textField($model,'name',array('size'=>38,'maxlength'=>64)); ?>
 	</div>
 
-	<div class="row">
+	<div class="field-group">
 		<?php echo $form->label($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>64)); ?>
+		<?php echo $form->textField($model,'title',array('size'=>38,'maxlength'=>64)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'description'); ?>
-		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'bizrule'); ?>
-		<?php echo $form->textArea($model,'bizrule',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'data'); ?>
-		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'ordering'); ?>
-		<?php echo $form->textField($model,'ordering'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
-	</div>
+	<div class="buttons-container">
+            <div class="buttons">
+                <?php echo CHtml::submitButton('Tìm kiếm',array('class'=>'aui-button aui-button-primary')); ?>
+            </div>
+        </div>
 
 <?php $this->endWidget(); ?>
 

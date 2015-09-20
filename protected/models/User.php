@@ -27,4 +27,9 @@ class User extends UserBase
 	{
 		return parent::model($className);
 	}
+        
+        public function renderRoleName($data, $row) {
+            $role = UserAuth::model()->find(array('select'=>'title','condition'=>'name=:name','params'=>array(':name'=>$data->role)));
+            return $role->title;
+        }
 }

@@ -352,7 +352,7 @@ class CGridView extends CBaseListView
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
-				$this->cssFile=$this->baseScriptUrl.'/styles.css';
+				$this->cssFile=$this->baseScriptUrl.'/gridview.css';
 			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
 		}
 

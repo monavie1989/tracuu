@@ -15,6 +15,7 @@
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl(\$this->route),
 	'method'=>'get',
+        'htmlOptions'=>array('class'=>'aui registration-form ab-testing'),
 )); ?>\n"; ?>
 
 <?php foreach($this->tableSchema->columns as $column): ?>
@@ -23,15 +24,17 @@
 	if(strpos($field,'password')!==false)
 		continue;
 ?>
-	<div class="row">
+	<div class="field-group">
 		<?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
 	</div>
 
 <?php endforeach; ?>
-	<div class="row buttons">
-		<?php echo "<?php echo CHtml::submitButton('Search'); ?>\n"; ?>
-	</div>
+        <div class="buttons-container">
+          <div class="buttons">
+            <?php echo "<?php echo CHtml::submitButton('Search',array('class'=>'aui-button aui-button-primary')); ?>\n"; ?>
+          </div>
+        </div>
 
 <?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 
