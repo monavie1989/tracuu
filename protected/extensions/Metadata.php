@@ -1,4 +1,4 @@
-<?
+﻿<?php
 /**
 * Metadata Helps to get metadata about models,controllers and actions in application* 
 * 
@@ -82,20 +82,24 @@ class Metadata extends CApplicationComponent {
         }else{
             $path='protected'.DIRECTORY_SEPARATOR.'controllers';
         }        
-        
-        
-            include_once($path.DIRECTORY_SEPARATOR.$controller.'.php');        
-            $reflection = new ReflectionClass($controller); 
-            $methods = $reflection->getMethods(); 
+            $filename = $path.DIRECTORY_SEPARATOR.$controller.'.php';
+            $handle = fopen($filename, 'r');
+            $str = fread($handle,filesize($filename));
+            fclose($handle);
+            preg_match_all('/(action\w+)\(/', $str, $matches);
+            //return $matches[1];
+            //include_once($path.DIRECTORY_SEPARATOR.$controller.'.php');        
+            //$reflection = new ReflectionClass($controller); 
+            //$methods = $reflection->getMethods(); 
         
         //$cInstance=new $controller(null);
         // var_dump($cInstance->actions());
         $actions=array();
-        foreach($methods as $method)
+        foreach($matches[1] as $method)
         {           
-            if (strpos($method->name,'action')===0 and ctype_upper($method->name[6]))
+            if (strpos($method,'action')===0 and ctype_upper($method[6]))
             {
-                $actions[]=str_replace('action','',$method->name);
+                $actions[]=str_replace('action','',$method);
             }
         }
         return $actions;
@@ -229,3 +233,4 @@ class Metadata extends CApplicationComponent {
     }
 
 }
+?>

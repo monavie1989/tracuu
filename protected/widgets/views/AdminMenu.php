@@ -55,6 +55,15 @@
                                 ),
                                 'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
                             ),
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Quyền người dùng</span>',
+                                'url'=>array('/admin/task'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Nhóm người dùng',
+                                ),
+                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
+                            ),
                         ),
                     )); ?>
                 </div><!-- mainmenu -->

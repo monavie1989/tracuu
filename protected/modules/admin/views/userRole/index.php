@@ -10,23 +10,15 @@ $this->menu=array(
 	array('label'=>'<span class="aui-icon aui-icon-small aui-iconfont-add"></span> Thêm mới', 'url'=>array('create')),
 );
 Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
 $('.search-form form').submit(function(){
-	$('#user-auth-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
+    $('#user-auth-grid').yiiGridView('update', {
+        data: $(this).serialize()
+    });
+    return false;
 });
 ");
 ?>
-
-<h1>Manage User Auths</h1>
-
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
+<div class="search-form">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
@@ -35,9 +27,9 @@ $('.search-form form').submit(function(){
     <div class="aui-item" id="commit-list-container" data-changesets-limited="">
         <?php $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'user-auth-grid',
-            'dataProvider'=>$model->search(),
+            'dataProvider'=>$model->search($type),
             'rowCssClass'=>array('iterable-item'),
-            'itemsCssClass'=>'aui  aui-table-sortable aui-table-interactive bb-list iterable pullrequest-list open',
+            'itemsCssClass'=>'aui  aui-table-sortable aui-table-interactive',
             'enableHistory'=>FALSE,
             'columns'=>array(
                 array(
@@ -60,6 +52,7 @@ $('.search-form form').submit(function(){
                 */
                 array(
                     'class'=>'CButtonColumn',
+                    'htmlOptions'=>array('style'=>'width:100px;text-align:right;'),
                     'afterDelete'=>'function(link,success,data){
                         if(success) {
                             AJS.flag({
@@ -80,6 +73,21 @@ $('.search-form form').submit(function(){
                     }',
                 ),
             ),
+            'pagerCssClass'=>'paging pull-right',
+            'pager'=>array(
+                'header' => false,
+                'internalPageCssClass'=>'',
+                'firstPageCssClass'=>'',
+                'firstPageLabel'=>'<<',
+                'lastPageCssClass'=>'',
+                'lastPageLabel'=>'>>',
+                'nextPageCssClass'=>'next',
+                'nextPageLabel'=>'>',
+                'prevPageLabel'=>'<',
+                'previousPageCssClass'=>'previous',
+                'selectedPageCssClass'=>'active',
+                'htmlOptions'=>array('class'=>'pagination'),
+            )
         )); ?>
     </div>
 </div>

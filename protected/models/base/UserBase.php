@@ -8,6 +8,8 @@
  * @property string $role
  * @property string $username
  * @property string $password
+ * @property string $fullname
+ * @property integer $phone
  * @property string $email
  * @property string $registered_date
  * @property string $last_visited_date
@@ -43,9 +45,9 @@ class UserBase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role, username, password, email', 'required'),
-			array('active, status', 'numerical', 'integerOnly'=>true),
-			array('role', 'length', 'max'=>255),
+			array('role, username, password, fullname, phone, email', 'required'),
+			array('phone, active, status', 'numerical', 'integerOnly'=>true),
+			array('role, fullname', 'length', 'max'=>255),
 			array('username', 'length', 'max'=>50),
 			array('password', 'length', 'max'=>64),
 			array('email', 'length', 'max'=>100),
@@ -53,7 +55,7 @@ class UserBase extends CActiveRecord
 			array('registered_date, last_visited_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, role, username, password, email, registered_date, last_visited_date, activekey, active, status', 'safe', 'on'=>'search'),
+			array('id, role, username, password, fullname, phone, email, registered_date, last_visited_date, activekey, active, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,6 +80,8 @@ class UserBase extends CActiveRecord
 			'role' => 'Role',
 			'username' => 'Username',
 			'password' => 'Password',
+			'fullname' => 'Fullname',
+			'phone' => 'Phone',
 			'email' => 'Email',
 			'registered_date' => 'Registered Date',
 			'last_visited_date' => 'Last Visited Date',
@@ -102,6 +106,8 @@ class UserBase extends CActiveRecord
 		$criteria->compare('role',$this->role,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
+		$criteria->compare('fullname',$this->fullname,true);
+		$criteria->compare('phone',$this->phone);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('registered_date',$this->registered_date,true);
 		$criteria->compare('last_visited_date',$this->last_visited_date,true);

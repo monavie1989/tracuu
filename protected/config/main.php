@@ -39,6 +39,7 @@ return array(
             'user'=>array(
                     // enable cookie-based authentication
                     'allowAutoLogin'=>true,
+                    'loginUrl'=>'/user/login',
             ),
             'authManager'=>array(
                     'class' => 'CDbAuthManager',
@@ -76,11 +77,10 @@ return array(
                                     'levels'=>'error, warning',
                             ),
                             // uncomment the following to show log messages on web pages
-                            /*
+                            
                             array(
                                     'class'=>'CWebLogRoute',
                             ),
-                             */
                     ),
             ),
 

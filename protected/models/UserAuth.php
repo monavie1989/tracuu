@@ -39,7 +39,7 @@ class UserAuth extends UserAuthBase
         return parent::afterFind();
     }
     
-    public function search()
+    public function search($type='role')
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
@@ -57,9 +57,12 @@ class UserAuth extends UserAuthBase
         $criteria->compare('status',$this->status);
         $display_role = Yii::app()->params['display_role'];
         $role_type = Yii::app()->user->role_type;
-        if (!empty($display_role[$role_type]) && is_array($display_role[$role_type])) {
-            $criteria->addInCondition('type', $display_role[$role_type]);
-        }
+        //if (!empty($display_role[$role_type]) && is_array($display_role[$role_type])) {
+            if($type === 'role')
+                $criteria->addInCondition('type', $display_role[$role_type]);
+            elseif($type === 'task')
+                $criteria->addInCondition ('type', array(5,6,7,8));
+        //}
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
         ));
@@ -82,6 +85,15 @@ class UserAuth extends UserAuthBase
                 break;
             case 4:
                 $group = 'Member';
+                break;
+            case 5:
+                $group = 'Module';
+                break;
+            case 6:
+                $group = 'Controller';
+                break;
+            case 7:
+                $group = 'Action';
                 break;
             default :
                 $group = 'Other';

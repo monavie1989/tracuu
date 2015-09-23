@@ -69,29 +69,35 @@ class UserController extends Controller
 
             if(isset($_POST['User']))
             {
-                    $model->attributes=$_POST['User'];
-                    $assign_role = array(
-                        0 => array(0,1,2,3,4),
-                        1 => array(1,2,3,4),
-                        2 => array(3),
-                        3 => array(),
-                        4 => array(),
-                    );
-                    $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
-                    if(!Yii::app()->user->isGuest) {
-                        if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
-                            Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                            $this->redirect(array('index'));
-                        }
-                            //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                    } else {
-                        $model->role = 'member';
+                $attributes=$_POST['User'];
+                $assign_role = array(
+                    0 => array(0,1,2,3,4),
+                    1 => array(1,2,3,4),
+                    2 => array(3),
+                    3 => array(),
+                    4 => array(),
+                );
+                //var_dump($attributes);die();
+                $model->username = $attributes['username'];
+                $model->password = $attributes['password'];
+                $model->email = $attributes['email'];
+                $model->role = $attributes['role'];
+                $model->active = $attributes['active'];
+                $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
+                if(!Yii::app()->user->isGuest) {
+                    if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
+                        Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                        $this->redirect(array('index'));
                     }
-                    $model->password = md5($model->password);
-                    $model->activekey = String::randomString('alphabet', 10);
-                    $model->registered_date = new CDbExpression('NOW()');
-                    if($model->save())
-                        $this->redirect(array('view','id'=>$model->id));
+                        //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                } else {
+                    $model->role = 'member';
+                }
+                $model->password = md5($model->password);
+                $model->activekey = String::randomString('alphabet', 10);
+                $model->registered_date = new CDbExpression('NOW()');
+                if($model->save())
+                    $this->redirect(array('view','id'=>$model->id));
             }
             $this->pageTitle = 'Thêm tài khoản mới';
             $this->render('create',array(
@@ -112,12 +118,37 @@ class UserController extends Controller
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-                        $model->password = md5($model->password);
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+                {
+                    $attributes=$_POST['User'];
+                    $assign_role = array(
+                        0 => array(0,1,2,3,4),
+                        1 => array(1,2,3,4),
+                        2 => array(3),
+                        3 => array(),
+                        4 => array(),
+                    );
+                    //var_dump($attributes);die();
+                    $model->username = $attributes['username'];
+                    $model->password = $attributes['password'];
+                    $model->email = $attributes['email'];
+                    $model->role = $attributes['role'];
+                    $model->active = $attributes['active'];
+                    $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
+                    if(!Yii::app()->user->isGuest) {
+                        if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
+                            Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                            $this->redirect(array('index'));
+                        }
+                            //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
+                    } else {
+                        $model->role = 'member';
+                    }
+                    $model->password = md5($model->password);
+                    //$model->activekey = String::randomString('alphabet', 10);
+                    //$model->registered_date = new CDbExpression('NOW()');
+                    if($model->save())
+                        $this->redirect(array('view','id'=>$model->id));
+                }
 
 		$this->render('update',array(
 			'model'=>$model,

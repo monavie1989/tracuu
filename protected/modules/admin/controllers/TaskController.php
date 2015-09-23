@@ -1,6 +1,6 @@
 <?php
 
-class UserRoleController extends Controller
+class TaskController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,15 +29,15 @@ class UserRoleController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'roles'=>array('admin.userrole.index','admin.userrole.view'),
+				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
-				'roles'=>array('admin.userrole.create','admin.userrole.update'),
+				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('delete'),
-				'roles'=>array('admin.userrole.delete'),
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -69,13 +69,34 @@ class UserRoleController extends Controller
 
 		if(isset($_POST['UserAuth']))
 		{
-			$model->attributes=$_POST['UserAuth'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                    $model->attributes=$_POST['UserAuth'];
+                    if($model->save()) {
+                        Yii::app()->user->setFlash('success','Thêm quyền thành công!');
+                        $this->redirect(array('index','id'=>$model->id));
+                    }
 		}
-
+                
+                $task = CHtml::listData(UserAuth::model()->findAll(array('select'=>'name,type','condition'=>'type IN(5,6,7)')), 'name', 'type');
+                
+                $meta = new Metadata();
+                $module_controller_action = array();
+                $module = $meta->getModules();
+                foreach ($module as $m)
+                {
+                    $module_controller_action[$m.'.*'] = '5';
+                    $controllers = $meta->getControllersActions($m);
+                    foreach ($controllers as $c) {
+                        $cname = strtolower(str_replace('Controller', '', $c['name']));
+                        $module_controller_action[$m.'.'.$cname.'.*'] = '6';
+                        foreach ($c['actions'] as $a) {
+                            $module_controller_action[$m.'.'.$cname.'.'.strtolower($a)] = '7';                        
+                        }
+                    }
+                }
+                $final = array_diff_assoc($module_controller_action,$task);
 		$this->render('create',array(
-			'model'=>$model,
+                    'model'=>$model,
+                    'data'=>$final,
 		));
 	}
 
@@ -110,27 +131,15 @@ class UserRoleController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-            try{
-                $model = $this->loadModel($id);
-                $model->delete();
-                if(!isset($_GET['ajax']))
-                    Yii::app()->user->setFlash('success','Normal - Deleted Successfully');
-                else
-                    echo 'Xóa nhóm người dùng <strong>'.$model->title.'</strong> thành công!';
-            }catch(CDbException $e){
-                if(!isset($_GET['ajax']))
-                    Yii::app()->user->setFlash('error','Normal - error message');
-                else
-                    echo 'Có lỗi xảy ra. Xóa nhóm người dùng <strong>'.$model->title.'</strong> không thành công!'; //for ajax
-            }
+		$this->loadModel($id)->delete();
 
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if(!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
-	 * Manages all models.
+	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
@@ -142,7 +151,7 @@ class UserRoleController extends Controller
 
             $this->render('index',array(
                 'model'=>$model,
-                'type'=>'role',
+                'type'=>'task',
             ));
 	}
 

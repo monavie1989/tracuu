@@ -6,6 +6,7 @@
 	<meta name="language" content="en">
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/css/app.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/css/aui.css">
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/css/vendor.css">
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/aui/css/aui.css" media="all">
@@ -25,7 +26,7 @@
                 </h1>
             </div>
             <div class="aui-header-secondary">
-                    <ul role="menu" class="aui-nav">
+                    <ul role="menu" class="aui-nav nav navbar-nav navbar-right">
                         <li>
                             <form action=#" method="get" class="aui-quicksearch">
                                 <label for="search-query" class="assistive">owner/repository</label>
@@ -44,20 +45,18 @@
                             <a id="sign-up-link" class="aui-button aui-button-primary" href="#">Đăng ký</a>
                         </li>
                         <li id="user-options">
-                            <a href="#" class="aui-nav-link login-link">Đăng nhập</a>
+                            <a href="<?php echo $this->createUrl(Yii::app()->user->loginUrl); ?>" class="aui-nav-link login-link">Đăng nhập</a>
                         </li>
                         <?php } else { ?>
-                        <li>
-                            <a class="" href="#header-language" aria-controls="header-language" aria-owns="header-language" aria-haspopup="true" data-container="#header .aui-header-inner">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                               <span class="aui-icon aui-icon-small aui-iconfont-configure"></span></a>
-                            <nav id="header-language" class="aui-dropdown2 aui-style-default aui-dropdown2-radio aui-dropdown2-in-header"
-                            aria-hidden="true">
-                                <ul>
+                                <ul class="dropdown-menu">
                                     <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
                                     <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
-                                    <li><a href="<?php echo $this->createUrl('site/logout'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-devtools-fork"></span>  Thoát</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="<?php echo $this->createUrl('/user/logout'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-devtools-fork"></span>  Thoát</a></li>
                                 </ul>
-                            </nav>
                         </li>
                          <?php } ?>
                     </ul>
@@ -128,8 +127,8 @@
         </section>
     </footer>
     </div>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/aui/js/aui.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/aui/js/aui-experimental.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/bootstrap/js/bootstrap.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/themes/admin/js/app.js"></script>
 </body>
 </html>
