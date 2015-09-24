@@ -39,8 +39,8 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                               <span class="aui-icon aui-icon-small aui-iconfont-configure"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
-                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
+                                    <li><a href="<?php echo $this->createUrl('/admin/user/profile'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
+                                    <li><a href="<?php echo $this->createUrl('/admin/user/changepass'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?php echo $this->createUrl('/user/logout'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-devtools-fork"></span>  Thoát</a></li>
                                 </ul>

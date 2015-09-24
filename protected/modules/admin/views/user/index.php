@@ -54,6 +54,7 @@ $('.search-form form').submit(function(){
                 */
                 array(
                     'class'=>'CButtonColumn',
+                    'viewButtonUrl'=>'$this->grid->controller->createUrl("/admin/user/profile", array("id"=>$data->id))',
                     'htmlOptions'=>array('style'=>'width:100px;text-align:right;'),
                 ),
             ),

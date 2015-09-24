@@ -39,6 +39,10 @@ class UserController extends Controller
                             'actions'=>array('delete'),
                             'roles'=>array('admin.user.delete')
 			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                            'actions'=>array('changepass','profile'),
+                            'users'=>array('@')
+			),
 			array('deny',  // deny all users
                             'users'=>array('*'),
 			),
@@ -49,11 +53,15 @@ class UserController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionProfile()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+            $id = Yii::app()->request->getParam('id');
+            if(empty($id)) {
+                $id = Yii::app()->user->id;
+            } 
+            $this->render('profile',array(
+                    'model'=>$this->loadModel($id),
+            ));
 	}
 
 	/**
@@ -195,6 +203,37 @@ class UserController extends Controller
                     'model'=>$model,
             ));
 	}
+        
+        public function actionChangepass()
+	{
+            $model=new ChangepassForm();
+            $id = Yii::app()->request->getParam('id');
+            if(empty($id)) {
+                $id = Yii::app()->user->id;
+            }
+            $model->id = $id;
+            //echo $id;
+            if(isset($_POST['ChangepassForm']))
+            {
+                $model->attributes = $_POST['ChangepassForm'];
+                if($model->validate()) {
+                    $command = Yii::app()->db->createCommand();
+                    $sql = 'UPDATE tbl_user SET password=\''.md5($model->password).'\'';
+                    if($command->update('tbl_user', array('password'=>md5($model->password)), 'id=:id',  array(':id'=>$id))) {
+                        Yii::app()->user->setFlash('success','Cập nhật mật khẩu thành công');
+                        if(Yii::app()->request->getParam('id'))
+                            $this->redirect('index');
+                        else
+                            $this->redirect('profile');
+                    } else {
+                        throw new Exception('Error');
+                    }
+                }
+            }
+            $this->render('changepass',array(
+                'model'=>$model,
+            ));
+	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -207,7 +246,7 @@ class UserController extends Controller
 	{
 		$model=User::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+                    throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 

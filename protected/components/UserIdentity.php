@@ -48,12 +48,13 @@ class UserIdentity extends CUserIdentity {
                          }
                      }
                  //}
-                 $this->setState('username', $user->username);
-                 $this->setState('role_type', $role_info->type);
-                 $this->setState('role_name', $role_info->title);
-                 $this->setState('email', $user->email);
-                 $this->setState('last_visited_date', $lastLogin);
-                 $this->errorCode = self::ERROR_NONE;
+                $this->setState('id', $user->id);
+                $this->setState('username', $user->username);
+                $this->setState('role_type', $role_info->type);
+                $this->setState('role_name', $role_info->title);
+                $this->setState('email', $user->email);
+                $this->setState('last_visited_date', $lastLogin);
+                $this->errorCode = self::ERROR_NONE;
              }
          }
          return !$this->errorCode;

@@ -3,13 +3,12 @@
 /* @var $model User */
 
 $this->breadcrumbs=array(
-	'Users'=>array('index'),
-	'Create',
+	'Quản lý người dùng'=>array('index'),
+	'Tạo người dùng mới',
 );
 
 $this->menu=array(
 	array('label'=>'Danh sách người dùng', 'url'=>array('index')),
-	array('label'=>'Manage User', 'url'=>array('admin')),
 );
 ?>
 
