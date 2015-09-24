@@ -78,9 +78,11 @@ class UserController extends Controller
                     4 => array(),
                 );
                 //var_dump($attributes);die();
+                $model->fullname = $attributes['fullname'];
                 $model->username = $attributes['username'];
                 $model->password = $attributes['password'];
                 $model->email = $attributes['email'];
+                $model->phone = $attributes['phone'];
                 $model->role = $attributes['role'];
                 $model->active = $attributes['active'];
                 $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));

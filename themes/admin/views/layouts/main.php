@@ -26,20 +26,7 @@
                 </h1>
             </div>
             <div class="aui-header-secondary">
-                    <ul role="menu" class="aui-nav nav navbar-nav navbar-right">
-                        <li>
-                            <form action=#" method="get" class="aui-quicksearch">
-                                <label for="search-query" class="assistive">owner/repository</label>
-                                <input id="search-query" class="bb-repo-typeahead" type="text" placeholder="Find a repository&hellip;" name="name" autocomplete="off" data-bb-typeahead-focus="false">
-                            </form>
-                        </li>
-                        
-                        <li id="ace-stp-menu">
-                            <a id="ace-stp-menu-link" class="aui-nav-link" href="#" aria-controls="super-touch-point-dialog" data-aui-trigger>
-                                <span id="ace-stp-menu-icon" class="aui-icon aui-icon-small aui-iconfont-help"></span>
-                            </a>
-                        </li>
-                        
+                    <ul role="menu" class="aui-nav nav navbar-nav navbar-right">                       
                         <?php if(Yii::app()->user->isGuest) { ?>
                         <li id="header-signup-button">
                             <a id="sign-up-link" class="aui-button aui-button-primary" href="#">Đăng ký</a>
@@ -108,10 +95,6 @@
                                     }
                                 ?>
                                 <?php echo $content; ?>
-                            </div>
-
-                            <div class="aui-item sidebar">
-                              <?php $this->widget('application.widgets.RightSidebar');?>      
                             </div>
                         </div>
                     </div>

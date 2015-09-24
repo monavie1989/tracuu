@@ -27,6 +27,7 @@
       <nav class="aui-navgroup aui-navgroup-vertical">
           
         <div class="aui-navgroup-inner">
+            <?php if(Yii::app()->user->checkAccess('admin.user.index')) { ?>
             <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
                 <div class="aui-nav-heading">
                     <strong>Quản lý người dùng</strong>
@@ -68,7 +69,7 @@
                     )); ?>
                 </div><!-- mainmenu -->
             </div>
-            
+            <?php } ?>
             <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
                 <div class="aui-nav-heading">
                     <strong>Quản lý bài viết</strong>

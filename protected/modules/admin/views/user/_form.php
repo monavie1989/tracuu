@@ -20,7 +20,13 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>	
-
+        
+        <div class="field-group">
+		<?php echo $form->labelEx($model,'fullname'); ?>
+		<?php echo $form->textField($model,'fullname',array('size'=>50,'maxlength'=>120)); ?>
+		<?php echo $form->error($model,'fullname'); ?>
+	</div>
+        
 	<div class="field-group">
 		<?php echo $form->labelEx($model,'username'); ?>
 		<?php echo $form->textField($model,'username',array('size'=>50,'maxlength'=>50)); ?>
@@ -37,6 +43,12 @@
 		<?php echo $form->labelEx($model,'email'); ?>
 		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
 		<?php echo $form->error($model,'email'); ?>
+	</div>
+        
+        <div class="field-group">
+		<?php echo $form->labelEx($model,'phone'); ?>
+		<?php echo $form->textField($model,'phone',array('size'=>50,'maxlength'=>11)); ?>
+		<?php echo $form->error($model,'phone'); ?>
 	</div>
         <?php
             /*
