@@ -25,50 +25,9 @@
         </div>
       </header>
       <nav class="aui-navgroup aui-navgroup-vertical">
+        
           
         <div class="aui-navgroup-inner">
-            <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
-                <div class="aui-nav-heading">
-                    <strong>Quản lý người dùng</strong>
-                </div>
-                <div id="mainmenu">
-                    <?php $this->widget('zii.widgets.CMenu',array(
-                        'htmlOptions'=>array('class' => 'aui-nav'),
-                        'activeCssClass'=>'aui-nav-selected',
-                        'encodeLabel'=>false,
-                        'items'=>array(
-                            array(
-                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Danh sách người dùng</span>',
-                                'url'=>array('/admin/user'),
-                                'linkOptions'=> array(
-                                    'class' => 'aui-nav-item ',
-                                    'original-title'=>'Danh sách người dùng',
-                                ),
-                                'visible'=>Yii::app()->user->checkAccess('admin.user.index')
-                            ),
-                            array(
-                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Nhóm người dùng</span>',
-                                'url'=>array('/admin/userrole'),
-                                'linkOptions'=> array(
-                                    'class' => 'aui-nav-item ',
-                                    'original-title'=>'Nhóm người dùng',
-                                ),
-                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
-                            ),
-                            array(
-                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Quyền người dùng</span>',
-                                'url'=>array('/admin/task'),
-                                'linkOptions'=> array(
-                                    'class' => 'aui-nav-item ',
-                                    'original-title'=>'Nhóm người dùng',
-                                ),
-                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
-                            ),
-                        ),
-                    )); ?>
-                </div><!-- mainmenu -->
-            </div>
-            
             <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
                 <div class="aui-nav-heading">
                     <strong>Quản lý bài viết</strong>
@@ -81,7 +40,7 @@
                         'items'=>array(
                             array(
                                 'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Danh sách bài viết</span>',
-                                'url'=>array('/admin/user'),
+                                'url'=>array('/admin/user/index'),
                                 'linkOptions'=> array(
                                     'class' => 'aui-nav-item ',
                                     'original-title'=>'Danh sách bài viết',
@@ -101,6 +60,71 @@
                     )); ?>
                 </div><!-- mainmenu -->
             </div>
+            <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
+                <div class="aui-nav-heading">
+                    <strong>Quản lý người dùng</strong>
+                </div>
+                <div id="mainmenu">
+                    <?php $this->widget('zii.widgets.CMenu',array(
+                        'htmlOptions'=>array('class' => 'aui-nav'),
+                        'activeCssClass'=>'aui-nav-selected',
+                        'encodeLabel'=>false,
+                        'items'=>array(
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Danh sách người dùng</span>',
+                                'url'=>array('/admin/user/index'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Danh sách người dùng',
+                                ),
+                                'visible'=>Yii::app()->user->checkAccess('admin.user.index')
+                            ),
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Nhóm người dùng</span>',
+                                'url'=>array('/admin/userrole/index'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Nhóm người dùng',
+                                ),
+                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
+                            ),
+                            array(
+                                'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Quyền người dùng</span>',
+                                'url'=>array('/admin/task/index'),
+                                'linkOptions'=> array(
+                                    'class' => 'aui-nav-item ',
+                                    'original-title'=>'Nhóm người dùng',
+                                ),
+                                'visible'=>Yii::app()->user->checkAccess('admin.userrole.index')
+                            ),
+                        ),
+                    )); ?>
+                </div><!-- mainmenu -->
+                
+                <div class="aui-sidebar-group aui-sidebar-group-tier-one repository-sections">
+                    <div class="aui-nav-heading">
+                        <strong>Cấu hình</strong>
+                    </div>
+                    <div id="mainmenu">
+                        <?php $this->widget('zii.widgets.CMenu',array(
+                            'htmlOptions'=>array('class' => 'aui-nav'),
+                            'activeCssClass'=>'aui-nav-selected',
+                            'encodeLabel'=>false,
+                            'items'=>array(
+                                array(
+                                    'label'=>'<span class="aui-icon aui-icon-large icon-overview"></span><span class="aui-nav-item-label">Cấu hình SMTP</span>',
+                                    'url'=>array('/admin/config/smtp'),
+                                    'linkOptions'=> array(
+                                        'class' => 'aui-nav-item ',
+                                        'original-title'=>'Cấu hình SMTP',
+                                    ),
+                                    'visible'=>Yii::app()->user->checkAccess('admin.config.smtp')
+                                ),
+                            ),
+                        )); ?>
+                    </div><!-- mainmenu -->
+                </div>
+            </div>    
         </div>
       </nav>
     </div>

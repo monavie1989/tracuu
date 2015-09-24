@@ -39,7 +39,7 @@ return array(
             'user'=>array(
                     // enable cookie-based authentication
                     'allowAutoLogin'=>true,
-                    'loginUrl'=>'/user/login',
+                    'loginUrl'=>'user/login',
             ),
             'authManager'=>array(
                     'class' => 'CDbAuthManager',
