@@ -32,7 +32,7 @@
 <?php endforeach; ?>
         <div class="buttons-container">
           <div class="buttons">
-            <?php echo "<?php echo CHtml::submitButton('Search',array('class'=>'aui-button aui-button-primary')); ?>\n"; ?>
+            <?php echo "<?php echo CHtml::submitButton('Search',array('class'=>'btn button_search_summit')); ?>\n"; ?>
           </div>
         </div>
 

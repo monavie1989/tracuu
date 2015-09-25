@@ -1,0 +1,139 @@
+.checkbox-column{
+    width:14px;
+}
+.button-column{
+    width:60px;
+    text-align: center !important;
+}
+.clear{
+    clear:both; overflow: hidden;
+}
+.checkbox-column > input{
+    margin-top:0;
+}
+.filters input{
+    width: auto !important;
+}
+.grid-view-custom table.items th a{
+    display: block;
+    padding-right: 20px;
+    background: url("../img/ico/sort.png") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+.grid-view-custom table.items th a.asc {
+    background: url("../img/ico/up.png") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+.grid-view-custom table.items th a.desc {
+    background: url("../img/ico/down.png") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+.grid-view-custom table.items tr.selected td {
+    background: none repeat scroll 0 0 #BCE774;
+}
+.grid-view-custom table.items tr.selected:hover td {
+    background: none repeat scroll 0 0 #CCFF66;
+}
+.grid-view-custom table.items tbody tr:hover td {
+    background: none repeat scroll 0 0 #ECFBD4;
+}
+span.required{
+    color: #FF0000;
+    font-family: arial,sans-serif;
+    font-size: 13px;
+}
+.errorSummary{
+    background: none repeat scroll 0 0 #3192BD;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+.errorSummary ul{
+    color: #FFFFFF;
+    font-family: arial,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+}
+.hide{
+    display:none !important;
+}
+table td.date,table th.date{
+    width:120px;
+}
+table td.status,table th.status{
+    width:100px;
+}
+.cke_contents{
+    height: 300px !important;
+}
+input[type="text"] + label.errorMessage, input[type="password"] + label.errorMessage, select + label.errorMessage, textarea + label.errorMessage{
+    color: #FF0000;
+    margin-top: -6px;
+    font-size: 12px;
+}
+span + label.errorMessage{
+    color: #FF0000;
+    font-size: 12px;
+}
+
+.title_category{
+    color: #0088CC;
+}
+.title_category span{
+    color: #000;
+}
+.antiscroll-inner{
+    overflow: auto;
+}
+.price_field{
+    text-align: right;
+}
+.row-fluid textarea{
+    height: 100px;
+}
+.preview_image{
+    display: inline-block;
+}
+textarea.embed{
+    height: 120px;
+}
+td.embed{
+    width:300px;
+}
+td.thumb{
+    width: 110px;
+    text-align: center;
+}
+/*.fileupload input[type="file"]{
+    display: none !important;
+}*/
+
+.breadcrumbs {
+    padding-bottom: 10px;
+}
+.row-fluid .heading{
+    text-transform: uppercase;
+}
+.search-form{
+    padding-top: 20px;
+}
+.search-form .field-group {
+    float: left;
+    width: 25%;
+}
+.search-form .buttons-container{
+    clear: both;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px 0 0;
+}
+.search-button{
+    position: absolute;
+    right: 0;
+    z-index: 100;
+}
+.row-fluid [class*="span"]{
+    position: relative;
+}
+.table thead th {
+    vertical-align: middle;
+}

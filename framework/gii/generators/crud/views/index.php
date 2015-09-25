@@ -51,6 +51,17 @@ $('#{$class}_model').bind('keyup change', function(){
 		<?php echo $form->error($model,'controller'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'controllerLabel'); ?>
+		<?php echo $form->textField($model,'controllerLabel',array('size'=>65)); ?>
+		<div class="tooltip">
+			Model class is case-sensitive. It can be either a class name (e.g. <code>Post</code>)
+		    or the path alias of the class file (e.g. <code>application.models.Post</code>).
+		    Note that if the former, the class must be auto-loadable.
+		</div>
+		<?php echo $form->error($model,'controllerLabel'); ?>
+	</div>
+	
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'baseControllerClass'); ?>
 		<?php echo $form->textField($model,'baseControllerClass',array('size'=>65)); ?>

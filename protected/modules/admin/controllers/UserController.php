@@ -2,11 +2,8 @@
 
 class UserController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2';
+	public $controllerLabel = 'Thành Viên';
+	public $defaultAction = 'admin';
 
 	/**
 	 * @return array action filters
@@ -27,25 +24,13 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-                            'actions'=>array('index','view'),
-                            'roles'=>array('admin.user.index'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                            'actions'=>array('delete'),
-                            'roles'=>array('admin.user.delete')
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                            'actions'=>array('changepass','profile'),
-                            'users'=>array('@')
-			),
-			array('deny',  // deny all users
-                            'users'=>array('*'),
-			),
+                'actions' => array('create', 'update', 'admin', 'delete'),
+                'users' => array('@'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
 		);
 	}
 
@@ -75,42 +60,16 @@ class UserController extends Controller
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
 
-            if(isset($_POST['User']))
-            {
-                $attributes=$_POST['User'];
-                $assign_role = array(
-                    0 => array(0,1,2,3,4),
-                    1 => array(1,2,3,4),
-                    2 => array(3),
-                    3 => array(),
-                    4 => array(),
-                );
-                //var_dump($attributes);die();
-                $model->username = $attributes['username'];
-                $model->password = $attributes['password'];
-                $model->email = $attributes['email'];
-                $model->role = $attributes['role'];
-                $model->active = $attributes['active'];
-                $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
-                if(!Yii::app()->user->isGuest) {
-                    if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
-                        Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                        $this->redirect(array('index'));
-                    }
-                        //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                } else {
-                    $model->role = 'member';
-                }
-                $model->password = md5($model->password);
-                $model->activekey = String::randomString('alphabet', 10);
-                $model->registered_date = new CDbExpression('NOW()');
-                if($model->save())
-                    $this->redirect(array('view','id'=>$model->id));
-            }
-            $this->pageTitle = 'Thêm tài khoản mới';
-            $this->render('create',array(
-                    'model'=>$model,
-            ));
+		if(isset($_POST['User']))
+		{
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('admin'));
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -126,36 +85,10 @@ class UserController extends Controller
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
-                {
-                    $attributes=$_POST['User'];
-                    $assign_role = array(
-                        0 => array(0,1,2,3,4),
-                        1 => array(1,2,3,4),
-                        2 => array(3),
-                        3 => array(),
-                        4 => array(),
-                    );
-                    //var_dump($attributes);die();
-                    $model->username = $attributes['username'];
-                    $model->password = $attributes['password'];
-                    $model->email = $attributes['email'];
-                    $model->role = $attributes['role'];
-                    $model->active = $attributes['active'];
-                    $role= UserAuth::model()->find('name=:name',array(':name'=>$model->role));
-                    if(!Yii::app()->user->isGuest) {
-                        if(in_array($role->type, $assign_role[Yii::app()->user->role_type]) === FALSE) {
-                            Yii::app()->user->setFlash('error','Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                            $this->redirect(array('index'));
-                        }
-                            //throw new CException('Bạn không có quyền tạo tài khoản thuộc nhóm người dùng này');
-                    } else {
-                        $model->role = 'member';
-                    }
-                    $model->password = md5($model->password);
-                    //$model->activekey = String::randomString('alphabet', 10);
-                    //$model->registered_date = new CDbExpression('NOW()');
-                    if($model->save())
-                        $this->redirect(array('view','id'=>$model->id));
+		{
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('admin'));
                 }
 
 		$this->render('update',array(
@@ -170,69 +103,40 @@ class UserController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-            $model = $this->loadModel($id);
-            try{                
-                $model->delete();
-                if(!isset($_GET['ajax']))
-                    Yii::app()->user->setFlash('success','Normal - Deleted Successfully');
-                else
-                    echo 'Xóa tài khoản <strong>'.$model->username.'</strong> thành công!';
-            }catch(CDbException $e){
-                if(!isset($_GET['ajax']))
-                    Yii::app()->user->setFlash('error','Normal - error message');
-                else
-                    echo 'Có lỗi xảy ra. Xóa tài khoản <strong>'.$model->username.'</strong> không thành công!'; //for ajax
-            }
+		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
-	 * Lists all models.
+	 * Manages all models.
 	 */
-	public function actionIndex()
+	public function actionAdmin()
 	{
-            $model=new User('search');
-            $model->unsetAttributes();  // clear any default values
-            if(isset($_GET['User']))
-                    $model->attributes=$_GET['User'];
-            $this->pageTitle = 'Danh sách người dùng';
-            $this->render('index',array(
-                    'model'=>$model,
-            ));
-	}
-        
-        public function actionChangepass()
-	{
-            $model=new ChangepassForm();
-            $id = Yii::app()->request->getParam('id');
-            if(empty($id)) {
-                $id = Yii::app()->user->id;
-            }
-            $model->id = $id;
-            //echo $id;
-            if(isset($_POST['ChangepassForm']))
-            {
-                $model->attributes = $_POST['ChangepassForm'];
-                if($model->validate()) {
-                    $command = Yii::app()->db->createCommand();
-                    $sql = 'UPDATE tbl_user SET password=\''.md5($model->password).'\'';
-                    if($command->update('tbl_user', array('password'=>md5($model->password)), 'id=:id',  array(':id'=>$id))) {
-                        Yii::app()->user->setFlash('success','Cập nhật mật khẩu thành công');
-                        if(Yii::app()->request->getParam('id'))
-                            $this->redirect('index');
-                        else
-                            $this->redirect('profile');
-                    } else {
-                        throw new Exception('Error');
+		$model=new User('search');
+		if (!empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'delete':
+                    if (isset($_POST['items']) && !empty($_POST['items'])) {
+                        $items = $_POST['items'];
+                        foreach ($model::model()->findAllByPk($items) as $item) {
+                            $item->delete();
+                        }
                     }
-                }
+                    break;
+                default:
+                    break;
             }
-            $this->render('changepass',array(
-                'model'=>$model,
-            ));
+        }
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['User']))
+			$model->attributes=$_GET['User'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
 	}
 
 	/**

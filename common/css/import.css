@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/*-----------------------------------------------------------
+First CSS file
+-----------------------------------------------------------*/
+@import "common.css";  	  /* RESET CSS + BASIC CSS  */
+@import "module.css";	/* LAYOUT CSS */
+

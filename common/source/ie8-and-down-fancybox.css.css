@@ -1,0 +1,4 @@
+.fancybox-lock body {
+    overflow: visible !important;
+    background: #f0f !important;
+}
