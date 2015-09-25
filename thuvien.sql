@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 27, 2015 at 08:14 PM
+-- Generation Time: Sep 27, 2015 at 10:09 PM
 -- Server version: 5.1.73
 -- PHP Version: 5.3.3
 
@@ -56,33 +56,24 @@ INSERT INTO `tbl_post` (`post_ID`, `post_author`, `post_date`, `post_content_hea
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_term`
+-- Table structure for table `tbl_profile`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_term` (
-  `term_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `term_name` varchar(255) NOT NULL COMMENT 'Tên Team',
-  `term_slug` varchar(255) DEFAULT NULL,
-  `term_description` text,
-  `term_status` bit(1) DEFAULT b'1',
-  `term_parent` int(11) DEFAULT '0',
-  `term_count` bigint(20) DEFAULT '0',
-  `term_type` varchar(50) DEFAULT 'category' COMMENT 'category, tags',
-  PRIMARY KEY (`term_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tbl_profile` (
+  `user_id` int(11) NOT NULL,
+  `fname` varchar(255) DEFAULT NULL,
+  `lname` varchar(255) DEFAULT NULL,
+  `gender` tinyint(1) DEFAULT '0' COMMENT '0: male; 1: female',
+  `birthday` date DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `tbl_term_user`
+-- Dumping data for table `tbl_profile`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_term_user` (
-  `term_user_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `term_ID` int(11) DEFAULT NULL,
-  `user_ID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`term_user_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+INSERT INTO `tbl_profile` (`user_id`, `fname`, `lname`, `gender`, `birthday`) VALUES
+(1, 'Quyết Thương', 'Nguyễn Như', 0, '1989-09-30');
 
 -- --------------------------------------------------------
 
@@ -91,36 +82,24 @@ CREATE TABLE IF NOT EXISTS `tbl_term_user` (
 --
 
 CREATE TABLE IF NOT EXISTS `tbl_user` (
-  `id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `role` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `fullname` varchar(255) NOT NULL,
-  `phone` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `registered_date` datetime DEFAULT NULL,
-  `last_visited_date` datetime DEFAULT NULL,
-  `activekey` varchar(32) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT '0' COMMENT '0: Inactive; 1:Active',
-  `status` tinyint(1) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `registered` date DEFAULT NULL,
+  `lastvisited` datetime DEFAULT NULL,
+  `activekey` varchar(255) DEFAULT NULL,
+  `role` varchar(255) DEFAULT 'user',
+  `status` tinyint(1) DEFAULT '0' COMMENT '1:active, 0:not active',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`id`, `role`, `username`, `password`, `fullname`, `phone`, `email`, `registered_date`, `last_visited_date`, `activekey`, `active`, `status`) VALUES
-(1, 'superuser', 'superuser', 'e10adc3949ba59abbe56e057f20f883e', '', 0, 'binh.phamvan@gmail.com', '2015-09-17 14:59:29', '2015-09-27 20:04:49', '09123', 1, 1),
-(2, 'administrator', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '', 0, 'admin@gmail.com', '2015-09-17 15:00:15', '2015-09-25 09:18:04', '12356', 1, 1),
-(3, 'administrator', 'khongten', 'e10adc3949ba59abbe56e057f20f883e', '', 0, 'khongten@123.com', '2015-09-20 03:16:46', NULL, NULL, 1, 1),
-(4, 'moderator', 'thunghiem', 'e10adc3949ba59abbe56e057f20f883e', '', 0, 'thunghiem@123.com', '2015-09-20 03:25:21', '2015-09-25 10:39:42', 'rx3EhNAlsh', 1, 1),
-(5, 'member', 'hehe', 'e10adc3949ba59abbe56e057f20f883e', 'Bình Phạm', 2147483647, 'binhpv001@gmail.com', '2015-09-23 23:04:25', NULL, 'SZ3k0XFD2m', 0, 1),
-(6, 'member', 'tenten', '01cfcd4f6b8770febfb40cb906715822', 'Phạm Văn Bình', 989279795, 'binh.phamvan1@gmail.com', '2015-09-23 23:15:04', NULL, '235o1wJMYw', 0, 1),
-(7, 'member', 'tenten1', 'e10adc3949ba59abbe56e057f20f883e', 'Phạm Văn Bình', 2147483647, 'binh.phamvan11@gmail.com', '2015-09-23 23:15:48', '2015-09-23 23:43:31', '4LI0G1CtHN', 0, 1),
-(8, 'member', 'tenten11', 'e10adc3949ba59abbe56e057f20f883e', 'Phạm Văn Bình', 2147483647, 'binh.phamvan111@gmail.com', '2015-09-23 23:16:18', NULL, 'pmbVI0btT6', 0, 1),
-(9, 'publisher', 'chuyenvien1', '14e1b600b1fd579f47433b88e8d85291', 'Chuyên viên 1', 989279795, 'chuyenvien1@gmail.com', '2015-09-25 10:36:48', NULL, 'T5oktZ94ju', 1, 1),
-(10, '8', 'member8', '123456', 'Quyet', 1656223510, 'nguyennhuquyet@gmail.com', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 0, NULL);
+INSERT INTO `tbl_user` (`id`, `username`, `password`, `email`, `registered`, `lastvisited`, `activekey`, `role`, `status`) VALUES
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'quyet@magingam.com', '2014-01-09', '2015-09-27 21:29:41', '', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user_auth_assignment` (
   `bizrule` text,
   `data` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `tbl_user_auth_assignment`
@@ -188,7 +167,8 @@ INSERT INTO `tbl_user_auth_assignment` (`id`, `itemname`, `userid`, `bizrule`, `
 (1, 'superuser', '1', NULL, 'N;'),
 (3, 'administrator', '2', NULL, 'N;'),
 (4, 'member', '7', NULL, 'N;'),
-(5, 'moderator', '4', NULL, 'N;');
+(5, 'moderator', '4', NULL, 'N;'),
+(6, 'admin', '1', NULL, 'N;');
 
 -- --------------------------------------------------------
 
