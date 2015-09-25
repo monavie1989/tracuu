@@ -5,16 +5,13 @@
  *
  * The followings are the available columns in table 'tbl_user':
  * @property integer $id
- * @property string $role
  * @property string $username
  * @property string $password
- * @property string $fullname
- * @property integer $phone
  * @property string $email
- * @property string $registered_date
- * @property string $last_visited_date
+ * @property string $registered
+ * @property string $lastvisited
  * @property string $activekey
- * @property integer $active
+ * @property string $role
  * @property integer $status
  */
 class UserBase extends CActiveRecord
@@ -22,7 +19,7 @@ class UserBase extends CActiveRecord
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return User the static model class
+	 * @return UserBase the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -45,17 +42,15 @@ class UserBase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role, username, password, fullname, phone, email', 'required'),
-			array('phone, active, status', 'numerical', 'integerOnly'=>true),
-			array('role, fullname', 'length', 'max'=>255),
+			array('username, password, email', 'required'),
+			array('status', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>50),
-			array('password', 'length', 'max'=>64),
-			array('email', 'length', 'max'=>100),
-			array('activekey', 'length', 'max'=>32),
-			array('registered_date, last_visited_date', 'safe'),
+			array('password', 'length', 'max'=>255),
+			array('email, activekey, role', 'length', 'max'=>255),
+			array('registered, lastvisited', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, role, username, password, fullname, phone, email, registered_date, last_visited_date, activekey, active, status', 'safe', 'on'=>'search'),
+			array('id, username, password, email, registered, lastvisited, activekey, role, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,16 +72,13 @@ class UserBase extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'role' => 'Role',
 			'username' => 'Username',
 			'password' => 'Password',
-			'fullname' => 'Fullname',
-			'phone' => 'Phone',
 			'email' => 'Email',
-			'registered_date' => 'Registered Date',
-			'last_visited_date' => 'Last Visited Date',
+			'registered' => 'Registered',
+			'lastvisited' => 'Lastvisited',
 			'activekey' => 'Activekey',
-			'active' => 'Active',
+			'role' => 'Role',
 			'status' => 'Status',
 		);
 	}
@@ -103,16 +95,13 @@ class UserBase extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('role',$this->role,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		$criteria->compare('fullname',$this->fullname,true);
-		$criteria->compare('phone',$this->phone);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('registered_date',$this->registered_date,true);
-		$criteria->compare('last_visited_date',$this->last_visited_date,true);
+		$criteria->compare('registered',$this->registered,true);
+		$criteria->compare('lastvisited',$this->lastvisited,true);
 		$criteria->compare('activekey',$this->activekey,true);
-		$criteria->compare('active',$this->active);
+		$criteria->compare('role',$this->role,true);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(

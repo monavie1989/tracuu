@@ -1,8 +1,8 @@
 <?php
 
-class UserController extends Controller
+class ManagerController extends Controller
 {
-	public $controllerLabel = 'Thành Viên';
+	public $controllerLabel = 'Quản trị viên';
 	public $defaultAction = 'admin';
 
 	/**
@@ -38,15 +38,11 @@ class UserController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionProfile()
+	public function actionView($id)
 	{
-            $id = Yii::app()->request->getParam('id');
-            if(empty($id)) {
-                $id = Yii::app()->user->id;
-            } 
-            $this->render('profile',array(
-                    'model'=>$this->loadModel($id),
-            ));
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
 	}
 
 	/**
@@ -55,10 +51,10 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-            $model=new User;
+		$model=new User;
 
-            // Uncomment the following line if AJAX validation is needed
-            // $this->performAjaxValidation($model);
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
 		{
@@ -89,7 +85,7 @@ class UserController extends Controller
 			$model->attributes=$_POST['User'];
 			if($model->save())
 				$this->redirect(array('admin'));
-                }
+		}
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -150,7 +146,7 @@ class UserController extends Controller
 	{
 		$model=User::model()->findByPk($id);
 		if($model===null)
-                    throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 

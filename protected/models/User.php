@@ -5,65 +5,81 @@
  *
  * The followings are the available columns in table 'tbl_user':
  * @property integer $id
- * @property string $role
  * @property string $username
  * @property string $password
  * @property string $email
- * @property string $registered_date
- * @property string $last_visited_date
+ * @property string $registered
+ * @property string $lastvisited
  * @property string $activekey
- * @property integer $active
+ * @property string $role
  * @property integer $status
  */
-class User extends UserBase
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return User the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-            return parent::model($className);
-	}
-        
-        public function renderRoleName($data, $row) {
-            $role = UserAuth::model()->find(array('select'=>'title','condition'=>'name=:name','params'=>array(':name'=>$data->role)));
-            return $role->title;
-        }
-        
-        public function search()
-	{
-            // Warning: Please modify the following code to remove attributes that
-            // should not be searched.
+class User extends UserBase {
 
-            $criteria=new CDbCriteria;
+    public $o_password;
+    public $n_password;
+    public $n_password_re;
 
-            $criteria->compare('id',$this->id);
-            $criteria->compare('role',$this->role,true);                
-            $criteria->compare('email',$this->username,true);
-            $criteria->compare('username',$this->username,true,'OR');
-            $criteria->compare('password',$this->password,true);
-            $criteria->compare('registered_date',$this->registered_date,true);
-            $criteria->compare('last_visited_date',$this->last_visited_date,true);
-            $criteria->compare('activekey',$this->activekey,true);
-            $criteria->compare('active',$this->active);
-            $criteria->compare('status',$this->status);
-            
-            $display_role = Yii::app()->params['display_role'];
-            $role_type = Yii::app()->user->role_type;
-            $cri = new CDbCriteria();
-            $cri->select = 'type,name';
-            $cri->addInCondition('type', $display_role[$role_type]);
-            $role = CHtml::listData(UserAuth::model()->findAll($cri),'name','name');
-            //ar_dump(UserAuth::model()->findAll($cri));
-            $criteria->addInCondition('role', $role);
-                //elseif($type === 'task')
-                    //$criteria->addInCondition ('type', array(5,6,7,8));
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return UserBase the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-            return new CActiveDataProvider($this, array(
-                    'criteria'=>$criteria,
-            ));
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'username' => 'Username',
+            'password' => 'Password',
+            'o_password' => 'Old Password',
+            'n_password' => 'New Password',
+            'n_password_re' => 'New Password Repeat',
+            'email' => 'Email',
+            'registered' => 'Registered',
+            'lastvisited' => 'Lastvisited',
+            'activekey' => 'Activekey',
+            'role' => 'Role',
+            'status' => 'Status',
+        );
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('o_password, n_password, n_password_re', 'required', 'on' => 'changepass'),
+            array('n_password_re', 'compare', 'compareAttribute' => 'n_password', 'on' => 'changepass'),
+            array('o_password', 'compare', 'compareAttribute' => 'password', 'on' => 'changepass'),
+            array('username, password, email', 'required'),
+            array('status', 'numerical', 'integerOnly' => true),
+            array('username', 'length', 'max' => 50),
+            array('password', 'length', 'max' => 64),
+            array('email, activekey, role', 'length', 'max' => 255),
+            array('registered, lastvisited', 'safe'),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, username, password, email, registered, lastvisited, activekey, role, status', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'profile' => array(self::BELONGS_TO, 'Profile', 'id'),
+        );
+    }
+
 }

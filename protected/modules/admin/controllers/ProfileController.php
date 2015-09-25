@@ -26,7 +26,7 @@ class ProfileController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('index', 'update','changepassword'),
+                'actions' => array('index', 'update', 'changepassword'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -45,30 +45,32 @@ class ProfileController extends Controller {
             'modelProfile' => Profile::model()->findByPk(Yii::app()->user->id),
         ));
     }
-	/**
+
+    /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
     public function actionChangepassword() {
         $model = $this->loadModel(Yii::app()->user->id);
-		$model->scenario = 'changepass';
+        $model->scenario = 'changepass';
         if (isset($_POST['User'])) {
-			$o_password = $_POST['User']['o_password'];
-			$model->o_password = md5($o_password);
-			$model->n_password = $_POST['User']['n_password'];
-			$model->n_password_re = $_POST['User']['n_password_re'];
+            $o_password = $_POST['User']['o_password'];
+            $model->o_password = md5($o_password);
+            $model->n_password = $_POST['User']['n_password'];
+            $model->n_password_re = $_POST['User']['n_password_re'];
             $oldpass = $model->password;
             if ($model->validate()) {
-				$model->password = md5($model->n_password);
-				$model->save();
-				Yii::app()->user->setFlash('msg', 'Change password success.');
-				$this->redirect('index');
-            }else{
-				if(!empty($model->errors)){
-					$model->o_password = $o_password;
-				}
-			}
+                $model->scenario = 'update';
+                $model->password = md5($model->n_password);
+                $model->save();
+                Yii::app()->user->setFlash('msg', 'Change password success.');
+                $this->redirect('index');
+            } else {
+                if (!empty($model->errors)) {
+                    $model->o_password = $o_password;
+                }
+            }
         }
 
         $this->render('changepassword', array(
@@ -76,7 +78,7 @@ class ProfileController extends Controller {
         ));
         exit();
     }
-	
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -85,11 +87,11 @@ class ProfileController extends Controller {
     public function actionUpdate() {
         $model = Profile::model()->findByPk(Yii::app()->user->id);
         if (isset($_POST['Profile'])) {
-			$model->attributes = $_POST['Profile'];
+            $model->attributes = $_POST['Profile'];
             if ($model->validate()) {
-				$model->save();
-				Yii::app()->user->setFlash('msg', 'Change Profile success.');
-				$this->redirect('index');
+                $model->save();
+                Yii::app()->user->setFlash('msg', 'Change Profile success.');
+                $this->redirect('index');
             }
         }
 
