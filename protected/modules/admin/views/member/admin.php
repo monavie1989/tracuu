@@ -27,16 +27,16 @@
 		</div><!-- search-form -->
 		<?php
 		$this->widget('application.classextends.CGridViewEx', array(
-					'id'=>'user-grid',
-					'dataProvider'=>$model->search(),
-					'filter'=>$model,
-					'columns'=>array(
-					'id',
-		'username',
-		'password',
-		'email',
-		'registered',
-		'lastvisited',
+                    'id'=>'user-grid',
+                    'dataProvider'=>$model->search(),
+                    'filter'=>$model,
+                    'columns'=>array(
+                    'id',
+                    'username',
+                    'password',
+                    'email',
+                    'registered',
+                    'lastvisited',
 		/*
 		'activekey',
 		'role',

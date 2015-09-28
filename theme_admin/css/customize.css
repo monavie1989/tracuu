@@ -137,3 +137,8 @@ td.thumb{
 .table thead th {
     vertical-align: middle;
 }
+.search-form-binhpv {
+    position: absolute;
+    right: 0;
+    z-index: 999;
+}
