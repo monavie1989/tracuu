@@ -6,11 +6,13 @@
 
 <div class="wide form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
-        'htmlOptions'=>array('class'=>'aui registration-form ab-testing'),
-)); ?>
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'action' => Yii::app()->createUrl($this->route),
+        'method' => 'get',
+        'htmlOptions' => array('class' => 'aui registration-form ab-testing'),
+    ));
+    ?>
 
 	<div class="field-group">
             <?php echo $form->textField($model,'username',array('size'=>50,'maxlength'=>50,'class' => 'textField','placeholder'=>'Username hoặc Email')); ?>
@@ -19,6 +21,6 @@
 	</div>
 
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->

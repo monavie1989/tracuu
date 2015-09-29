@@ -19,6 +19,7 @@ class User extends UserBase {
     public $o_password;
     public $n_password;
     public $n_password_re;
+    public $roles = false;
 
     /**
      * Returns the static model of the specified AR class.
@@ -35,17 +36,17 @@ class User extends UserBase {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'o_password' => 'Old Password',
-            'n_password' => 'New Password',
-            'n_password_re' => 'New Password Repeat',
+            'username' => 'Tên đăng nhập',
+            'password' => 'Mật khẩu',
+            'o_password' => 'Mật khẩu cũ',
+            'n_password' => 'Mật khẩu mới',
+            'n_password_re' => 'Xác nhận Mật khẩu mới',
             'email' => 'Email',
-            'registered' => 'Registered',
-            'lastvisited' => 'Lastvisited',
-            'activekey' => 'Activekey',
-            'role' => 'Role',
-            'status' => 'Status',
+            'registered' => 'Ngày đăng ký',
+            'lastvisited' => 'Lần đăng nhập cuối',
+            'activekey' => 'Mã kích hoạt',
+            'role' => 'Quyền',
+            'status' => 'Trạng thái',
         );
     }
 
@@ -98,9 +99,18 @@ class User extends UserBase {
 		$criteria->compare('activekey',$this->activekey,true);
 		$criteria->compare('role',$this->role,true);
 		$criteria->compare('status',$this->status);
+        $criteria->compare('lastvisited', $this->lastvisited, true);
+        $criteria->compare('activekey', $this->activekey, true);
+        if (!empty($this->role)) {
+            $criteria->compare('role', $this->role, true);
+        } elseif (!empty($this->roles)) {
+            $criteria->addInCondition('role', $this->roles);
+        }
+        $criteria->compare('status', $this->status);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }

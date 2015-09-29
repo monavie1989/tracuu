@@ -11,18 +11,16 @@ class CGridViewEx extends CGridView {
     public $pageSizeChange = array('10', '25', '50', '100');
     //string, if empty will hidden
     public $field_search = '';
-    
+
     public function init() {
         if (isset($_GET['pageSize'])) {
             Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
             unset($_GET['pageSize']); // would interfere with pager and repetitive page size change
         }
-        $this->afterAjaxUpdate = 'reinstallGridView';
         if (Yii::app()->user->getState('pageSize')) {
             $this->dataProvider->pagination->pageSize = Yii::app()->user->getState('pageSize');
         }
-        $this->template =
-                '<div id="dt_gal_wrapper" class="dataTables_wrapper form-inline" role="grid">
+        $this->template = '<div id="dt_gal_wrapper" class="dataTables_wrapper form-inline" role="grid">
             <div class="row">
                 <div class="span6">
                     <div class="dt_actions">
@@ -90,20 +88,20 @@ class CGridViewEx extends CGridView {
             'value' => '$data->' . Common::getKeyNameOfTable($this->dataProvider->model)
         );
         foreach ($this->columns as $key => $col) {
-			if(isset($col['class'])){
-				if ($col['class'] == 'CButtonColumn' && !isset($col['header'])) {
-					$col['header'] = 'Actions';
-				}
-				if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['view']['imageUrl'])) {
-					$col['buttons']['view']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/view_off.png';
-				}
-				if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['delete']['imageUrl'])) {
-					$col['buttons']['delete']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/delete_off.png';
-				}
-				if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['update']['imageUrl'])) {
-					$col['buttons']['update']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/update_off.png';
-				}
-			}
+            if (isset($col['class'])) {
+                if ($col['class'] == 'CButtonColumn' && !isset($col['header'])) {
+                    $col['header'] = 'Actions';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['view']['imageUrl'])) {
+                    $col['buttons']['view']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/view_off.png';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['delete']['imageUrl'])) {
+                    $col['buttons']['delete']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/delete_off.png';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['update']['imageUrl'])) {
+                    $col['buttons']['update']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/update_off.png';
+                }
+            }
             $tmp[] = $col;
         }
         $this->columns = $tmp;
@@ -151,11 +149,11 @@ class CGridViewEx extends CGridView {
                     });
                     var th = this,
                     afterDelete = function(){};
-                    jQuery("#'.$this->id.'").yiiGridView("update", {
+                    jQuery("#' . $this->id . '").yiiGridView("update", {
                         type: "POST",
                         data:{items:checkItems,action:"delete"},
                         success: function(data) {
-                        jQuery("#'.$this->id.'").yiiGridView("update");
+                        jQuery("#' . $this->id . '").yiiGridView("update");
                     afterDelete(th, true, data);
                     },
                     error: function(XHR) {
@@ -172,19 +170,8 @@ class CGridViewEx extends CGridView {
                         $(this).parents("div.grid-view-custom").find("td.checkbox-column input[type=checkbox]").prop("checked", false);
                     }
                 })
-                $(\'.format_money\').autoNumeric(\'init\',{aSep: \',\',vMin: \'0\', aPad: false});
-                /*
-                $(".grid-view-custom tbody tr").click(function(){
-                    if($(this).find("td.checkbox-column input[type=checkbox]").is(\':checked\')){
-                        $(this).find("td.checkbox-column input[type=checkbox]").prop("checked", false);
-                    }else{
-                        $(this).find("td.checkbox-column input[type=checkbox]").prop("checked", true);
-                    }
-                    
-                })
-                */
                 $(".pageSizeChange").change(function(){
-                    $("#'.$this->id.'").yiiGridView("update", {
+                    $("#' . $this->id . '").yiiGridView("update", {
                         data:{pageSize: $(this).val() }
                     });
                     return false;
@@ -208,7 +195,7 @@ class CGridViewEx extends CGridView {
                 
                 /* define action List */
                 $(document).ready(function() {';
-                
+
         if (empty($this->pager['firstPageLabel'])) {
             $client_script .= '$( ".pagination li.first" ).remove();';
         }
@@ -216,21 +203,8 @@ class CGridViewEx extends CGridView {
             $client_script .= '$( ".pagination li.last" ).remove();';
         }
         $client_script .= '
-                $("#form_search").on("submit",function(){
-                    $("#'.$this->id.'").yiiGridView("update", {
-                        data: $(this).serialize()
-                    });
-                    return false;
-                })
-                $("#form_search").on("blur",function(){
-                    $("#'.$this->id.'").yiiGridView("update", {
-                        data: $(this).serialize()
-                    });
-                    return false;
-                })
                 });
             }
-            
             </script>';
         echo $client_script;
         if ($this->dataProvider->getItemCount() > 0 || $this->showTableOnEmpty) {
@@ -242,10 +216,8 @@ class CGridViewEx extends CGridView {
             $this->renderTableFooter();
             echo $body; // TFOOT must appear before TBODY according to the standard.
             echo "</table>";
-        }
-        else
+        } else
             $this->renderEmptyText();
     }
 
 }
-

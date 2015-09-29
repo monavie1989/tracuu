@@ -1,12 +1,12 @@
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading">Quản lý Thành Viên</h3>
-		<?php
-		$this->breadcrumbs=array(
-			'Thành Viên'=>array('index'),
-			'Danh sách',
-		);
-		Yii::app()->clientScript->registerScript('search', "
+        <?php
+        $this->breadcrumbs = array(
+            'Thành Viên' => array('index'),
+            'Danh sách',
+        );
+        Yii::app()->clientScript->registerScript('search', "
 		$('.search-form-binhpv form').submit(function(){
 			$('#user-grid').yiiGridView('update', {
 				data: $(this).serialize()

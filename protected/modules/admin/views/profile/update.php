@@ -55,6 +55,7 @@
                             $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                                 'model' => $model,
                                 'attribute' => 'birthday',
+                                'language' => 'vi',
                                 'options' => array(
                                     'dateFormat' => 'yy-mm-dd',
                                     'changeMonth' => true,

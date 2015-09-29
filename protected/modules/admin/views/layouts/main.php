@@ -33,6 +33,7 @@
         <?php
         Yii::app()->clientScript->registerCoreScript('jquery');
         ?>
+        <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
         <script>
             //* hide all elements & show preloader
             document.documentElement.className += 'js';
@@ -73,7 +74,7 @@
                         $flash = Yii::app()->user->getFlashes();
                         foreach ($flash as $key=>$msg)
                         {
-                            echo '<div class="flash-'.$key.'">'.$msg.'</div>';
+                            echo '<div class="alert alert-'.$key.'">'.$msg.'</div>';
                         }
                     ?>
                     <!--<nav>
