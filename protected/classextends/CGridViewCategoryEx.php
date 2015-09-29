@@ -18,7 +18,6 @@ class CGridViewCategoryEx extends CGridView {
             Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
             unset($_GET['pageSize']); // would interfere with pager and repetitive page size change
         }
-        $this->afterAjaxUpdate = 'reinstallGridView';
         if (Yii::app()->user->getState('pageSize')) {
             $this->dataProvider->pagination->pageSize = Yii::app()->user->getState('pageSize');
         }

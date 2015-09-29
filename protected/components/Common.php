@@ -11,7 +11,7 @@ class Common {
 		if(!empty($page_id)){
 			$pageInfo = Page::model()->findByPk($page_id);
 			if($pageInfo){
-				$parent = $pageInfo->parent_id;
+				$parent = $pageInfo->category_parent;
 				if( $parent == 0 ) return $page_id;
 				else return self::get_root_parent_id( $parent );
 			}else{
@@ -173,10 +173,10 @@ class Common {
     public function recursive($CatArr, $parent, $level) {
         if (count($CatArr) > 0) {
             foreach ($CatArr as $key => $val) {
-                if ($parent == $val->parent_id) {
+                if ($parent == $val->category_parent) {
                     $val->level = $level;
                     $this->Info[] = $val;
-                    $_parent = $val->id;
+                    $_parent = $val->category_id;
                     unset($CatArr[$key]);
                     $this->recursive($CatArr, $_parent, $level + 1);
                 }

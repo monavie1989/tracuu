@@ -1,20 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Sep 29, 2015 at 01:18 PM
--- Server version: 5.5.20
--- PHP Version: 5.3.10
+-- Host: 127.0.0.1
+-- Generation Time: Sep 29, 2015 at 06:40 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `thuvien`
@@ -28,12 +22,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `tbl_category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) DEFAULT NULL,
+  `category_name` varchar(255) NOT NULL,
   `category_description` text,
-  `category_slug` varchar(255) DEFAULT NULL,
+  `category_slug` varchar(255) NOT NULL,
   `category_parent` int(11) DEFAULT '0',
-  `category_order` int(11) DEFAULT NULL,
-  `category_count` int(11) DEFAULT NULL,
+  `category_order` int(11) DEFAULT '0',
+  `category_count` int(11) DEFAULT '0',
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
@@ -42,11 +36,11 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
 --
 
 INSERT INTO `tbl_category` (`category_id`, `category_name`, `category_description`, `category_slug`, `category_parent`, `category_order`, `category_count`) VALUES
-(1, 'Mã Nhũng', 'Mã Nhúng', 'ma-nhung', 0, NULL, NULL),
-(2, 'Y khoa', 'Y Khoa', 'y-khoa', 0, NULL, NULL),
-(3, 'Đông Y', 'Đông Y', 'dong-y', 2, NULL, NULL),
-(4, 'Tây Y', 'Tây Y', 'tay-y', 2, NULL, NULL),
-(5, 'Thuốc Bắc', 'Thuốc bắc', 'thuoc-bac', 3, NULL, NULL);
+(1, 'Mã Nhũng', 'Mã Nhúng', 'ma-nhung', 0, 0, 0),
+(2, 'Y khoa', 'Y Khoa', 'y-khoa', 0, 0, 0),
+(3, 'Đông Y', 'Đông Y', 'dong-y', 2, 0, 0),
+(4, 'Tây Y', 'Tây Y', 'tay-y', 2, 0, 0),
+(5, 'Thuốc Bắc', 'Thuốc bắc', 'thuoc-bac', 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -178,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`id`, `username`, `password`, `email`, `registered`, `lastvisited`, `activekey`, `role`, `status`) VALUES
-(1, 'administrator', 'e10adc3949ba59abbe56e057f20f883e', 'administrator@thuvien.local', '2014-01-09', '2015-09-28 17:06:25', '', 'administrator', 1),
+(1, 'administrator', 'e10adc3949ba59abbe56e057f20f883e', 'administrator@thuvien.local', '2014-01-09', '2015-09-29 21:25:57', '', 'administrator', 1),
 (2, 'moderator1', 'e10adc3949ba59abbe56e057f20f883e', 'moderator1@thuvien.local', '2014-01-09', '2015-09-27 22:30:48', '', 'moderator', 1),
 (3, 'moderator2', 'e10adc3949ba59abbe56e057f20f883e', 'moderator2@thuvien.local', '2014-01-09', '2015-09-27 22:30:48', '', 'moderator', 1),
 (4, 'publisher1', 'e10adc3949ba59abbe56e057f20f883e', 'publisher1@thuvien.local', '2014-01-09', '2015-09-27 22:30:48', '', 'publisher', 1),
@@ -286,7 +280,3 @@ INSERT INTO `tbl_user_auth_item_child` (`id`, `parent`, `child`) VALUES
 (9, 'admin.userrole.*', 'admin.userrole.update'),
 (10, 'administrator', 'admin.user.index'),
 (11, 'moderator', 'admin.user.index');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

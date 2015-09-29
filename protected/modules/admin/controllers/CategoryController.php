@@ -119,11 +119,31 @@ class CategoryController extends Controller {
             }
         }
         $model->unsetAttributes();  // clear any default values
+        
         if (isset($_GET['Category']))
             $model->attributes = $_GET['Category'];
 
+        $modelUpdate = new Category;
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['Category'])) {
+            $modelUpdate->attributes = $_POST['Category'];
+
+            if ($modelUpdate->isNewRecord) {
+                $msg = "Thêm mới Chuyên mục thành công.";
+            } else {
+                $msg = "Cập nhật Chuyên mục thành công.";
+            }
+            if ($modelUpdate->save()) {
+                Yii::app()->user->setFlash('success', $msg);
+                $modelUpdate = new Category;
+            }
+        }
         $this->render('admin', array(
             'model' => $model,
+            'modelUpdate' => $modelUpdate
         ));
     }
 
