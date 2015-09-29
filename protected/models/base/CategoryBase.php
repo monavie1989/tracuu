@@ -40,6 +40,7 @@ class CategoryBase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('category_name, category_slug', 'required'),
 			array('category_parent, category_order, category_count', 'numerical', 'integerOnly'=>true),
 			array('category_name, category_slug', 'length', 'max'=>255),
 			array('category_description', 'safe'),

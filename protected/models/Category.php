@@ -25,22 +25,16 @@ class Category extends CategoryBase {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-
-    protected function afterDelete() {
-        // code modify insert here
-        foreach (CategoryDetail::model()->findAllByAttributes(array('category_id' => $this->id)) as $item) {
-            $item->delete();
-        }
-        return parent::afterDelete();
-    }
-
-    public function beforeSave() {
-        // code modify insert here
-        if ($this->isNewRecord)
-            $this->create_date = new CDbExpression('NOW()');
-        else
-            $this->modified_date = new CDbExpression('NOW()');
-        return parent::beforeSave();
+    public function attributeLabels() {
+        return array(
+            'category_id' => 'Chuyên mục',
+            'category_name' => 'Tên Chuyên mục',
+            'category_description' => 'Miêu tả',
+            'category_slug' => 'Slug',
+            'category_parent' => 'Chuyên mục cha',
+            'category_order' => 'Thứ tự',
+            'category_count' => 'Số bài viết',
+        );
     }
 
     public function afterFind() {
