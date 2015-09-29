@@ -34,10 +34,10 @@
 .grid-view-custom table.items tbody tr:hover td {
     background: none repeat scroll 0 0 #ECFBD4;
 }
-span.required, div.errorMessage{
+span.required{
     color: #FF0000;
     font-family: arial,sans-serif;
-    font-size: 11px;
+    font-size: 13px;
 }
 .errorSummary{
     background: none repeat scroll 0 0 #3192BD;
@@ -137,25 +137,8 @@ td.thumb{
 .table thead th {
     vertical-align: middle;
 }
-.radio.inline, .checkbox.inline {
-    display: inline-block;
-    line-height: 20px;
-    margin-bottom: 9px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    vertical-align: middle;
-}
-.vcard-item input, .vcard-item select, .vcard-item textarea{
-    margin-bottom: 0;
-}
-
-.term_search_form {
-    padding-top: 0;
+.search-form-binhpv {
     position: absolute;
     right: 0;
-    top: 0;
-    z-index: 100;
-}
-.term_search_form .btn{
-    vertical-align: top;
+    z-index: 999;
 }

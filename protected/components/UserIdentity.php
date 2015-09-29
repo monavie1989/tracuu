@@ -43,6 +43,7 @@ class UserIdentity extends CUserIdentity {
                     $lastLogin = $user->lastvisited;
                 }
                 $role = $user->role;
+                $role_info = UserAuth::model()->findByAttributes(array('name'=>$role));
                 $auth = Yii::app()->authManager;
                 if (!$auth->isAssigned($role, $this->_id)) {
                     if ($auth->assign($role, $this->_id)) {
@@ -53,6 +54,8 @@ class UserIdentity extends CUserIdentity {
                 $this->setState('email', $user->email);
                 $this->setState('id', $user->id);
                 $this->setState('role', $user->role);
+                $this->setState('role_type', $role_info->type);
+                $this->setState('role_name', $role_info->title);
                 $this->setState('lastvisited', $lastLogin);
                 $this->errorCode = self::ERROR_NONE;
             }

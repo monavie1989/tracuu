@@ -68,6 +68,35 @@ class UserAuth extends UserAuthBase
         ));
     }
     
+    public function checkTask($name) {
+        return $this->findByAttributes(array('name'=>$name));
+    }
+    
+    public function addTask($name, $type) {
+        //Nếu task chưa tồn tại trong bảng tbl_user_auth
+        if(empty($this->checkTask($name))) {
+            $command = Yii::app()->db->createCommand();
+            $rs = $command->insert('tbl_user_auth', array('name'=>$name,'type'=>$type,'title'=>$name));
+            if($rs)
+                return true;
+        }
+        return false;
+    }
+    
+    public function addRelationTask($parent, $child ) {
+        if(!empty($this->checkTask($parent)) && !empty($this->checkTask($child))) {
+            //Kiểm tra xem đã tồn tại cặp parent - child chưa
+            $checkParentChild = UserAuthItemChild::model()->findByAttributes(array('parent'=>$parent,'child'=>$child));
+            if(empty($checkParentChild)) {
+                $command = Yii::app()->db->createCommand();
+                $rs = $command->insert('tbl_user_auth_item_child', array('parent'=>$parent,'child'=>$child));
+                if($rs)
+                    return true;
+            }
+        }
+        return false;
+    }
+    
     public function renderRoleGroup($data,$row) {
         $group = '';
         switch ($data->type) {
