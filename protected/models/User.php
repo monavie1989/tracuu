@@ -81,5 +81,26 @@ class User extends UserBase {
             'profile' => array(self::BELONGS_TO, 'Profile', 'id'),
         );
     }
+    
+    public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('username',$this->username,true);
+                $criteria->compare('email',$this->username,true,'OR');
+		$criteria->compare('password',$this->password,true);
+		$criteria->compare('registered',$this->registered,true);
+		$criteria->compare('lastvisited',$this->lastvisited,true);
+		$criteria->compare('activekey',$this->activekey,true);
+		$criteria->compare('role',$this->role,true);
+		$criteria->compare('status',$this->status);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 }
