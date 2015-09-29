@@ -17,14 +17,13 @@
             'controller' => 'manager'
         ),
         array(
-            'label' => 'Customize Menu',
+            'label' => 'Quản lý Thành viên',
             'id' => 'customize_menu',
             'type' => 'customize',
             'items' => array(
-                array('label' => 'Menu 1', 'url' => array('menu/menu1')),
-                array('label' => 'Menu 2', 'url' => array('menu/menu2')),
-                array('label' => 'Menu 3', 'url' => array('menu/menu3')),
-                array('label' => 'Menu 4', 'url' => array('menu/menu4')),
+                array('label' => 'Danh sách', 'url' => array('user/index')),
+                array('label' => 'Nhóm người dùng', 'url' => array('userrole/index')),
+                array('label' => 'Quản lý task', 'url' => array('userrole/index')),
             )
         ),
         array(
