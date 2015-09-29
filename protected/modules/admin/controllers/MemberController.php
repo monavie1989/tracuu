@@ -48,18 +48,41 @@ class MemberController extends Controller {
      */
     public function actionCreate() {
         $model = new User;
-
+        $profile = new Profile;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            if ($model->save())
-                $this->redirect(array('admin'));
+        $validate = true;
+        if (isset($_POST) && !empty($_POST)) {
+            if (isset($_POST['Profile'])) {
+                $profile->attributes = $_POST['Profile'];
+                if (!$profile->validate())
+                    $validate = false;
+            }
+            if (isset($_POST['User'])) {
+                $model->attributes = $_POST['User'];
+                $model->role = 'member';
+                $model->status = 0;
+                $model->registered = date("Y-m-d H:i:s");
+                $model->activekey = Common::genString(12);
+                if ($model->validate() && $validate) {
+                    $model->password = md5($model->password);
+                    if ($model->save()) {
+                        $profile->user_id = $model->id;
+                        $profile->scenario = "save";
+                        if ($profile->save()) {
+                            $params = array_merge($model->attributes, $profile->attributes);
+                            $params['linkactive'] = Yii::app()->getBaseUrl(true) . '/active?email=' . md5($model->email) . '&activekey=' . $model->activekey;
+                            Mail::sendMail(array($model->email), 'user_regist_send_user.txt', $params);
+                            Yii::app()->user->setFlash('success', 'Thêm thành viên mới thành công.');
+                            $this->redirect(array('admin'));
+                        }
+                    }
+                }
+            }
         }
-
         $this->render('create', array(
             'model' => $model,
+            'profile' => $profile
         ));
     }
 
@@ -69,19 +92,46 @@ class MemberController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $model = $this->loadModel($id);
-
+        $model = User::model()->findByPk($id);
+        $profile = Profile::model()->findByPk($id);
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            if ($model->save())
-                $this->redirect(array('admin'));
+        $validate = true;
+        if (isset($_POST) && !empty($_POST)) {
+            if (isset($_POST['Profile'])) {
+                $profile->attributes = $_POST['Profile'];
+                if (!$profile->validate())
+                    $validate = false;
+            }
+            if (isset($_POST['User'])) {
+                $model->status = $_POST['User']['status'];
+                if (!empty($model->status)) {
+                    $model->activekey = "";
+                }
+                if (!empty($_POST['User']['n_password'])) {
+                    $model->scenario = 'changepass';
+                    $model->o_password = $model->password;
+                    $model->n_password = $_POST['User']['n_password'];
+                    $model->n_password_re = $_POST['User']['n_password_re'];
+                    $oldpass = $model->password;
+                }
+                if ($model->validate() && $validate) {
+                    $model->scenario = 'update';
+                    $model->password = md5($model->n_password);
+                    if ($model->save()) {
+                        $profile->scenario = "save";
+                        if ($profile->save()) {
+                            $model->n_password = "";
+                            $model->n_password_re = "";
+                            Yii::app()->user->setFlash('success', 'Cập nhật thông tin thành viên thành công.');
+                        }
+                    }
+                }
+            }
         }
-
         $this->render('update', array(
             'model' => $model,
+            'profile' => $profile
         ));
     }
 

@@ -14,13 +14,13 @@ class Mail {
     static function sendMail($users, $template, $params = false) {
         $system = Yii::app()->params['system'];
         foreach ($users as $user) {
-			$emailer = new SendMail();
-			$body = $emailer->getBody($template);
-			$subject = $emailer->getSubject($template);
+            $emailer = new SendMail();
+            $body = $emailer->getBody($template);
+            $subject = $emailer->getSubject($template);
             if ($params) {
                 foreach ($params as $key => $value) {
                     $body = str_replace("[" . $key . "]", $value, $body);
-					$subject = str_replace("[" . $key . "]", $value, $subject);
+                    $subject = str_replace("[" . $key . "]", $value, $subject);
                 }
             }
             $emailer->send($system['systemMail'], $system['systemMail'], $user, $subject, $body);
@@ -40,6 +40,7 @@ class Mail {
         }
         $emailer->send($system['systemMail'], $system['systemMail'], $email_user, $subject, $body);
     }
+
 }
 
 ?>

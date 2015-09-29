@@ -19,6 +19,7 @@ class User extends UserBase {
     public $o_password;
     public $n_password;
     public $n_password_re;
+    public $roles = false;
 
     /**
      * Returns the static model of the specified AR class.
@@ -35,17 +36,17 @@ class User extends UserBase {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'o_password' => 'Old Password',
-            'n_password' => 'New Password',
-            'n_password_re' => 'New Password Repeat',
+            'username' => 'Tên đăng nhập',
+            'password' => 'Mật khẩu',
+            'o_password' => 'Mật khẩu cũ',
+            'n_password' => 'Mật khẩu mới',
+            'n_password_re' => 'Xác nhận Mật khẩu mới',
             'email' => 'Email',
-            'registered' => 'Registered',
-            'lastvisited' => 'Lastvisited',
-            'activekey' => 'Activekey',
-            'role' => 'Role',
-            'status' => 'Status',
+            'registered' => 'Ngày đăng ký',
+            'lastvisited' => 'Lần đăng nhập cuối',
+            'activekey' => 'Mã kích hoạt',
+            'role' => 'Quyền',
+            'status' => 'Trạng thái',
         );
     }
 
@@ -80,6 +81,31 @@ class User extends UserBase {
         return array(
             'profile' => array(self::BELONGS_TO, 'Profile', 'id'),
         );
+    }
+
+    public function search() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('username', $this->username, true);
+        $criteria->compare('password', $this->password, true);
+        $criteria->compare('email', $this->email, true);
+        $criteria->compare('registered', $this->registered, true);
+        $criteria->compare('lastvisited', $this->lastvisited, true);
+        $criteria->compare('activekey', $this->activekey, true);
+        if (!empty($this->role)) {
+            $criteria->compare('role', $this->role, true);
+        } elseif (!empty($this->roles)) {
+            $criteria->addInCondition('role', $this->roles);
+        }
+        $criteria->compare('status', $this->status);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
     }
 
 }

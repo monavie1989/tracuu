@@ -1,10 +1,24 @@
 <div id="side_accordion" class="accordion">
     <?php
     $menu = array(
-        array(
+        /*array(
             'label' => 'Quản lý Bài viết',
             'id' => 'post_menu',
             'controller' => 'post'
+        ),*/
+		array(
+            'label' => 'Quản lý Bài viết',
+            'id' => 'post_menu',
+            'type' => 'customize',
+            'items' => array(
+                array('label' => 'Danh sách', 'url' => array('/admin/post/admin')),
+				array('label' => 'Thêm mới', 'url' => array('/admin/post/create')),
+				array('label' => 'Sửa Bài viết', 'url' => array('/admin/post/update'), 'itemOptions' => array('class' => 'hidden')),
+				array('label' => 'Chuyên mục', 'url' => array('/admin/category/admin')),
+				array('label' => 'Thẻ', 'url' => array('/admin/tag/admin')),
+				array('label' => 'Sửa Chuyên mục', 'url' => array('/admin/post/update'), 'itemOptions' => array('class' => 'hidden')),
+				array('label' => 'Sửa Thẻ', 'url' => array('/admin/post/update'), 'itemOptions' => array('class' => 'hidden')),
+            )
         ),
         array(
             'label' => 'Quản lý Thành viên',

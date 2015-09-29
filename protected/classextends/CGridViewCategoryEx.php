@@ -22,8 +22,7 @@ class CGridViewCategoryEx extends CGridView {
         if (Yii::app()->user->getState('pageSize')) {
             $this->dataProvider->pagination->pageSize = Yii::app()->user->getState('pageSize');
         }
-        $this->template =
-                '<div id="dt_gal_wrapper" class="dataTables_wrapper form-inline" role="grid">
+        $this->template = '<div id="dt_gal_wrapper" class="dataTables_wrapper form-inline" role="grid">
             <div class="row">
                 <div class="span6">
                     <div class="dt_actions">
@@ -91,17 +90,19 @@ class CGridViewCategoryEx extends CGridView {
             'value' => '$data->' . Common::getKeyNameOfTable($this->dataProvider->model)
         );
         foreach ($this->columns as $key => $col) {
-            if ($col['class'] == 'CButtonColumn' && !isset($col['header'])) {
-                $col['header'] = 'Actions';
-            }
-            if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['view']['imageUrl'])) {
-                $col['buttons']['view']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/view_off.png';
-            }
-            if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['delete']['imageUrl'])) {
-                $col['buttons']['delete']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/delete_off.png';
-            }
-            if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['update']['imageUrl'])) {
-                $col['buttons']['update']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/update_off.png';
+            if (!empty($col['class'])) {
+                if ($col['class'] == 'CButtonColumn' && !isset($col['header'])) {
+                    $col['header'] = 'Actions';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['view']['imageUrl'])) {
+                    $col['buttons']['view']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/view_off.png';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['delete']['imageUrl'])) {
+                    $col['buttons']['delete']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/delete_off.png';
+                }
+                if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['update']['imageUrl'])) {
+                    $col['buttons']['update']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/update_off.png';
+                }
             }
             $tmp[] = $col;
         }
@@ -243,18 +244,17 @@ class CGridViewCategoryEx extends CGridView {
             $this->renderTableFooter();
             echo $body; // TFOOT must appear before TBODY according to the standard.
             echo "</table>";
-        }
-        else
+        } else
             $this->renderEmptyText();
     }
 
     public function recursive($CatArr, $parent, $level) {
         if (count($CatArr) > 0) {
             foreach ($CatArr as $key => $val) {
-                if ($parent == $val->parent_id) {
+                if ($parent == $val->category_parent) {
                     $val->level = $level;
                     $this->Info[] = $val;
-                    $_parent = $val->id;
+                    $_parent = $val->category_id;
                     unset($CatArr[$key]);
                     $this->recursive($CatArr, $_parent, $level + 1);
                 }
@@ -271,7 +271,7 @@ class CGridViewCategoryEx extends CGridView {
         if (empty($this->dataProvider->sort->directions)) {
             $this->recursive($data, 0, 1);
             $data = $this->Info;
-            $this->dataProvider->data =$this->Info;
+            $this->dataProvider->data = $this->Info;
         }
         $data = $this->dataProvider->data;
         $n = count($data);
@@ -289,4 +289,3 @@ class CGridViewCategoryEx extends CGridView {
     }
 
 }
-
