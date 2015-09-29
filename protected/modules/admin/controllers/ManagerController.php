@@ -23,7 +23,7 @@ class ManagerController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'index', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -47,15 +47,23 @@ class ManagerController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new User;
-        $profile = new Profile;
+        $model = new User('register');
+        $profile = new Profile('register');
+        $category = new CategoryUser;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         $validate = true;
         if (isset($_POST) && !empty($_POST)) {
             if (isset($_POST['Profile'])) {
                 $profile->attributes = $_POST['Profile'];
+                $profile->user_id = 0;
                 if (!$profile->validate())
+                    $validate = false;
+            }
+            if (isset($_POST['CategoryUser'])) {
+                $category->category_id = $_POST['CategoryUser']['category_id'];
+                //$category->user_id = $id;
+                if (!$category->validate())
                     $validate = false;
             }
             if (isset($_POST['User'])) {
@@ -67,11 +75,15 @@ class ManagerController extends Controller {
                     if ($model->save()) {
                         $profile->user_id = $model->id;
                         $profile->scenario = "save";
-                        if ($profile->save()) {
+                        if(isset($_POST['CategoryUser'])) {
+                            $category->user_id = $model->id;
+                            $category->save();
+                        }
+                        if ($profile->save()) {                            
                             $params = array_merge($model->attributes, $profile->attributes);
                             Mail::sendMail(array($model->email), 'admin_create_manager_send_user.txt', $params);
                             Yii::app()->user->setFlash('success', 'Thêm quản trị viên mới thành công.');
-                            $this->redirect(array('admin'));
+                            $this->redirect(array('index'));
                         }
                     }
                 }
@@ -79,7 +91,8 @@ class ManagerController extends Controller {
         }
         $this->render('create', array(
             'model' => $model,
-            'profile' => $profile
+            'profile' => $profile,            
+            'category' => $category
         ));
     }
 
@@ -91,15 +104,34 @@ class ManagerController extends Controller {
     public function actionUpdate($id) {
         $model = User::model()->findByPk($id);
         $profile = Profile::model()->findByPk($id);
+        $category = CategoryUser::model()->findByAttributes(array('user_id'=>$id));
+        if(empty($category))
+            $category = new CategoryUser;
+        if(Yii::app()->user->role === 'moderator') {
+            //echo Yii::app()->user->id;
+            $my_category = CategoryUser::model()->findByAttributes(array('user_id'=>Yii::app()->user->id));
+            //var_dump($my_category);die();
+            $category_id = $my_category->category_id;
+        }
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         $validate = true;
         if (isset($_POST) && !empty($_POST)) {
+            $roles = array(
+                'administrator'=>array('moderator','publisher','author','member'),
+                'moderator'=>array('publisher','author')
+            );
             if (isset($_POST['Profile'])) {
                 $profile->attributes = $_POST['Profile'];
                 if (!$profile->validate())
                     $validate = false;
             }
+            //if (isset($_POST['CategoryUser'])) {
+                $category->category_id = isset($_POST['CategoryUser']['category_id'])?$_POST['CategoryUser']['category_id']:$category_id;
+                $category->user_id = $id;
+                if (!$category->validate())
+                    $validate = false;
+            //}
             if (isset($_POST['User'])) {
                 $model->status = $_POST['User']['status'];
                 if (!empty($model->status)) {
@@ -112,15 +144,31 @@ class ManagerController extends Controller {
                     $model->n_password_re = $_POST['User']['n_password_re'];
                     $oldpass = $model->password;
                 }
+                
                 if ($model->validate() && $validate) {
                     $model->scenario = 'update';
-                    $model->password = md5($model->n_password);
+                    if(!$model->password == md5($model->n_password))
+                        $model->password == md5($model->n_password);
+                    $model->role = $_POST['User']['role'];
+                    if(!in_array($model->role, $roles[Yii::app()->user->role])) {
+                            Yii::app()->user->setFlash('error', 'Bạn không có quyền chọn thêm thành viên thuộc nhóm <strong>'.$model->role.'</strong>.');
+                            $this->redirect('index');
+                    }
                     if ($model->save()) {
                         $profile->scenario = "save";
-                        if ($profile->save()) {
+                        $succes = true;
+                        if(!empty($category)) {
+                            if(!$category->save())
+                                $succes = false;
+                        }
+                        if ($profile->save() && $succes) {
                             $model->n_password = "";
                             $model->n_password_re = "";
                             Yii::app()->user->setFlash('success', 'Cập nhật thông tin thành viên thành công.');
+                            $this->redirect('index');
+                        } else {
+                            Yii::app()->user->setFlash('error', 'Có lỗi xảy ra.');
+                            $this->refresh();
                         }
                     }
                 }
@@ -128,7 +176,8 @@ class ManagerController extends Controller {
         }
         $this->render('update', array(
             'model' => $model,
-            'profile' => $profile
+            'profile' => $profile,
+            'category' => $category
         ));
     }
 
@@ -138,8 +187,16 @@ class ManagerController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
-
+        $model = $this->loadModel($id);
+        $roles = array(
+            'administrator'=>array('moderator','publisher','author','member'),
+            'moderator'=>array('publisher','author')
+        );
+        if(!in_array($model->role, $roles[Yii::app()->user->role])) {
+            Yii::app()->user->setFlash('error', 'Bạn không có quyền xóa người dùng thuộc nhóm <strong>'.$model->role.'</strong>.');
+            $this->refresh();
+        }
+        $model->delete();
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -148,7 +205,7 @@ class ManagerController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionIndex() {
         $model = new User('search');
         if (!empty($_POST['action'])) {
             switch ($_POST['action']) {
@@ -167,8 +224,13 @@ class ManagerController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['User']))
             $model->attributes = $_GET['User'];
-        $model->roles = array('moderator','publisher','author');
-        $this->render('admin', array(
+        $role = Yii::app()->user->role;
+        if($role === 'administrator')
+            $model->roles = array('moderator','publisher','author');
+        if($role === 'moderator') {
+            $model->roles = array('publisher','author');
+        }
+        $this->render('index', array(
             'model' => $model,
         ));
     }

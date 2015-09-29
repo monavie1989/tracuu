@@ -23,23 +23,21 @@
         array(
             'label' => 'Quản lý Thành viên',
             'id' => 'member_menu',
-            'controller' => 'member'
+            'type' => 'customize',
+            'items' => array(
+                array('label' => 'Danh sách', 'url' => array('member/index')),
+                array('label' => 'Thêm mới', 'url' => array('member/create')),
+            )
         ),
         array(
             'label' => 'Quản lý Quản trị viên',
-            'id' => 'manager_menu',
-            'controller' => 'manager'
-        ),
-        array(
-            'label' => 'Quản lý Thành viên',
-            'id' => 'customize_menu',
+            'id' => 'moderator_menu',
             'type' => 'customize',
             'items' => array(
-                array('label' => 'Danh sách', 'url' => array('user/index')),
-                array('label' => 'Nhóm người dùng', 'url' => array('userrole/index')),
-                array('label' => 'Quản lý task', 'url' => array('userrole/index')),
+                array('label' => 'Danh sách', 'url' => array('manager/index')),
+                array('label' => 'Thêm mới', 'url' => array('manager/create')),
             )
-        ),
+        ),        
         array(
             'label' => 'Thiết lập',
             'id' => 'baseinfo_menu',

@@ -23,7 +23,7 @@ class MemberController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'index', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -151,7 +151,7 @@ class MemberController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionIndex() {
         $model = new User('search');
         if (!empty($_POST['action'])) {
             switch ($_POST['action']) {
@@ -171,7 +171,7 @@ class MemberController extends Controller {
         if (isset($_GET['User']))
             $model->attributes = $_GET['User'];
         $model->role = 'member';
-        $this->render('admin', array(
+        $this->render('index', array(
             'model' => $model,
         ));
     }

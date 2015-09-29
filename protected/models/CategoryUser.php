@@ -18,27 +18,5 @@ class CategoryUser extends CategoryUserBase
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
-    }
-    protected function afterDelete() {
-        // code modify insert here
-        foreach (CategoryUserDetail::model()->findAllByAttributes(array('categoryuser_id'=>$this->id)) as $item) {
-            $item->delete();
-        }
-        return parent::afterDelete();
-    }
-    public function beforeSave() {
-        // code modify insert here
-        if ($this->isNewRecord)
-            $this->create_date = new CDbExpression('NOW()');
-        else
-            $this->modified_date = new CDbExpression('NOW()');
-        return parent::beforeSave();
-    }
-    public function afterFind() {
-        // code modify insert here
-
-        return parent::afterFind();
-    }
-    
-    
+    }  
 }

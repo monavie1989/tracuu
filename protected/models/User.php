@@ -58,11 +58,13 @@ class User extends UserBase {
         // will receive user inputs.
         return array(
             array('o_password, n_password, n_password_re', 'required', 'on' => 'changepass'),
-            array('n_password_re', 'compare', 'compareAttribute' => 'n_password', 'on' => 'changepass'),
-            array('o_password', 'compare', 'compareAttribute' => 'password', 'on' => 'changepass'),
+            array('n_password_re', 'compare', 'compareAttribute' => 'n_password', 'on' => 'changepass','message'=>'{attribute} không đúng.'),
+            array('o_password', 'compare', 'compareAttribute' => 'password', 'on' => 'changepass','message'=>'{attribute} không đúng.'),
             array('username, password, email', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
             array('username', 'length', 'max' => 50),
+            array('username', 'validateUsername','on'=>'register'),
+            array('email', 'validateEmail','on'=>'register'),
             array('password', 'length', 'max' => 64),
             array('email, activekey, role', 'length', 'max' => 255),
             array('registered, lastvisited', 'safe'),
@@ -83,30 +85,46 @@ class User extends UserBase {
         );
     }
     
+    public function validateUsername($attribute,$params) {
+            $user = User::model()->find(array('select'=>'username','condition'=>'username=:username','params'=>array(':username'=>$this->$attribute)));
+            if(!empty($user))
+                $this->addError ($attribute, 'Tài khoản đã tồn tại');
+        }
+        
+        public function validateEmail($attribute,$params) {
+            $user = User::model()->find(array('select'=>'email','condition'=>'email=:email','params'=>array(':email'=>$this->$attribute)));
+            if(!empty($user))
+                $this->addError ($attribute, 'Email đã được dùng để đăng ký');
+        }
+    
     public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-                $criteria->compare('email',$this->username,true,'OR');
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('registered',$this->registered,true);
-		$criteria->compare('lastvisited',$this->lastvisited,true);
-		$criteria->compare('activekey',$this->activekey,true);
-		$criteria->compare('role',$this->role,true);
-		$criteria->compare('status',$this->status);
-        $criteria->compare('lastvisited', $this->lastvisited, true);
-        $criteria->compare('activekey', $this->activekey, true);
+        $criteria->compare('id',$this->id);
+        $criteria->compare('username',$this->username,true);
+        $criteria->compare('email',$this->username,true,'OR');
+        $criteria->compare('password',$this->password,true);
+        $criteria->compare('registered',$this->registered,true);
+        $criteria->compare('lastvisited',$this->lastvisited,true);
+        $criteria->compare('activekey',$this->activekey,true);
         if (!empty($this->role)) {
             $criteria->compare('role', $this->role, true);
         } elseif (!empty($this->roles)) {
             $criteria->addInCondition('role', $this->roles);
         }
         $criteria->compare('status', $this->status);
+        if(Yii::app()->user->role === 'moderator') {
+            $command = Yii::app()->db->createCommand('SELECT id FROM tbl_user WHERE
+                id NOT IN (SELECT DISTINCT user_id FROM tbl_category_user)
+                OR id IN (SELECT user_id FROM tbl_category_user WHERE category_id IN (SELECT category_id FROM tbl_category_user WHERE user_id = '.Yii::app()->user->id.'))');
+            //$result = $command->queryAll();
+            //var_dump(CHtml::listData($command->queryAll(), 'id', 'id'));
+            $criteria->addInCondition('id', CHtml::listData($command->queryAll(), 'id', 'id'));
+        }
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
