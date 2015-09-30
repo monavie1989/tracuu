@@ -1,0 +1,9 @@
+Thông tin Kích hoạt tài khoản
+
+Xin chào [username]
+Bạn đã đăng ký thành công tài khoản trên website ABC
+
+Vui lòng truy cập đường dẫn kích hoạt bên dưới để hoàn thiện việc đăng ký
+[linkactive]
+
+Thân ái !

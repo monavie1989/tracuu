@@ -9,11 +9,8 @@
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2';
+	public $controllerLabel = '<?php echo $this->controllerLabel; ?>';
+	public $defaultAction = 'admin';
 
 	/**
 	 * @return array action filters
@@ -34,21 +31,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
+                'actions' => array('create', 'update', 'admin', 'delete'),
+                'users' => array('@'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
 		);
 	}
 
@@ -78,7 +67,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -102,7 +91,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
@@ -125,22 +114,25 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 
 	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
 		$model=new <?php echo $this->modelClass; ?>('search');
+		if (!empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'delete':
+                    if (isset($_POST['items']) && !empty($_POST['items'])) {
+                        $items = $_POST['items'];
+                        foreach ($model::model()->findAllByPk($items) as $item) {
+                            $item->delete();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['<?php echo $this->modelClass; ?>']))
 			$model->attributes=$_GET['<?php echo $this->modelClass; ?>'];

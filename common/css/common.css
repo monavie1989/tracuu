@@ -1,0 +1,110 @@
+/*====================================================*/
+/* common.css */
+/*====================================================*/
+
+/****** RESET CSS *****/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+*{list-style:none;}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+ol, ul {list-style: none;}
+table {
+    border-collapse: collapse;
+}
+img {
+    border: medium none;
+    vertical-align: bottom;
+}
+/*====================*/
+
+/**** clearfix ***/
+.left{float:left; display:block;}
+.right{float:right; display:block;}
+.clearfix{
+    clear:both;
+    overflow:hidden;
+}
+.talgC{
+    text-align:center;
+}
+/* Hover */
+a.opacity:hover img {
+    opacity: 0.70;
+    -moz-opacity: 0.70;
+    -khtml-opacity: 0.70;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+    filter:alpha(opacity=70);
+    display/*\**/: block\9;
+}
+.pT0{
+    padding-top:0 !important;
+}
+.pT10{
+    padding-top:10px !important;
+}
+.pT20{
+    padding-top:20px !important;
+}
+.pB0{
+    padding-bottom:0 !important;
+}
+.content_tags li {
+    list-style: disc inside none;
+}
+.downloadcategory{
+    border-bottom: 3px solid #463798;
+    padding: 1px;
+    text-align: center;
+    width: 710px;
+    background-color: #C5D2DB;
+    color: #003768;
+    font-size: 14px;
+    cursor: pointer;
+}
+.downloads table th{
+    border-bottom: solid 3px #C5D2DB;
+}
+.downloads table .tdext{
+    text-align: center;
+}
+.nameDown{
+    margin:5px 10px;
+    background: url("../images/icon2.gif") no-repeat scroll left center #FFFFFF;
+    padding-left: 15px;
+}
+.product{
+    width: 400px;
+}
+.downloadtext{
+    width: 160px;
+    border-left: solid 1px #CCC;
+    border-right: solid 1px #CCC;
+}
+.filedown{
+    width: 160px;
+}
+.ui-accordion-content-active{
+    min-height: 100px !important;
+}

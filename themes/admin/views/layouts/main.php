@@ -26,7 +26,11 @@
                 </h1>
             </div>
             <div class="aui-header-secondary">
+<<<<<<< HEAD
                     <ul role="menu" class="aui-nav nav navbar-nav navbar-right">                       
+=======
+                    <ul role="menu" class="aui-nav nav navbar-nav navbar-right">
+>>>>>>> e509f76073ce4827bd86fdfca51e78bc12c92c68
                         <?php if(Yii::app()->user->isGuest) { ?>
                         <li id="header-signup-button">
                             <a id="sign-up-link" class="aui-button aui-button-primary" href="#">Đăng ký</a>
@@ -39,8 +43,8 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                               <span class="aui-icon aui-icon-small aui-iconfont-configure"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
-                                    <li><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
+                                    <li><a href="<?php echo $this->createUrl('/admin/user/profile'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-space-personal"></span>  Cá nhân</a></li>
+                                    <li><a href="<?php echo $this->createUrl('/admin/user/changepass'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-locked"></span>  Đổi mật khẩu</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?php echo $this->createUrl('/user/logout'); ?>"><span class="aui-icon aui-icon-small aui-iconfont-devtools-fork"></span>  Thoát</a></li>
                                 </ul>
@@ -52,6 +56,7 @@
             </nav>
         </header>
         <div id="content" role="main">
+<<<<<<< HEAD
             <?php $this->widget('application.widgets.adminmenu'); ?>      
             <div class="aui-page-panel ">
                 <div class="aui-page-panel-inner">
@@ -100,6 +105,9 @@
                     </div>
                 </div>
             </div>
+=======
+            <?php echo $content; ?>
+>>>>>>> e509f76073ce4827bd86fdfca51e78bc12c92c68
         </div>
     </div>
 

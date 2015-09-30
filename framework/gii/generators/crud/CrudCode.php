@@ -3,6 +3,7 @@
 class CrudCode extends CCodeModel
 {
 	public $model;
+	public $controllerLabel;
 	public $controller;
 	public $baseControllerClass='Controller';
 
@@ -20,6 +21,7 @@ class CrudCode extends CCodeModel
 			array('baseControllerClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('model', 'validateModel'),
 			array('baseControllerClass', 'sticky'),
+			array('controllerLabel', 'safe'),
 		));
 	}
 
@@ -27,6 +29,7 @@ class CrudCode extends CCodeModel
 	{
 		return array_merge(parent::attributeLabels(), array(
 			'model'=>'Model Class',
+			'controllerLabel'=>'Controller Label',
 			'controller'=>'Controller ID',
 			'baseControllerClass'=>'Base Controller Class',
 		));
@@ -78,6 +81,7 @@ class CrudCode extends CCodeModel
 
 	public function prepare()
 	{
+		$this->controllerLabel = !empty($_POST['CrudCode']['controllerLabel']) ? $_POST['CrudCode']['controllerLabel'] : $this->model;
 		$this->files=array();
 		$templatePath=$this->templatePath;
 		$controllerTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'controller.php';
@@ -207,21 +211,26 @@ class CrudCode extends CCodeModel
 		if($column->type==='boolean')
 			return "\$form->checkBox(\$model,'{$column->name}')";
 		elseif(stripos($column->dbType,'text')!==false)
-			return "\$form->textArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
+			return "\$form->textArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'text_editor'))";
 		else
 		{
+                    $class = "";
+                    if(stripos($column->dbType,'date')!==false){
+                        $class .= !empty($class) ? " ".$column->dbType : $column->dbType;
+                    }
 			if(preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))
 				$inputField='passwordField';
 			else
 				$inputField='textField';
 
+                        $class .= !empty($class) ? " ".$inputField : $inputField;
 			if($column->type!=='string' || $column->size===null)
-				return "\$form->{$inputField}(\$model,'{$column->name}')";
+				return "\$form->{$inputField}(\$model,'{$column->name}', array('class' => '".$class."'))";
 			else
 			{
 				if(($size=$maxLength=$column->size)>60)
 					$size=60;
-				return "\$form->{$inputField}(\$model,'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength))";
+				return "\$form->{$inputField}(\$model,'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength,'class' => '".$class."'))";
 			}
 		}
 	}

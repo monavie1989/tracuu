@@ -6,7 +6,7 @@ class TaskController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	//public $layout='//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -38,6 +38,10 @@ class TaskController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
+			),
+                        array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('AjaxAddTask'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -76,29 +80,43 @@ class TaskController extends Controller
                     }
 		}
                 
-                $task = CHtml::listData(UserAuth::model()->findAll(array('select'=>'name,type','condition'=>'type IN(5,6,7)')), 'name', 'type');
+                $task = CHtml::listData(UserAuth::model()->findAll(array('select'=>'name,type','condition'=>'type IN(5)')), 'name', 'type');
                 
                 $meta = new Metadata();
-                $module_controller_action = array();
                 $module = $meta->getModules();
-                foreach ($module as $m)
-                {
-                    $module_controller_action[$m.'.*'] = '5';
-                    $controllers = $meta->getControllersActions($m);
-                    foreach ($controllers as $c) {
-                        $cname = strtolower(str_replace('Controller', '', $c['name']));
-                        $module_controller_action[$m.'.'.$cname.'.*'] = '6';
-                        foreach ($c['actions'] as $a) {
-                            $module_controller_action[$m.'.'.$cname.'.'.strtolower($a)] = '7';                        
-                        }
-                    }
-                }
-                $final = array_diff_assoc($module_controller_action,$task);
+                //$final = array_diff_assoc($module_controller_action,$module);
 		$this->render('create',array(
                     'model'=>$model,
-                    'data'=>$final,
+                    'data'=>$module,
 		));
 	}
+        
+        public function actionAjaxAddTask(){
+            $name = $_POST['name'];
+            $type = $_POST['type'];
+            //var_dump($matches);die();
+            try {
+                UserAuth::model()->addTask($name.'.*', $type);
+                $meta = new Metadata();
+                $controllers = $meta->getControllers($name);
+                foreach($controllers as $controller) {
+                    $cname = $name.'.'.strtolower(str_replace('Controller', '', $controller));
+                    UserAuth::model()->addTask($cname.'.*', $type+1);
+                    UserAuth::model()->addRelationTask($name.'.*', $cname.'.*');
+                    $actions = $meta->getActions($controller,$name);
+                    foreach ($actions as $action) {
+                        $aname = $cname.'.'.strtolower(str_replace('action', '', $action));
+                        UserAuth::model()->addTask($aname, $type+2);
+                        UserAuth::model()->addRelationTask($cname.'.*', $aname);
+                    }
+                }
+                echo json_encode(array('code'=>1,'message'=>'Thêm thành công'));
+                return;
+            } catch (CException $e) {
+                echo json_encode(array('code'=>0,'message'=>$e->getMessage()));
+                return;
+            }
+        }
 
 	/**
 	 * Updates a particular model.

@@ -249,7 +249,7 @@ class CGridView extends CBaseListView
 	 * @var string the URL of the CSS file used by this grid view. Defaults to null, meaning using the integrated
 	 * CSS file. If this is set false, you are responsible to explicitly include the necessary CSS file in your page.
 	 */
-	public $cssFile;
+	public $cssFile = false;
 	/**
 	 * @var string the text to be displayed in a data cell when a data value is null. This property will NOT be HTML-encoded
 	 * when rendering. Defaults to an HTML blank.

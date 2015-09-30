@@ -10,6 +10,10 @@ code,pre{font-family:Consolas,Menlo,"Liberation Mono",Courier,monospace;font-siz
 /*# sourceMappingURL=app.css.map */
 .aui-sidebar .aui-sidebar-footer, .aui-sidebar-submenu .aui-sidebar-footer {position: fixed!important; width: 230px!important;}
 .paging{margin:10px 0;}
+<<<<<<< HEAD
 #header .nav > li > a:hover, .nav > li > a:focus {
     background-color: rgba(0, 0, 0, 0.2)!important;
 }
+=======
+#header .nav .open > a, .nav .open > a:hover, #header .nav .open > a:focus, #header .nav > li > a:hover, #header .nav > li > a:focus {background-color: rgba(0, 0, 0, 0.2)!important;}
+>>>>>>> e509f76073ce4827bd86fdfca51e78bc12c92c68

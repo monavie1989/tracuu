@@ -1,3 +1,6 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading">Quản lý Thành Viên</h3>
 <?php
 /* @var $this TaskController */
 /* @var $model UserAuth */
@@ -12,7 +15,7 @@ $this->menu=array(
 );
 
 Yii::app()->clientScript->registerScript('search', "
-$('.search-form form').submit(function(){
+$('.search-form-binhpv form').submit(function(){
 	$('#user-auth-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
@@ -20,18 +23,14 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<div class="search-form">
+<div class="search-form-binhpv">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-<div class="aui-group">
-    <div class="aui-item" id="commit-list-container" data-changesets-limited="">
-        <?php $this->widget('zii.widgets.grid.CGridView', array(
+        <?php $this->widget('application.classextends.CGridViewEx', array(
             'id'=>'user-auth-grid',
             'dataProvider'=>$model->search($type),
-            'rowCssClass'=>array('iterable-item'),
-            'itemsCssClass'=>'aui aui-table-sortable aui-table-interactive',
             'enableHistory'=>FALSE,
             'columns'=>array(
                 array(
@@ -54,42 +53,8 @@ $('.search-form form').submit(function(){
                 */
                 array(
                     'class'=>'CButtonColumn',
-                    'htmlOptions'=>array('style'=>'width:100px;text-align:right;'),
-                    'afterDelete'=>'function(link,success,data){
-                        if(success) {
-                            AJS.flag({
-                                type: \'success\',
-                                title: \'Delete Successful.\',
-                                persistent: false,
-                                body: data
-                            });
-                        } else {
-                            AJS.flag({
-                                type: \'error\',
-                                title: \'Delete not successful.\',
-                                persistent: false,
-                                body: JSON.stringify(data,[\'responseText\', \'statusText\'],\'<br/>\')
-                            });
-                            return false;
-                        }
-                    }',
                 ),
             ),
-            'pagerCssClass'=>'paging pull-right',
-            'pager'=>array(
-                'header' => false,
-                'internalPageCssClass'=>'',
-                'firstPageCssClass'=>'',
-                'firstPageLabel'=>'<<',
-                'lastPageCssClass'=>'',
-                'lastPageLabel'=>'>>',
-                'nextPageCssClass'=>'next',
-                'nextPageLabel'=>'>',
-                'prevPageLabel'=>'<',
-                'previousPageCssClass'=>'previous',
-                'selectedPageCssClass'=>'active',
-                'htmlOptions'=>array('class'=>'pagination'),
-            )
         )); ?>
     </div>
 </div>
