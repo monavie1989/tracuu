@@ -23,7 +23,7 @@ class CategoryController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'getcategorydropdownlist'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -119,7 +119,7 @@ class CategoryController extends Controller {
             }
         }
         $model->unsetAttributes();  // clear any default values
-        
+
         if (isset($_GET['Category']))
             $model->attributes = $_GET['Category'];
 
@@ -129,8 +129,10 @@ class CategoryController extends Controller {
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['Category'])) {
+            if (!empty($_POST['Category']['category_id'])) {
+                $modelUpdate = Category::model()->findByPk($_POST['Category']['category_id']);
+            }
             $modelUpdate->attributes = $_POST['Category'];
-
             if ($modelUpdate->isNewRecord) {
                 $msg = "Thêm mới Chuyên mục thành công.";
             } else {
@@ -143,6 +145,17 @@ class CategoryController extends Controller {
         }
         $this->render('admin', array(
             'model' => $model,
+            'modelUpdate' => $modelUpdate
+        ));
+    }
+
+    public function actionGetCategoryDropDownList() {
+        $modelUpdate = new Category;
+        if(!empty($_GET['category_selected'])){
+            $modelUpdate->category_parent = $_GET['category_selected'];
+        }
+        
+        $this->renderPartial('getcategorydropdownlist', array(
             'modelUpdate' => $modelUpdate
         ));
     }

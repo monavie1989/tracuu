@@ -74,7 +74,8 @@ class UserAuth extends UserAuthBase
     
     public function addTask($name, $type) {
         //Nếu task chưa tồn tại trong bảng tbl_user_auth
-        if(empty($this->checkTask($name))) {
+        $check = $this->checkTask($name);
+        if(empty($check)) {
             $command = Yii::app()->db->createCommand();
             $rs = $command->insert('tbl_user_auth', array('name'=>$name,'type'=>$type,'title'=>$name));
             if($rs)
@@ -84,7 +85,9 @@ class UserAuth extends UserAuthBase
     }
     
     public function addRelationTask($parent, $child ) {
-        if(!empty($this->checkTask($parent)) && !empty($this->checkTask($child))) {
+        $check1 = $this->checkTask($parent);
+        $check2 = $this->checkTask($child);
+        if(!empty($check1) && !empty($check2)) {
             //Kiểm tra xem đã tồn tại cặp parent - child chưa
             $checkParentChild = UserAuthItemChild::model()->findByAttributes(array('parent'=>$parent,'child'=>$child));
             if(empty($checkParentChild)) {
