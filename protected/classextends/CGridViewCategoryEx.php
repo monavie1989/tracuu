@@ -12,6 +12,7 @@ class CGridViewCategoryEx extends CGridView {
     //string, if empty will hidden
     public $field_search = '';
     public $Info;
+    public $afterDelete = '';
 
     public function init() {
         if (isset($_GET['pageSize'])) {
@@ -149,13 +150,15 @@ class CGridViewCategoryEx extends CGridView {
                         checkItems.push($(this).val());
                     });
                     var th = this,
-                    afterDelete = function(){};
+                    afterDelete = function(th, status, data){
+                        ' . $this->afterDelete . '
+                    };
                     jQuery("#' . $this->id . '").yiiGridView("update", {
                         type: "POST",
                         data:{items:checkItems,action:"delete"},
                         success: function(data) {
                         jQuery("#' . $this->id . '").yiiGridView("update");
-                    afterDelete(th, true, data);
+                        afterDelete(th, true, data);
                     },
                     error: function(XHR) {
                         return afterDelete(th, false, XHR);
