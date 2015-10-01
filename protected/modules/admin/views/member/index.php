@@ -1,7 +1,7 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="heading">
-            <h3>Quản lý Thành Viên</h3><a href="<?php echo Yii::app()->createUrl('member/create'); ?>" class="pull-right"><?php echo CHtml::submitButton('Thêm mới',array('class'=>'btn btn-primary','style'=>'top: 0; right:0; position: absolute;')); ?></a>
+            <h3>Quản lý Thành Viên</h3><a href="<?php echo Yii::app()->createUrl('admin/member/create'); ?>" class="pull-right"><?php echo CHtml::submitButton('Thêm mới',array('class'=>'btn btn-primary','style'=>'top: 0; right:0; position: absolute;')); ?></a>
         </div>
         <?php
         $this->breadcrumbs = array(

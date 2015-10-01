@@ -47,14 +47,15 @@ class MemberController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new User;
-        $profile = new Profile;
+        $model = new User('register');
+        $profile = new Profile('register');
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         $validate = true;
         if (isset($_POST) && !empty($_POST)) {
             if (isset($_POST['Profile'])) {
                 $profile->attributes = $_POST['Profile'];
+                $profile->user_id = 0;
                 if (!$profile->validate())
                     $validate = false;
             }
@@ -74,7 +75,7 @@ class MemberController extends Controller {
                             $params['linkactive'] = Yii::app()->getBaseUrl(true) . '/active?email=' . md5($model->email) . '&activekey=' . $model->activekey;
                             Mail::sendMail(array($model->email), 'user_regist_send_user.txt', $params);
                             Yii::app()->user->setFlash('success', 'Thêm thành viên mới thành công.');
-                            $this->redirect(array('admin'));
+                            $this->redirect(array('index'));
                         }
                     }
                 }
@@ -141,11 +142,16 @@ class MemberController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
+        if(Yii::app()->user->role != 'administrator') {
         $this->loadModel($id)->delete();
+        Profile::model()->deleteAllByAttributes(array('user_id'=>$id));
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        } else {
+            throw new Exception('Bạn không có quyền thực hiện chức năng này');
+        }
     }
 
     /**

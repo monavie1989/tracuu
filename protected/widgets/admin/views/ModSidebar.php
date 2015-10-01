@@ -21,8 +21,8 @@
             'id' => 'moderator_menu',
             'type' => 'customize',
             'items' => array(
-                array('label' => 'Danh sách', 'url' => array('manager/index')),
-                array('label' => 'Thêm mới', 'url' => array('manager/create')),
+                array('label' => 'Danh sách', 'url' => array('/admin/manager/index')),
+                array('label' => 'Thêm mới', 'url' => array('/admin/manager/create')),
             )
         )
     );
