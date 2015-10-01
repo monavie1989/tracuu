@@ -124,6 +124,18 @@ class Post extends PostBase {
 
     public function beforeSave() {
         // code modify insert here
+        if ($this->isNewRecord) {
+            $this->post_date = new CDbExpression('NOW()');
+        }
+        if ($this->post_status == 'Publish' || $this->post_status == 'Private') {
+            if (empty($this->post_approved)) {
+                $this->post_approved = new CDbExpression('NOW()');
+            }
+        } else {
+            $this->post_approved = NULL;
+            $this->post_approved_user = 0;
+        }
+
         return parent::beforeSave();
     }
 

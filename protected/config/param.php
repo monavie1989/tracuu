@@ -14,6 +14,6 @@ $param = array(
         2 => array(3),
     ),
     'roles' => array('administrator','moderator','publisher','author','member'),
-    'post_status' => array('Updating', 'Pending', 'Publish', 'Private'),
+    'post_status' => array('Updating'=>'Updating', 'Pending' => 'Pending', 'Publish' => 'Publish', 'Private' => 'Private'),
 );
 return CMap::mergeArray(require(dirname(__FILE__) . '/param_local.php'), $param);

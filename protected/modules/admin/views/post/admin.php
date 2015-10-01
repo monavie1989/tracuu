@@ -11,7 +11,7 @@
 			$('.search-form').toggle();
 			return false;
 		});
-		$('.search-form form').submit(function(){
+		$('.search-form-binhpv form').submit(function(){
 			$('#post-grid').yiiGridView('update', {
 				data: $(this).serialize()
 			});
@@ -19,7 +19,7 @@
 		});
 		");
         ?>
-        <div class="search-form-binhpv" style="">
+        <div class="search-form-binhpv" style="position: absolute; right: 0;z-index: 1000;">
 		<?php $this->renderPartial('_search',array(
 			'model'=>$model,
 		)); ?>
