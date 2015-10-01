@@ -8,8 +8,6 @@
  * @property string $tag_name
  * @property string $tag_description
  * @property string $tag_slug
- * @property integer $tag_parent
- * @property integer $tag_order
  * @property integer $tag_count
  */
 class TagBase extends CActiveRecord
@@ -40,12 +38,13 @@ class TagBase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('tag_parent, tag_order, tag_count', 'numerical', 'integerOnly'=>true),
+			array('tag_name, tag_slug', 'required'),
+			array('tag_count', 'numerical', 'integerOnly'=>true),
 			array('tag_name, tag_slug', 'length', 'max'=>255),
 			array('tag_description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('tag_id, tag_name, tag_description, tag_slug, tag_parent, tag_order, tag_count', 'safe', 'on'=>'search'),
+			array('tag_id, tag_name, tag_description, tag_slug, tag_count', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,8 +69,6 @@ class TagBase extends CActiveRecord
 			'tag_name' => 'Tag Name',
 			'tag_description' => 'Tag Description',
 			'tag_slug' => 'Tag Slug',
-			'tag_parent' => 'Tag Parent',
-			'tag_order' => 'Tag Order',
 			'tag_count' => 'Tag Count',
 		);
 	}
@@ -91,8 +88,6 @@ class TagBase extends CActiveRecord
 		$criteria->compare('tag_name',$this->tag_name,true);
 		$criteria->compare('tag_description',$this->tag_description,true);
 		$criteria->compare('tag_slug',$this->tag_slug,true);
-		$criteria->compare('tag_parent',$this->tag_parent);
-		$criteria->compare('tag_order',$this->tag_order);
 		$criteria->compare('tag_count',$this->tag_count);
 
 		return new CActiveDataProvider($this, array(

@@ -8,8 +8,6 @@
  * @property string $tag_name
  * @property string $tag_description
  * @property string $tag_slug
- * @property integer $tag_parent
- * @property integer $tag_order
  * @property integer $tag_count
  */
 class Tag extends TagBase
@@ -23,21 +21,16 @@ class Tag extends TagBase
     {
         return parent::model($className);
     }
-    protected function afterDelete() {
-        // code modify insert here
-        foreach (TagDetail::model()->findAllByAttributes(array('tag_id'=>$this->id)) as $item) {
-            $item->delete();
-        }
-        return parent::afterDelete();
-    }
-    public function beforeSave() {
-        // code modify insert here
-        if ($this->isNewRecord)
-            $this->create_date = new CDbExpression('NOW()');
-        else
-            $this->modified_date = new CDbExpression('NOW()');
-        return parent::beforeSave();
-    }
+    public function attributeLabels()
+	{
+		return array(
+			'tag_id' => 'Thẻ',
+			'tag_name' => 'Thẻ',
+			'tag_description' => 'Miêu tả',
+			'tag_slug' => 'Slug',
+			'tag_count' => 'Số bài viết',
+		);
+	}
     public function afterFind() {
         // code modify insert here
 

@@ -1,12 +1,12 @@
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading">Quản lý Thẻ</h3>
-		<?php
-		$this->breadcrumbs=array(
-			'Thẻ'=>array('index'),
-			'Danh sách',
-		);
-		Yii::app()->clientScript->registerScript('search', "
+        <?php
+        $this->breadcrumbs = array(
+            'Thẻ' => array('index'),
+            'Danh sách',
+        );
+        Yii::app()->clientScript->registerScript('search', "
 		$('.search-button').click(function(){
 			$('.search-form').toggle();
 			return false;
@@ -18,7 +18,7 @@
 			return false;
 		});
 		");
-		?>
+        ?>
         <div class="row-fluid">
             <div class="span4">
                 <?php
@@ -34,7 +34,7 @@
                         <div class="span12 vcard">
                             <ul style="margin:0 !important;">
                                 <li class="v-heading"> Thêm mới & Cập nhật Thẻ </li>
-                                <?php echo $form->hiddenField($modelUpdate, 'category_id'); ?>
+                                <?php echo $form->hiddenField($modelUpdate, 'tag_id'); ?>
                                 <?php
                                 $class = !empty($modelUpdate->errors['tag_name']) ? " f_error" : "";
                                 ?>
@@ -53,7 +53,7 @@
                                     <?php echo $form->labelEx($modelUpdate, 'tag_description'); ?>
                                     <?php echo $form->textArea($modelUpdate, 'tag_description', array('rows' => 6, 'cols' => 50, 'class' => 'text_editor')); ?>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -71,14 +71,14 @@
                     ));
                     ?>
                 </div><!-- search-form -->
-		<?php
-                $this->widget('application.classextends.CGridViewCategoryEx', array(
-					'id'=>'tag-grid',
-					'dataProvider'=>$model->search(),
-					'filter'=>$model,
-					'columns'=>array(
+                <?php
+                $this->widget('application.classextends.CGridViewEx', array(
+                    'id' => 'tag-grid',
+                    'dataProvider' => $model->search(),
+                    'filter' => $model,
+                    'columns' => array(
                         array(
-                            'name' => 'category_name',
+                            'name' => 'tag_name',
                             'htmlOptions' => array(
                                 'class' => 'tag_name',
                             ),
@@ -95,7 +95,6 @@
                                 'class' => 'tag_description',
                             ),
                         ),
-
                         array(
                             'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
@@ -124,10 +123,10 @@
         var tag_name = jThis.find('.tag_name').text();
         var tag_slug = jThis.find('.tag_slug').text();
         var tag_description = jThis.find('.tag_description').html();
-        $("#tag_tag_id").val(tag_id);
-        $("#tag_tag_name").val(tag_name);
-        $("#tag_tag_slug").val(tag_slug);
-        $("#tag_tag_description").val(tag_description);
+        $("#Tag_tag_id").val(tag_id);
+        $("#Tag_tag_name").val(tag_name);
+        $("#Tag_tag_slug").val(tag_slug);
+        $("#Tag_tag_description").val(tag_description);
         $('#btn_submit').val("Cập nhật");
         return false;
     }

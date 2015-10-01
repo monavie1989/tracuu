@@ -13,6 +13,7 @@ $param = array(
         1 => array(1, 2, 3, 4),
         2 => array(3),
     ),
-    'roles' => array('administrator','moderator','publisher','author','member')
+    'roles' => array('administrator','moderator','publisher','author','member'),
+    'post_status' => array('Updating', 'Pending', 'Publish', 'Private'),
 );
 return CMap::mergeArray(require(dirname(__FILE__) . '/param_local.php'), $param);

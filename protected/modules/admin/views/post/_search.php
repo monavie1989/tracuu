@@ -1,83 +1,29 @@
 <?php
-/* @var $this PostController */
-/* @var $model Post */
+/* @var $this ManagerController */
+/* @var $model User */
 /* @var $form CActiveForm */
 ?>
 
 <div class="wide form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
-        'htmlOptions'=>array('class'=>'aui registration-form ab-testing'),
-)); ?>
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'action' => Yii::app()->createUrl($this->route),
+        'method' => 'get',
+        'htmlOptions' => array('class' => 'aui registration-form ab-testing'),
+    ));
+    $post_status = Yii::app()->params['post_status'];
+    $criteria = new CDbCriteria;
+    $criteria->compare('role', 'author', true);
+    $post_author = CHtml::listData(User::model()->findAll($criteria), 'id', 'username');
+    ?>
+    <div class="field-group">
+        <?php echo $form->textField($model, 'post_title', array('size' => 50, 'maxlength' => 50, 'class' => 'textField', 'placeholder' => 'Tên bài viết')); ?>
+        <?php echo $form->dropDownList($model, 'post_author', $post_author, array('class' => 'textField', 'empty' => 'Tác giả', 'style' => 'width:125px;')); ?>
+        <?php echo $form->dropDownList($model, 'post_status', $post_status, array('class' => 'textField', 'empty' => 'Trạng thái', 'style' => 'width:125px;')); ?>
+        <?php echo CHtml::submitButton('Tìm kiếm', array('class' => 'btn button_search_summit', 'style' => 'margin-top: -10px; position: relative;')); ?>
+    </div>
 
-	<div class="field-group">
-		<?php echo $form->label($model,'post_ID'); ?>
-		<?php echo $form->textField($model,'post_ID',array('size'=>20,'maxlength'=>20,'class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_author'); ?>
-		<?php echo $form->textField($model,'post_author', array('class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_date'); ?>
-		<?php echo $form->textField($model,'post_date', array('class' => 'datetime textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_content_head'); ?>
-		<?php echo $form->textArea($model,'post_content_head',array('rows'=>6, 'cols'=>50, 'class'=>'text_editor')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_content_body'); ?>
-		<?php echo $form->textArea($model,'post_content_body',array('rows'=>6, 'cols'=>50, 'class'=>'text_editor')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_content_foot'); ?>
-		<?php echo $form->textArea($model,'post_content_foot',array('rows'=>6, 'cols'=>50, 'class'=>'text_editor')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_title'); ?>
-		<?php echo $form->textField($model,'post_title',array('size'=>60,'maxlength'=>255,'class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_status'); ?>
-		<?php echo $form->textField($model,'post_status',array('size'=>20,'maxlength'=>20,'class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_name'); ?>
-		<?php echo $form->textField($model,'post_name',array('size'=>60,'maxlength'=>255,'class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_guild'); ?>
-		<?php echo $form->textField($model,'post_guild',array('size'=>60,'maxlength'=>255,'class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_approved_user'); ?>
-		<?php echo $form->textField($model,'post_approved_user', array('class' => 'textField')); ?>
-	</div>
-
-	<div class="field-group">
-		<?php echo $form->label($model,'post_approved'); ?>
-		<?php echo $form->textField($model,'post_approved', array('class' => 'date textField')); ?>
-	</div>
-
-        <div class="buttons-container">
-          <div class="buttons">
-            <?php echo CHtml::submitButton('Search',array('class'=>'btn button_search_summit')); ?>
-          </div>
-        </div>
-
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->
