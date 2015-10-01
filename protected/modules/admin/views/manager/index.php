@@ -21,8 +21,7 @@
 		});
 		");
         ?>
-        <?php echo CHtml::link('Tìm kiếm', '#', array('class' => 'btn search-button')); ?>
-        <div class="search-form-binhpv" style="">
+        <div class="search-form-binhpv" style="position: absolute; right: 0;">
 		<?php $this->renderPartial('_search',array(
 			'model'=>$model,
 		)); ?>

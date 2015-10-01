@@ -196,7 +196,10 @@ class ManagerController extends Controller {
             Yii::app()->user->setFlash('error', 'Bạn không có quyền xóa người dùng thuộc nhóm <strong>'.$model->role.'</strong>.');
             $this->refresh();
         }
-        $model->delete();
+        if($model->delete()) {
+            Profile::model()->deleteAllByAttributes(array('user_id'=>$id));
+            CategoryUser::model()->deleteAllByAttributes(array('user_id'=>$id));
+        }
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
