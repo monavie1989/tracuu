@@ -21,7 +21,7 @@
 		});
 		");
         ?>
-        <div class="search-form-binhpv" style="position: absolute; right: 0;">
+        <div class="search-form-binhpv" style="position: absolute; right: 0;z-index: 1000;">
 		<?php $this->renderPartial('_search',array(
 			'model'=>$model,
 		)); ?>
