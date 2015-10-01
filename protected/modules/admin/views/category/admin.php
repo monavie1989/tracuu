@@ -57,11 +57,7 @@
                                     <?php echo $form->labelEx($modelUpdate, 'category_parent'); ?>
                                     <?php
                                     $common = new Common;
-                                    if ($modelUpdate->isNewRecord) {
-                                        echo $form->dropDownList($modelUpdate, 'category_parent', $common->getArrayCategories(Category::model()->findAll(), 'category_id', 'category_name'), array('prompt' => '-- Chọn Danh mục --'));
-                                    } else {
-                                        echo $form->dropDownList($modelUpdate, 'category_parent', $common->getArrayCategories(Category::model()->findAll('`t`.category_id != ' . $modelUpdate->category_id), 'category_id', 'category_name'), array('prompt' => '-- Chọn Danh mục --'));
-                                    }
+                                    echo $form->dropDownList($modelUpdate, 'category_parent', $common->getArrayCategories(Category::model()->findAll(), 'category_id', 'category_name'), array('prompt' => '-- Chọn Danh mục --'));
                                     ?>
                                 </li>
                             </ul>
@@ -86,38 +82,46 @@
                     'id' => 'category-grid',
                     'dataProvider' => $model->search(),
                     'filter' => $model,
+                    'afterDelete' => 'update_category_parent();',
                     'columns' => array(
                         array(
                             'name' => 'category_name',
                             'type' => 'raw',
                             'htmlOptions' => array(
-                                'class' => 'category_name',
+                                'class' => 'category_name span3',
                             ),
-                            'value' => 'str_repeat(\'— \', $data->level-1)."<span>".$data->category_name."</span>"'
+                            'value' => function($data) {
+                        return str_repeat('— ', $data->level - 1) . "<span>" . $data->category_name . "</span>
+                            <input class='category_name_h' type='hidden' value='" . $data->category_name . "'>
+                            <input class='category_parent_h' type='hidden' value='" . $data->category_parent . "'>";
+                    }
                         ),
                         array(
                             'name' => 'category_slug',
                             'htmlOptions' => array(
-                                'class' => 'category_slug',
+                                'class' => 'category_slug span3',
                             ),
                         ),
                         array(
                             'name' => 'category_description',
                             'htmlOptions' => array(
-                                'class' => 'category_description',
+                                'class' => 'category_description span4',
                             ),
                         ),
-                        array(
-                            'name' => 'category_order',
-                            'htmlOptions' => array(
-                                'class' => 'category_order',
-                            ),
-                        ),
+//                        array(
+//                            'name' => 'category_order',
+//                            'htmlOptions' => array(
+//                                'class' => 'category_order',
+//                            ),
+//                        ),
                         array(
                             'name' => 'category_count',
                             'htmlOptions' => array(
-                                'class' => 'category_count',
+                                'class' => 'category_count center',
                             ),
+                            'value' => function($data) {
+                        return !empty($data->category_count) ? $data->category_count : 0;
+                    }
                         ),
                         array(
                             'class' => 'CButtonColumn',
@@ -125,8 +129,8 @@
                             'buttons' => array(
                                 'update' => array(
                                     'url' => function() {
-                                return 'javascript:void(0)';
-                            },
+                                        return 'javascript:void(0)';
+                                    },
                                     'options' => array(
                                         'onclick' => 'update_category(this)',
                                     ),
@@ -144,16 +148,32 @@
     function update_category(tthis) {
         jThis = $(tthis).parents('tr');
         var category_id = jThis.find('.checkbox-column input').val();
-        var category_name = jThis.find('.category_name').text();
+        var category_name = jThis.find('.category_name input.category_name_h').val();
         var category_slug = jThis.find('.category_slug').text();
         var category_description = jThis.find('.category_description').html();
         var category_order = jThis.find('.category_order').text();
+        var category_parent = jThis.find('.category_name input.category_parent_h').val();
         $("#Category_category_id").val(category_id);
         $("#Category_category_name").val(category_name);
         $("#Category_category_slug").val(category_slug);
         $("#Category_category_description").val(category_description);
         $("#Category_category_order").val(category_order);
+        if (category_parent > 0) {
+            $("#Category_category_parent").val(category_parent);
+        } else {
+            $("#Category_category_parent").prop('selectedIndex', 0);
+        }
         $('#btn_submit').val("Cập nhật");
         return false;
+    }
+    function update_category_parent() {
+        $.ajax({
+            type: "GET",
+            url: "<?php echo Yii::app()->createUrl('admin/category/getcategorydropdownlist'); ?>",
+            data: {'category_selected': $("#Category_category_parent").val()},
+            success: function (data) {
+                $("#Category_category_parent").html(data);
+            },
+        });
     }
 </script>
