@@ -22,6 +22,7 @@ class Post extends PostBase {
     public $category_name;
     public $author_name;
     public $approved_name;
+    public $post_tag;
 
     /**
      * Returns the static model of the specified AR class.
