@@ -27,27 +27,27 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="row-fluid">
                 <?php echo $form->labelEx($model, 'post_content_head'); ?>
                 <?php
-                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
-                    "attribute" => "post_content_head",
-                ));
+//                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
+//                    "attribute" => "post_content_head",
+//                ));
                 ?>
                 <?php echo $form->error($model, 'post_content_head'); ?>
             </div>
             <div class="row-fluid">
                 <?php echo $form->labelEx($model, 'post_content_body'); ?>
                 <?php
-                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
-                    "attribute" => "post_content_body",
-                ));
+//                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
+//                    "attribute" => "post_content_body",
+//                ));
                 ?>
                 <?php echo $form->error($model, 'post_content_body'); ?>
             </div>
             <div class="row-fluid">
                 <?php echo $form->labelEx($model, 'post_content_foot'); ?>
                 <?php
-                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
-                    "attribute" => "post_content_foot",
-                ));
+//                $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
+//                    "attribute" => "post_content_foot",
+//                ));
                 ?>
                 <?php echo $form->error($model, 'post_content_foot'); ?>
             </div>
@@ -60,12 +60,35 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="w-box-content cnt_a">
                         <div class="sepH_b">
-                            <?php echo $form->labelEx($model, 'post_author'); ?>
-                            <?php echo $form->dropDownList($model, 'post_author', $post_author, array('class' => 'dropDownList')); ?>
+                            <label for="Post_post_author"><span>Tác giả:</span> <?php echo $post_author[$model->post_author]; ?></label>
+                            <?php // echo $form->hiddenField($model, 'post_author', $post_author, array('class' => 'hiddenField')); ?>
                         </div>
                         <div class="sepH_b">
-                            <?php echo $form->labelEx($model, 'post_approved_user'); ?>
-                            <?php echo $form->dropDownList($model, 'post_approved_user', $post_author, array('class' => 'dropDownList', 'empty' => 'Người duyệt')); ?>
+                            <label for="Post_post_date"><span>Ngày tạo:</span> <?php echo date('F j, Y, g:i a',strtotime($model->post_date)); ?></label>
+                            <?php
+//                            Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
+//                            $this->widget('CJuiDateTimePicker', array(
+//                                'model' => $model, //Model object
+//                                'attribute' => 'post_date', //attribute name
+//                                'mode' => 'datetime', //use "time","date" or "datetime" (default)
+//                                'language' => 'vi',
+//                                'options' => array(
+//                                    'dateFormat' => 'yy-mm-dd',
+//                                    'timeFormat' => 'H:i:s',
+//                                ) // jquery plugin options
+//                            ));
+                            ?>
+                        </div>
+                        <div class="sepH_b">
+                            <label for="Post_post_approved_user"><span>Người duyệt:</span> <?php echo!empty($post_approved_user[$model->post_approved_user]) ? $post_approved_user[$model->post_approved_user] : 'N/A'; ?></label>
+                            <?php // echo $form->dropDownList($model, 'post_approved_user', $post_author, array('class' => 'dropDownList', 'empty' => 'Người duyệt')); ?>
+                        </div>
+                        <div class="sepH_b">
+                            <label for="Post_post_status"><span>Trạng thái:</span> <?php echo $model->post_status; ?></label>
+                            <?php echo $form->dropDownList($model, 'post_status', $post_status, array('class' => 'dropDownList')); ?>
+                        </div>
+                        <div class="clearfix">
+                            <?php echo CHtml::submitButton('Cập nhật', array('class' => 'btn btn-inverse')); ?>
                         </div>
                     </div>
                 </div>
@@ -76,7 +99,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         Chuyên Mục
                     </div>
                     <div class="w-box-content cnt_a">
-                        <?php echo $form->checkBoxList($model, 'post_category', $post_category, array('class' => 'checkBoxList')); ?>
+                        <?php echo $form->radioButtonList($model, 'post_category', $post_category, array('class' => 'checkBoxList', 'disabled' => 'disabled')); ?>
                     </div>
                 </div>
             </div>
@@ -139,38 +162,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </script>
                         <?php echo $form->textArea($model, 'post_tag', array('class' => 'textArea hidden')); ?>
                         <div class="tagchecklist"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-sortable row-fluid">
-                <div id="w_sort05" class="w-box">    
-                    <div class="w-box-header">
-                        Publish
-                    </div>
-                    <div class="w-box-content cnt_a">
-                        <div class="sepH_b">
-                            <?php echo $form->labelEx($model, 'post_status'); ?>
-                            <?php echo $form->dropDownList($model, 'post_status', $post_status, array('class' => 'dropDownList')); ?>
-                        </div>
-                        <div class="sepH_b">
-                            <?php echo $form->labelEx($model, 'post_date'); ?>
-                            <?php
-                            Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
-                            $this->widget('CJuiDateTimePicker', array(
-                                'model' => $model, //Model object
-                                'attribute' => 'post_date', //attribute name
-                                'mode' => 'datetime', //use "time","date" or "datetime" (default)
-                                'language' => 'vi',
-                                'options' => array(
-                                    'dateFormat' => 'yy-mm-dd',
-                                    'timeFormat' => 'H:i:s',
-                                ) // jquery plugin options
-                            ));
-                            ?>
-                        </div>
-                        <div class="clearfix">
-                            <?php echo CHtml::submitButton($model->isNewRecord ? 'Thêm mới' : 'Cập nhật', array('class' => 'btn btn-inverse')); ?>
-                        </div>
                     </div>
                 </div>
             </div>

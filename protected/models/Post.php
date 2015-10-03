@@ -11,6 +11,7 @@
  * @property string $post_content_body
  * @property string $post_content_foot
  * @property string $post_title
+ * @property integer $post_category
  * @property string $post_status
  * @property string $post_name
  * @property string $post_guild
