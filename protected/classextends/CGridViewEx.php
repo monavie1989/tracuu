@@ -101,7 +101,18 @@ class CGridViewEx extends CGridView {
                 if ($col['class'] == 'CButtonColumn' && !isset($col['buttons']['update']['imageUrl'])) {
                     $col['buttons']['update']['imageUrl'] = Yii::app()->baseUrl . '/theme_admin/img/ico/update_off.png';
                 }
-            }
+            }else{	
+				if(is_array($col) && isset($col['htmlOptions']['class']) && isset($col['name'])){
+					$col['htmlOptions']['class'] .= ' col_'.$col['name'];
+				}elseif(is_string($col)){
+					$col = array(
+						'name' =>  $col,
+						'htmlOptions' => array(
+							'class' => 'col_'.$col
+						)
+					);
+				}
+			}
             $tmp[] = $col;
         }
         $this->columns = $tmp;

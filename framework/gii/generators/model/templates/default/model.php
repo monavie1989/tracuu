@@ -63,17 +63,10 @@ class <?php echo $modelClass; ?> extends <?php echo $modelClass."Base\n"; ?>
     }
     protected function afterDelete() {
         // code modify insert here
-        foreach (<?php echo $modelClass; ?>Detail::model()->findAllByAttributes(array('<?php echo strtolower($modelClass); ?>_id'=>$this->id)) as $item) {
-            $item->delete();
-        }
         return parent::afterDelete();
     }
     public function beforeSave() {
         // code modify insert here
-        if ($this->isNewRecord)
-            $this->create_date = new CDbExpression('NOW()');
-        else
-            $this->modified_date = new CDbExpression('NOW()');
         return parent::beforeSave();
     }
     public function afterFind() {

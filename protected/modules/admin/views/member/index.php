@@ -28,9 +28,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                     'columns'=>array(
-                        'id',
                         'username',
-                        'password',
                         'email',
                         'registered',
                         'lastvisited',
