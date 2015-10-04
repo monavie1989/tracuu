@@ -4,7 +4,7 @@
  * This is the model class for table "tbl_post".
  *
  * The followings are the available columns in table 'tbl_post':
- * @property string $post_ID
+ * @property string $post_id
  * @property integer $post_author
  * @property string $post_date
  * @property string $post_content_head
@@ -49,7 +49,7 @@ class PostBase extends CActiveRecord {
             array('post_date, post_content_head, post_content_body, post_content_foot, post_approved', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('post_ID, post_author, post_date, post_content_head, post_content_body, post_content_foot, post_title, post_category, post_status, post_name, post_guild, post_approved_user, post_approved', 'safe', 'on' => 'search'),
+            array('post_id, post_author, post_date, post_content_head, post_content_body, post_content_foot, post_title, post_category, post_status, post_name, post_guild, post_approved_user, post_approved', 'safe', 'on' => 'search'),
         );
     }
 
@@ -68,7 +68,7 @@ class PostBase extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'post_ID' => 'Post',
+            'post_id' => 'Post',
             'post_author' => 'Post Author',
             'post_date' => 'Post Date',
             'post_content_head' => 'Post Content Head',
@@ -94,7 +94,7 @@ class PostBase extends CActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('post_ID', $this->post_ID, true);
+        $criteria->compare('post_id', $this->post_id, true);
         $criteria->compare('post_author', $this->post_author);
         $criteria->compare('post_date', $this->post_date, true);
         $criteria->compare('post_content_head', $this->post_content_head, true);
