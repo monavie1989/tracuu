@@ -41,7 +41,8 @@
                         array('label'=>'Trang chủ', 'url'=>Yii::app()->request->getBaseUrl(true)),
                         array('label'=>'Đăng nhập', 'url'=>array(Yii::app()->user->loginUrl), 'visible'=>Yii::app()->user->isGuest),
                         array('label'=>'Đăng ký', 'url'=>array('/user/register'), 'visible'=>Yii::app()->user->isGuest),
-                        array('label'=>'Thoát ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                        array('label'=>'Tài khoản', 'url'=>array('/user/profile'), 'visible'=>!Yii::app()->user->isGuest),
+                        array('label'=>'Thoát', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
                     ),
                 )); ?>
             </div><!-- mainmenu -->

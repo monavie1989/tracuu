@@ -5,10 +5,9 @@
  *
  * The followings are the available columns in table 'tbl_user':
  */
-class ChangepassForm extends CFormModel
+class ForgotPasswordForm extends CFormModel
 {
-    public $password;
-    public $password2;
+    public $email;
 
     /**
      * @return array validation rules for model attributes.
@@ -18,8 +17,8 @@ class ChangepassForm extends CFormModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-                array('password', 'length', 'max'=>64),
-                array('password2', 'compare', 'compareAttribute'=>'password', 'operator'=>'=','message'=>'{attribute} không đúng.'),
+                array('email', 'required','message'=>'Vui lòng nhập {attribute} của bạn.'),
+                array('email', 'validateEmail'),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
         );
@@ -31,8 +30,13 @@ class ChangepassForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'password' => 'Mật khẩu mới',
-            'password2' => 'Xác nhận mật khẩu mới',
+            'email' => 'Email',
         );
     }
+
+    public function validateEmail($attribute,$params) {
+            $user = User::model()->find(array('select'=>'email','condition'=>'email=:email','params'=>array(':email'=>$this->$attribute)));
+            if(empty($user))
+                $this->addError ($attribute, 'Email của bạn không tồn tại trong hệ thống');
+        }
 }

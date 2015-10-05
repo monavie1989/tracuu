@@ -23,7 +23,7 @@ class Mail {
                     $subject = str_replace("[" . $key . "]", $value, $subject);
                 }
             }
-            $emailer->send($system['systemMail'], $system['systemMail'], $user, $subject, $body);
+            return $emailer->send($system['systemMail'], $system['systemMail'], $user, $subject, $body);
         }
     }
 
