@@ -167,7 +167,6 @@ td.thumb{
 
 .tagchecklist {
     font-size: 12px;
-    margin-left: 14px;
     overflow: auto;
 }
 
@@ -177,7 +176,7 @@ td.thumb{
     float: left;
     font-size: 13px;
     line-height: 1.8em;
-    margin-right: 20px;
+    margin-right: 15px;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -187,11 +186,10 @@ td.thumb{
     display: block;
     float: left;
     height: 20px;
-    margin-left: -10px;
     overflow: hidden;
-    position: absolute;
     text-indent: 0;
-    width: 15px;
+    width: 10px;
+    text-align: center;
 }
 .navbar-fixed-top, .navbar-fixed-bottom{
     z-index: 10000;
