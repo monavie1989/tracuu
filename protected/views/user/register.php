@@ -84,7 +84,7 @@
         <hr class="colorgraph">
         <div class="row">            
             <div class="col-xs-6 col-md-6"><?php echo CHtml::submitButton('Đăng ký', array('class'=>'btn btn-primary btn-block btn-lg')); ?></div>
-            <div class="col-xs-6 col-md-6"><a href="#" class="btn btn-success btn-block btn-lg">Đăng nhập</a></div>
+            <div class="col-xs-6 col-md-6"><a href="<?php echo Yii::app()->urlManager->createUrl(Yii::app()->user->loginUrl); ?>" class="btn btn-success btn-block btn-lg">Đăng nhập</a></div>
         </div>
 	</div>
 </div>
