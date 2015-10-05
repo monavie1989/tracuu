@@ -2,58 +2,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="language" content="en">
-
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print">
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection">
-	<![endif]-->
-
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css">
-
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="vi">
+    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-datetimepicker.css">
+    <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/bootstrap/js/bootstrap.js"></script>
 </head>
 
-<body>
+<body class="main login">
 
-<div class="container" id="page">
-
+<div class="wrapper" id="page">
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<div id="mainmenu">
-            <?php $this->widget('zii.widgets.CMenu',array(
-                'items'=>array(
-                    array('label'=>'Home', 'url'=>array('/site/index')),
-                    array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-                    array('label'=>'Contact', 'url'=>array('/site/contact')),				
-                    array('label'=>'Admin/User/Index', 'url'=>array('/admin/user'), 'visible'=>!Yii::app()->user->isGuest),
-                    array('label'=>'Admin/User/View', 'url'=>array('/admin/user/view'), 'visible'=>!Yii::app()->user->isGuest),
-                    array('label'=>'Login', 'url'=>array(Yii::app()->user->loginUrl), 'visible'=>Yii::app()->user->isGuest),
-                    array('label'=>'Register', 'url'=>array('/user/register'), 'visible'=>Yii::app()->user->isGuest),
-                    array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-                ),
-            )); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-        <?php
-            $flash = Yii::app()->user->getFlashes();
-            foreach ($flash as $key=>$msg)
-            {
-                echo '<div class="flash-'.$key.'">'.$msg.'</div>';
-            }
-        ?>
-	<?php echo $content; ?>
-
+            <div class="form-search">
+                <form action="">
+                    <input type="text" name="q" size="60"/>
+                    <input type="submit" value="Tìm kiếm"/>
+                    <span class="advance">Nâng cao</span>
+                    <div id="advanced-search" style="display: none; position: absolute; top: 57px; left: 0px; height: 50px; width: 100%;padding: 0 40px;">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle" id="select-category">Tất cả danh mục  <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value=""><a href="#">Tất cả danh mục</a></li>
+                                <li data-value="1"><a href="#">Danh mục 1</a></li>
+                                <li data-value="2"><a href="#">Danh mục 2</a></li>
+                                <li data-value="3"><a href="#">Danh mục 3</a></li>
+                            </ul>
+                            <input type="hidden" name="category" class="category">
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div id="mainmenu">
+                <?php $this->widget('zii.widgets.CMenu',array(
+                    'items'=>array(
+                        array('label'=>'Trang chủ', 'url'=>Yii::app()->request->getBaseUrl(true)),
+                        array('label'=>'Đăng nhập', 'url'=>array(Yii::app()->user->loginUrl), 'visible'=>Yii::app()->user->isGuest),
+                        array('label'=>'Đăng ký', 'url'=>array('/user/register'), 'visible'=>Yii::app()->user->isGuest),
+                        array('label'=>'Tài khoản', 'url'=>array('/user/profile'), 'visible'=>!Yii::app()->user->isGuest),
+                        array('label'=>'Thoát', 'url'=>array('/user/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                    ),
+                )); ?>
+            </div><!-- mainmenu -->
+        </div><!-- header -->
+        
+        <div class="content" style="">
+            <?php echo $content; ?>
+        </div>
 	<div class="clear"></div>
 
 	<div id="footer">
@@ -63,6 +61,36 @@
 	</div><!-- footer -->
 
 </div><!-- page -->
-
+<script>
+    $(document).ready(function(){
+        var advanced = localStorage.getItem('advanced');
+        if (advanced == true || advanced == 'true') {
+            $('#advanced-search').css('display','block');
+            $('.content').css('margin-top', $('#advanced-search').height());
+        }
+        //if(advanced == null)
+        $('.advance').on('click',function(){
+            $('#advanced-search').toggle().promise().done(function(){
+                advanced = localStorage.getItem('advanced');
+                if(advanced == true || advanced == 'true') {
+                    localStorage.setItem('advanced', 'false');
+                    $('.content').css('margin-top','');
+                }
+                else if(advanced == false || advanced == 'false') {                    
+                    localStorage.setItem('advanced', 'true');
+                    $('.content').css('margin-top', $('#advanced-search').height());
+                }
+            });            
+        });
+        
+        $('.dropdown-menu li').click(function(e){
+            e.preventDefault();
+            var selected = $(this).attr('data-value');
+            var text = $(this).text();
+            $('#select-category').html(text + '  <span class="caret"></span>');
+            $('.category').val(selected);  
+        });
+    });
+</script>
 </body>
 </html>

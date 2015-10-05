@@ -35,9 +35,9 @@ class LoginForm extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'rememberMe' => Yii::t('default', 'Remember Me'),
-            'username' => Yii::t('default', 'Username'),
-            'password' => Yii::t('default', 'Password'),
+            'rememberMe' => Yii::t('default', 'Ghi nhớ mật khẩu'),
+            'username' => Yii::t('default', 'Tài khoản'),
+            'password' => Yii::t('default', 'Mật khẩu'),
             'recovery' => Yii::t('default', 'Recovery'),
         );
     }
