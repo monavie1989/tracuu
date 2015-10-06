@@ -23,7 +23,7 @@ class PostController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'list'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -121,12 +121,44 @@ class PostController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Post']))
             $model->attributes = $_GET['Post'];
-
+        if (!empty(Yii::app()->user->category_user)) {
+            $model->post_category = Yii::app()->user->category_user;
+        }
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-
+    
+    public function actionList() {
+        $model = new Post('search');
+        if (!empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'delete':
+                    if (isset($_POST['items']) && !empty($_POST['items'])) {
+                        $items = $_POST['items'];
+                        foreach ($model::model()->findAllByPk($items) as $item) {
+                            $item->delete();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['Post']))
+            $model->attributes = $_GET['Post'];
+        if (!empty(Yii::app()->user->category_user)) {
+            $model->post_category = Yii::app()->user->category_user;
+        }
+        
+        if (!empty(Yii::app()->user->role) && Yii::app()->user->role === 'author') {
+            $model->post_author = Yii::app()->user->id;
+        }
+        $this->render('list', array(
+            'model' => $model,
+        ));
+    }
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.

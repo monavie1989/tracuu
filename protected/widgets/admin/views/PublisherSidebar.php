@@ -16,15 +16,6 @@
                 array('label' => 'Sửa Bài viết', 'url' => array('/admin/post/update'), 'itemOptions' => array('class' => 'hidden')),
             )
         ),
-        array(
-            'label' => 'Quản lý Quản trị viên',
-            'id' => 'moderator_menu',
-            'type' => 'customize',
-            'items' => array(
-                array('label' => 'Danh sách', 'url' => array('/admin/manager/index')),
-                array('label' => 'Thêm mới', 'url' => array('/admin/manager/create')),
-            )
-        )
     );
     foreach ($menu as $item) {
         $item['type'] = !empty($item['type']) ? $item['type'] : 'normal';

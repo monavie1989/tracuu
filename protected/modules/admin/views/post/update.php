@@ -59,11 +59,16 @@
                         <div id="w_sort05" class="w-box">    
                             <div class="w-box-header">
                                 Danh sách Comments
-                                <div class="pull-right">
-                                    <a id="add_comments" alt="Thêm Nhận xét" href="<?php echo Yii::app()->createUrl('/admin/comments/create', array('post_id' => $model->post_id)) ?>">
-                                        <i class="splashy-document_letter_upload"> + </i>
-                                    </a>
-                                </div>
+                                <?php
+                                $role = Yii::app()->user->role;
+                                if (in_array($role, array('administrator', 'moderator', 'publisher'))) {
+                                    ?>
+                                    <div class="pull-right">
+                                        <a id="add_comments" alt="Thêm Nhận xét" href="<?php echo Yii::app()->createUrl('/admin/comments/create', array('post_id' => $model->post_id)) ?>">
+                                            <i class="splashy-document_letter_upload"> + </i>
+                                        </a>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <div class="w-box-content cnt_a" id="comment_list">
                             </div>
@@ -82,6 +87,9 @@
                                     <?php // echo $form->hiddenField($model, 'post_author', $post_author, array('class' => 'hiddenField')); ?>
                                 </div>
                                 <div class="sepH_b">
+                                    <label for="Post_post_category"><span>Chuyên mục:</span> <?php echo $post_category[$model->post_category]; ?></label>
+                                </div>
+                                <div class="sepH_b">
                                     <label for="Post_post_date"><span>Ngày tạo:</span> <?php echo date('F j, Y, g:i a', strtotime($model->post_date)); ?></label>
                                 </div>
                                 <div class="sepH_b">
@@ -96,16 +104,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">
-                        <div id="w_sort05" class="w-box">    
-                            <div class="w-box-header">
-                                Chuyên Mục
-                            </div>
-                            <div class="w-box-content cnt_a">
-                                <?php echo $form->radioButtonList($model, 'post_category', $post_category, array('class' => 'checkBoxList')); ?>
-                            </div>
-                        </div>
-                    </div>
+                    <!--                    <div class="row-fluid">
+                                            <div id="w_sort05" class="w-box">    
+                                                <div class="w-box-header">
+                                                    Chuyên Mục
+                                                </div>
+                                                <div class="w-box-content cnt_a">
+                    <?php echo $form->radioButtonList($model, 'post_category', $post_category, array('class' => 'checkBoxList')); ?>
+                                                </div>
+                                            </div>
+                                        </div>-->
                     <div class="row-fluid">
                         <div id="w_sort05" class="w-box">    
                             <div class="w-box-header">

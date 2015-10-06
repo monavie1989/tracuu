@@ -19,14 +19,14 @@
                         ?>
                         <li class="<?php echo $class; ?>">
                             <?php echo $form->labelEx($model, 'username'); ?>
-                            <?php echo $form->textField($model, 'username', array('size' => 50, 'maxlength' => 50, 'class' => 'textField')); ?>
+                            <?php echo $form->textField($model, 'username', array('size' => 50, 'maxlength' => 50, 'class' => 'textField', 'autocomplete' => 'off')); ?>
                         </li>
                         <?php
                         $class = !empty($model->errors['username']) ? " f_error" : "";
                         ?>
                         <li class="<?php echo $class; ?>">
                             <?php echo $form->labelEx($model, 'password'); ?>
-                            <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'passwordField')); ?>
+                            <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'passwordField', 'autocomplete' => 'off')); ?>
                         </li>
                         <?php
                         $class = !empty($model->errors['username']) ? " f_error" : "";
@@ -40,12 +40,12 @@
                         ?>
                         <li class="<?php echo $class; ?>">
                             <?php echo $form->labelEx($model, 'role'); ?>
-                            <?php echo $form->dropDownList($model, 'role', (Yii::app()->user->role=='administrator')?array('moderator' => 'Moderator', 'publisher' => 'Publisher', 'author' => 'Author'):array('publisher' => 'Publisher', 'author' => 'Author')); ?>
+                            <?php echo $form->dropDownList($model, 'role', (Yii::app()->user->role == 'administrator') ? array('moderator' => 'Moderator', 'publisher' => 'Publisher', 'author' => 'Author') : array('publisher' => 'Publisher', 'author' => 'Author')); ?>
                         </li>
-                        
+
                         <li class="<?php echo $class; ?>">
                             <?php echo $form->labelEx($model, 'status'); ?>
-                            <?php echo $form->dropDownList($model, 'status', array(1=> 'Kích hoạt', 0 => 'Ngừng kích hoạt')); ?>
+                            <?php echo $form->dropDownList($model, 'status', array(1 => 'Kích hoạt', 0 => 'Ngừng kích hoạt')); ?>
                         </li>
                     </ul>
                 </div>
@@ -95,10 +95,10 @@
                         <li class="v-heading"> Quản lý danh mục </li>
                         <li class="<?php echo $class; ?>">
                             <?php echo $form->labelEx($category, 'category_id'); ?>
-                            <?php if(in_array(Yii::app()->user->role,array('administrator'))) { ?>
+                            <?php if (in_array(Yii::app()->user->role, array('administrator'))) { ?>
                                 <?php echo $form->dropDownList($category, 'category_id', CHtml::listData(Category::model()->findAll(), 'category_id', 'category_name')); ?>
-                            <?php } elseif(Yii::app()->user->role === 'moderator') { ?>
-                                <?php echo $form->dropDownList($category, 'category_id', CHtml::listData(Yii::app()->db->createCommand('SELECT * FROM tbl_category WHERE category_id IN (SELECT category_id FROM tbl_category_user WHERE category_id IN (SELECT category_id FROM tbl_category_user WHERE user_id = '.Yii::app()->user->id.'))')->queryAll(),'category_id','category_name')); ?>
+                            <?php } elseif (Yii::app()->user->role === 'moderator') { ?>
+                                <?php echo $form->dropDownList($category, 'category_id', CHtml::listData(Yii::app()->db->createCommand('SELECT * FROM tbl_category WHERE category_id IN (SELECT category_id FROM tbl_category_user WHERE category_id IN (SELECT category_id FROM tbl_category_user WHERE user_id = ' . Yii::app()->user->id . '))')->queryAll(), 'category_id', 'category_name')); ?>
                             <?php } ?>
                         </li>                        
                     </ul>
