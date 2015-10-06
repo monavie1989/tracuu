@@ -199,9 +199,9 @@ EOD;
 			return $this->grid->blankDisplay;
 
 		if($this->selectableRows===null && $this->grid->selectableRows>1)
-			$item=CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
+			$item=CHtml::checkBox($this->id.'_all',false,array('class'=>'1234 select-on-check-all'));
 		elseif($this->selectableRows>1)
-			$item=CHtml::checkBox($this->id.'_all',false);
+			$item=CHtml::checkBox($this->id.'_all',false,array('class'=>'1234'));
 		else
 			$item=parent::getHeaderCellContent();
 

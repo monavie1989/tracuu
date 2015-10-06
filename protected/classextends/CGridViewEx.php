@@ -82,7 +82,7 @@ class CGridViewEx extends CGridView {
 
         $tmp = array();
         $tmp[] = array(
-            'class' => 'CCheckBoxColumn',
+            'class' => 'CCheckBoxColumnEx',
             'selectableRows' => $pageSize,
             'header' => '<input type="checkbox" name="select_all_rows" class="select_rows" data-tableid="dt_gal">',
             'value' => '$data->' . Common::getKeyNameOfTable($this->dataProvider->model)
