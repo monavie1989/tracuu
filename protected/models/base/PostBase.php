@@ -43,10 +43,10 @@ class PostBase extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('post_title, post_name', 'required'),
+            array('post_title', 'required'),
             array('post_author, post_category, post_approved_user', 'numerical', 'integerOnly' => true),
             array('post_title, post_status, post_name, post_guild', 'length', 'max' => 255),
-            array('post_date, post_content_head, post_content_body, post_content_foot, post_approved', 'safe'),
+            array('post_date, post_name, post_content_head, post_content_body, post_content_foot, post_approved', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('post_id, post_author, post_date, post_content_head, post_content_body, post_content_foot, post_title, post_category, post_status, post_name, post_guild, post_approved_user, post_approved', 'safe', 'on' => 'search'),
