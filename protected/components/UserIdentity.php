@@ -57,13 +57,7 @@ class UserIdentity extends CUserIdentity {
                 $this->setState('role_type', $role_info->type);
                 $this->setState('role_name', $role_info->title);
                 $this->setState('lastvisited', $lastLogin);
-                $category_user = Yii::app()->db->createCommand()
-                        ->select('category_id')
-                        ->from('tbl_category_user')
-//                        ->join('tbl_category', 'tbl_category.category_id = tbl_category_user.category_id')
-                        ->where('user_id=:user_id', array(':user_id' => $user->id))
-                        ->queryScalar();
-                $this->setState('category_user', $category_user);
+                $this->setState('category_id', $user->category_id);
                 $this->errorCode = self::ERROR_NONE;
             }
         }

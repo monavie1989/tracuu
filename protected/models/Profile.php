@@ -21,11 +21,6 @@ class Profile extends ProfileBase {
         return parent::model($className);
     }
     
-    public function rules() {
-        return array_merge(parent::rules(),array(            
-            array('phone', 'validatePhone','on'=>'register'),
-        ));
-    }
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -39,10 +34,5 @@ class Profile extends ProfileBase {
         );
     }
     
-    public function validatePhone($attribute,$params) {
-        $user = Profile::model()->find(array('select'=>'phone','condition'=>'phone=:phone','params'=>array(':phone'=>$this->$attribute)));
-        if(!empty($user))
-            $this->addError ($attribute, 'Số điện thoại đã được dùng để đăng ký');
-    }
 
 }

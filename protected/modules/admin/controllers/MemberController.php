@@ -105,25 +105,21 @@ class MemberController extends Controller {
                     $validate = false;
             }
             if (isset($_POST['User'])) {
-                $model->status = $_POST['User']['status'];
+                $oldpass = $model->password;
+                $model->password = isset($_POST['User']['password']) ? $_POST['User']['password'] : '';
+                $model->phone = isset($_POST['User']['phone']) ? $_POST['User']['phone'] : '';
+                $model->status = isset($_POST['User']['status']) ? $_POST['User']['status'] : 0;
                 if (!empty($model->status)) {
                     $model->activekey = "";
                 }
-                if (!empty($_POST['User']['n_password'])) {
-                    $model->scenario = 'changepass';
-                    $model->o_password = $model->password;
-                    $model->n_password = $_POST['User']['n_password'];
-                    $model->n_password_re = $_POST['User']['n_password_re'];
-                    $oldpass = $model->password;
-                }
                 if ($model->validate() && $validate) {
                     $model->scenario = 'update';
-                    $model->password = md5($model->n_password);
+                    if ($oldpass != $model->password) {
+                        $model->password = md5($model->password);
+                    }
                     if ($model->save()) {
                         $profile->scenario = "save";
                         if ($profile->save()) {
-                            $model->n_password = "";
-                            $model->n_password_re = "";
                             Yii::app()->user->setFlash('success', 'Cập nhật thông tin thành viên thành công.');
                         }
                     }
@@ -142,13 +138,13 @@ class MemberController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        if(Yii::app()->user->role != 'administrator') {
-        $this->loadModel($id)->delete();
-        Profile::model()->deleteAllByAttributes(array('user_id'=>$id));
+        if (Yii::app()->user->role != 'administrator') {
+            $this->loadModel($id)->delete();
+            Profile::model()->deleteAllByAttributes(array('user_id' => $id));
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax']))
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
         } else {
             throw new Exception('Bạn không có quyền thực hiện chức năng này');
         }

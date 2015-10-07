@@ -1,14 +1,14 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="heading">
-            <h3>Quản lý Quản trị viên</h3><a href="<?php echo Yii::app()->createUrl('admin/manager/create'); ?>" class="pull-right"><?php echo CHtml::submitButton('Thêm mới',array('class'=>'btn btn-primary','style'=>'top: 0; right:0; position: absolute;')); ?></a>
+            <h3>Quản lý Quản trị viên</h3><a href="<?php echo Yii::app()->createUrl('admin/manager/create'); ?>" class="pull-right"><?php echo CHtml::submitButton('Thêm mới', array('class' => 'btn btn-primary', 'style' => 'top: 0; right:0; position: absolute;')); ?></a>
         </div>
-		<?php
-		$this->breadcrumbs=array(
-			'Quản trị viên'=>array('index'),
-			'Danh sách',
-		);
-		Yii::app()->clientScript->registerScript('search', "
+        <?php
+        $this->breadcrumbs = array(
+            'Quản trị viên' => array('index'),
+            'Danh sách',
+        );
+        Yii::app()->clientScript->registerScript('search', "
 		$('.search-button').click(function(){
 			$('.search-form').toggle();
 			return false;
@@ -22,10 +22,12 @@
 		");
         ?>
         <div class="search-form-binhpv" style="position: absolute; right: 0;z-index: 1000;">
-		<?php $this->renderPartial('_search',array(
-			'model'=>$model,
-		)); ?>
-		</div><!-- search-form -->
+            <?php
+            $this->renderPartial('_search', array(
+                'model' => $model,
+            ));
+            ?>
+        </div><!-- search-form -->
         <?php
         $this->widget('application.classextends.CGridViewEx', array(
             'id' => 'user-grid',
@@ -34,9 +36,15 @@
             'columns' => array(
                 'username',
                 'email',
-		'role',
+                'phone',
+                'role',
+                array(
+                    'name' => 'category_name',
+                    'htmlOptions' => array(
+                        'class' => 'span2',
+                    ),
+                ),
                 'registered',
-                'lastvisited',
                 array(
                     'name' => 'status',
                     'value' => 'Yii::app()->params["status"][$data->status]',

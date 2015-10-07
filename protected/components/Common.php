@@ -8,6 +8,14 @@ class Common {
 
     public $Info;
 
+    public static function getValueAttributesByKey($class, $attributes, $key) {
+        $data = $class::model()->findByPk($key);
+        if (!empty($data->$attributes)) {
+            return $data->$attributes;
+        }
+        return '';
+    }
+
     public static function get_root_parent_id($page_id) {
         if (!empty($page_id)) {
             $pageInfo = Page::model()->findByPk($page_id);

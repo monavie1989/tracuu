@@ -2,15 +2,13 @@
     <div class="span12">
         <h3 class="heading">Cập nhật Bài Viết</h3>
         <?php
-        $post_status = Yii::app()->params['post_status'];
-        $post_category = CHtml::listData(Category::model()->findAll(), 'category_id', 'category_name');
+        $role = Yii::app()->user->role;
+        if (in_array($role, array('administrator', 'moderator', 'publisher'))) {
+            $post_status = Yii::app()->params['post_status'];
+        } else {
+            $post_status = array('Updating' => 'Updating', 'Pending' => 'Pending');
+        }
         $post_tag = CHtml::listData(Tag::model()->findAll(), 'tag_id', 'tag_name');
-        $criteria = new CDbCriteria;
-        $criteria->compare('role', 'author', true);
-        $post_author = CHtml::listData(User::model()->findAll($criteria), 'id', 'username');
-        $criteria = new CDbCriteria;
-        $criteria->compare('role', 'publisher', true);
-        $post_approved_user = CHtml::listData(User::model()->findAll($criteria), 'id', 'username');
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'post-form',
             'enableAjaxValidation' => false,
@@ -24,9 +22,6 @@
                     <?php echo $form->labelEx($model, 'post_title'); ?>
                     <?php echo $form->textField($model, 'post_title', array('class' => 'textField span12')); ?>
                     <?php echo $form->error($model, 'post_title'); ?>
-                    <?php // echo $form->labelEx($model, 'post_name'); ?>
-                    <?php // echo $form->textField($model, 'post_name', array('class' => 'textField span12')); ?>
-                    <?php // echo $form->error($model, 'post_name'); ?>
                     <div class="row-fluid">
                         <?php echo $form->labelEx($model, 'post_content_head'); ?>
                         <?php
@@ -54,7 +49,6 @@
                         ?>
                         <?php echo $form->error($model, 'post_content_foot'); ?>
                     </div>
-
                     <div class="row-fluid">
                         <div id="w_sort05" class="w-box">    
                             <div class="w-box-header">
@@ -83,17 +77,16 @@
                             </div>
                             <div class="w-box-content cnt_a">
                                 <div class="sepH_b">
-                                    <label for="Post_post_author"><span>Tác giả:</span> <?php echo $post_author[$model->post_author]; ?></label>
-                                    <?php // echo $form->hiddenField($model, 'post_author', $post_author, array('class' => 'hiddenField')); ?>
+                                    <label for="Post_post_author"><span>Tác giả:</span> <?php echo Common::getValueAttributesByKey('User', 'username', $model->post_author); ?></label>
                                 </div>
                                 <div class="sepH_b">
-                                    <label for="Post_post_category"><span>Chuyên mục:</span> <?php echo $post_category[$model->post_category]; ?></label>
+                                    <label for="Post_post_category"><span>Chuyên mục:</span> <?php echo Common::getValueAttributesByKey('Category', 'category_name', $model->post_category); ?></label>
                                 </div>
                                 <div class="sepH_b">
                                     <label for="Post_post_date"><span>Ngày tạo:</span> <?php echo date('F j, Y, g:i a', strtotime($model->post_date)); ?></label>
                                 </div>
                                 <div class="sepH_b">
-                                    <label for="Post_post_approved_user"><span>Người duyệt:</span> <?php echo!empty($post_approved_user[$model->post_approved_user]) ? $post_approved_user[$model->post_approved_user] : 'N/A'; ?></label>
+                                    <label for="Post_post_approved_user"><span>Người duyệt:</span> <?php echo!empty($model->post_approved_user) ? Common::getValueAttributesByKey('User', 'username', $model->post_approved_user) : 'Chưa Duyệt'; ?></label>
                                 </div>
                                 <div class="formSep">
                                     <label for="Post_post_status"><span>Trạng thái:</span> <?php echo $form->dropDownList($model, 'post_status', $post_status, array('class' => 'dropDownList span8', 'style' => 'margin-bottom:0;')); ?></label>
@@ -104,16 +97,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="row-fluid">
-                                            <div id="w_sort05" class="w-box">    
-                                                <div class="w-box-header">
-                                                    Chuyên Mục
-                                                </div>
-                                                <div class="w-box-content cnt_a">
-                    <?php echo $form->radioButtonList($model, 'post_category', $post_category, array('class' => 'checkBoxList')); ?>
-                                                </div>
-                                            </div>
-                                        </div>-->
                     <div class="row-fluid">
                         <div id="w_sort05" class="w-box">    
                             <div class="w-box-header">
@@ -149,14 +132,16 @@
                                 </script>
                                 <div class="tagchecklist">
                                     <?php
-                                    foreach ($model->post_tag as $value) {
-                                        ?>
-                                        <span>
-                                            <input type="hidden" name="Post[post_tag][]" value="<?php echo $value; ?>">
-                                            <a tabindex="0" class="ntdelbutton" onclick="removetag(this)">X</a>
-                                            &nbsp;<span><?php echo Tag::get_tag_name($value); ?></span>
-                                        </span>
-                                        <?php
+                                    if (!empty($model->post_tag)) {
+                                        foreach ($model->post_tag as $value) {
+                                            ?>
+                                            <span>
+                                                <input type="hidden" name="Post[post_tag][]" value="<?php echo $value; ?>">
+                                                <a tabindex="0" class="ntdelbutton" onclick="removetag(this)">X</a>
+                                                &nbsp;<span><?php echo $post_tag[$value]; ?></span>
+                                            </span>
+                                            <?php
+                                        }
                                     }
                                     ?>
                                 </div>

@@ -25,6 +25,7 @@ class Category extends CategoryBase {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+
     public function attributeLabels() {
         return array(
             'category_id' => 'Chuyên mục',
@@ -41,6 +42,14 @@ class Category extends CategoryBase {
         // code modify insert here
 
         return parent::afterFind();
+    }
+
+    public static function getCategoryName($category_id) {
+        $category = Category::model()->findByPk($category_id);
+        if ($category) {
+            return $category->category_name;
+        }
+        return "";
     }
 
 }

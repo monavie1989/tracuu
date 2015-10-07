@@ -23,8 +23,8 @@ class Post extends PostBase {
     public $category_name;
     public $author_name;
     public $approved_name;
-    public $post_tag;
-    public $old_post_tag;
+    public $post_tag = array();
+    public $old_post_tag = array();
 
     /**
      * Returns the static model of the specified AR class.
@@ -137,38 +137,23 @@ class Post extends PostBase {
 
     public function beforeSave() {
         // code modify insert here
+        $CDbCriteria = new CDbCriteria();
         if ($this->isNewRecord) {
             $this->post_date = new CDbExpression('NOW()');
             if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'author') {
                 $this->post_author = Yii::app()->user->id;
-            }
-            if (!empty($this->post_name)) {
-                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_name);
-            } else {
-                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
-            }
-            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
-            $i = 1;
-            while ($check_post_name) {
-                $post_name = $tmp . '-' . $i;
-                $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
-                $i++;
+                $this->post_category = Yii::app()->user->category_id;
             }
         } else {
-            if (!empty($this->post_name)) {
-                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_name);
-            } else {
-                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
-            }
-            $CDbCriteria = new CDbCriteria();
             $CDbCriteria->condition = "post_id != " . $this->post_id;
-            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name), $CDbCriteria);
-            $i = 1;
-            while ($check_post_name) {
-                $post_name = $tmp . '-' . $i;
-                $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
-                $i++;
-            }
+        }
+        $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
+        $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name), $CDbCriteria);
+        $i = 1;
+        while ($check_post_name) {
+            $post_name = $tmp . '-' . $i;
+            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
+            $i++;
         }
         $this->post_name = $post_name;
         if ($this->post_status == 'Publish' || $this->post_status == 'Private') {
@@ -192,7 +177,6 @@ class Post extends PostBase {
         // code modify insert here
         $add = array_diff($this->post_tag, $this->old_post_tag);
         $del = array_diff($this->old_post_tag, $this->post_tag);
-        var_dump($add);
         foreach ($add as $key => $val) {
             $PostTag = new PostTag;
             $PostTag->post_id = $this->post_id;
