@@ -107,6 +107,26 @@ class Post extends PostBase {
             ),
         ));
     }
+    
+    public function searchByKeyword($keyword = '', $page = 1) {
+        $sql = 'SELECT * FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
+        $command = Yii::app()->db->createCommand();
+        $result = Yii::app()->db->createCommand()
+                ->select('*')
+                ->from('tbl_post')
+                ->where('MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)')
+                ->limit((int)Yii::app()->params['defaultPageSize'],($page-1)*(int)Yii::app()->params['defaultPageSize'])
+                ->queryAll();
+        //$command->limit(2,0)->queryAll();
+        return $result;
+    }
+    
+    public function countByKeyword($keyword = '') {
+        $sql = 'SELECT COUNT(*) AS postNumber FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
+        $command = Yii::app()->db->createCommand($sql);
+        $result = $command->queryRow();
+        return $result['postNumber'];
+    }
 
     public function beforeFind() {
         $criteria = new CDbCriteria;

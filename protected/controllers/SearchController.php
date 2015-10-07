@@ -2,37 +2,19 @@
 
 class SearchController extends Controller
 {
-	public function actionIndex()
-	{
-            Yii::app()->theme = 'classic';
-            $this->layout = 'search-result';
-            $this->render('index');
-	}
+    public $theme = 'classic';
+    public $layout = 'search-result';
 
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
+    public function actionIndex()
 	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
+            
+            $keyword = Yii::app()->request->getParam('q');
+            $page = Yii::app()->request->getParam('page',1);
+            
+            $model = new Post;
+            $post = $model->searchByKeyword(str_replace(' ', ' +', $keyword), $page);
+            $pager = new CPagination((int)$model->countByKeyword(str_replace(' ', ' +', $keyword)));
+            $pager->pageSize = (int)Yii::app()->params['defaultPageSize'];
+            $this->render('index',array('post'=>$post,'pages'=>$pager,'keyword'=>$keyword));
 	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

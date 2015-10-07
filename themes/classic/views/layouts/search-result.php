@@ -17,7 +17,7 @@
 	<div id="header">
             <div class="form-search">
                 <form action="">
-                    <input type="text" name="q" size="60"/>
+                    <input type="text" name="q" size="60" value="<?php echo Yii::app()->request->getParam('q',''); ?>"/>
                     <input type="submit" value="Tìm kiếm"/>
                     <span class="advance">Nâng cao</span>
                     <div id="advanced-search" style="display: none; position: absolute; top: 57px; left: 0px; height: 50px; width: 100%;padding: 0 40px;">
