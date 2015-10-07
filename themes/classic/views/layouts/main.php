@@ -12,7 +12,7 @@
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/bootstrap/js/bootstrap.js"></script>
 </head>
 
-<body class="main login">
+<body class="main <?php echo isset($this->body_class)?$this->body_class:''; ?>">
 
 <div class="wrapper" id="page">
 	<div id="header">

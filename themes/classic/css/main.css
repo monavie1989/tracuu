@@ -99,6 +99,8 @@ body
     padding-top:10px;
     width: 1000px;
     margin: auto;
+    margin-bottom:100px;
+    overflow: hidden;
 }
 .main .content .row {margin-bottom: 23px;}
 .main .content .row .title {
@@ -223,6 +225,11 @@ body
     position: fixed;
     bottom:0;
 }
+
+body.post #footer, body.register #footer
+{
+    position:  initial!important;
+}
 #mainmenu {
     margin-right: 40px;
     float: right;
@@ -344,3 +351,9 @@ body
     background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 }
 #registration .row{margin-bottom: 0!important;}
+
+/* Xóa khi có nút FB */
+.stb-facebook.stb-box{background:#4c66a4;color:#fff;position:relative;text-transform:none;width:13.8rem}
+.stb-twitter.stb-box{background:#55acee;color:#fff;position:relative;text-transform:none;width:13.8rem;margin-top:10px;}
+
+.post .datetime{font-style: italic;}
