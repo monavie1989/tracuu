@@ -12,7 +12,10 @@ class Sidebar extends CWidget {
         if($role === 'moderator')
             $this->render("ModSidebar", array(
             ));
-        if($role === 'publisher' || $role === 'author')
+        if($role === 'publisher')
+            $this->render("PublisherSidebar", array(
+            ));
+        if($role === 'author')
             $this->render("AuthorSidebar", array(
             ));
     }

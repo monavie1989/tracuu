@@ -142,7 +142,35 @@ class Post extends PostBase {
             if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'author') {
                 $this->post_author = Yii::app()->user->id;
             }
+            if (!empty($this->post_name)) {
+                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_name);
+            } else {
+                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
+            }
+            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
+            $i = 1;
+            while ($check_post_name) {
+                $post_name = $tmp . '-' . $i;
+                $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
+                $i++;
+            }
+        } else {
+            if (!empty($this->post_name)) {
+                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_name);
+            } else {
+                $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
+            }
+            $CDbCriteria = new CDbCriteria();
+            $CDbCriteria->condition = "post_id != " . $this->post_id;
+            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name), $CDbCriteria);
+            $i = 1;
+            while ($check_post_name) {
+                $post_name = $tmp . '-' . $i;
+                $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
+                $i++;
+            }
         }
+        $this->post_name = $post_name;
         if ($this->post_status == 'Publish' || $this->post_status == 'Private') {
             if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'publisher') {
                 if (empty($this->post_approved)) {

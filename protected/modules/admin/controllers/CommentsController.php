@@ -1,8 +1,8 @@
 <?php
 
-class PostController extends Controller {
+class CommentsController extends Controller {
 
-    public $controllerLabel = 'Bài Viết';
+    public $controllerLabel = 'Bình luận';
     public $defaultAction = 'admin';
 
     /**
@@ -11,7 +11,6 @@ class PostController extends Controller {
     public function filters() {
         return array(
             'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
         );
     }
 
@@ -23,7 +22,7 @@ class PostController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete', 'list'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'index'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -47,19 +46,27 @@ class PostController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new Post;
-
+        $model = new Comments;
+        $model->comment_post_id = !empty($_GET['post_id']) ? $_GET['post_id'] : 0;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Post'])) {
-            $model->attributes = $_POST['Post'];
-            $model->post_tag = !empty($_POST['Post']['post_tag']) ? $_POST['Post']['post_tag'] : array();
-            if ($model->save())
-                $this->redirect(array('admin'));
+        if (isset($_POST['Comments'])) {
+            $model->attributes = $_POST['Comments'];
+            $model->comment_user_id = Yii::app()->user->id;
+            $model->comment_author_name = Yii::app()->user->username;
+            $model->comment_author_email = Yii::app()->user->email;
+            $model->comment_date = DATE('Y-m-d H:i:s');
+            if ($model->save()) {
+                $this->renderPartial('message', array(
+                    'message' => "Thêm nhận xét thành công",
+                    'model' => $model
+                ));
+                exit();
+            }
         }
 
-        $this->render('create', array(
+        $this->renderPartial('create', array(
             'model' => $model,
         ));
     }
@@ -74,14 +81,19 @@ class PostController extends Controller {
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        if (isset($_POST['Post'])) {
-            $model->attributes = $_POST['Post'];
-            $model->post_tag = !empty($_POST['Post']['post_tag']) ? $_POST['Post']['post_tag'] : array();
-            if ($model->save())
-                $this->redirect(array('admin'));
+
+        if (isset($_POST['Comments'])) {
+            $model->attributes = $_POST['Comments'];
+            if ($model->save()) {
+                $this->renderPartial('message', array(
+                    'message' => "Cập nhật nhận xét thành công",
+                    'model' => $model
+                ));
+                exit();
+            }
         }
 
-        $this->render('update', array(
+        $this->renderPartial('update', array(
             'model' => $model,
         ));
     }
@@ -92,18 +104,20 @@ class PostController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        $delete_model = $model = $this->loadModel($id);
+        $delete_model->delete();
+        $this->renderPartial('message', array(
+            'message' => "Xóa nhận xét thành công",
+            'model' => $model
+        ));
+        exit();
     }
 
     /**
      * Manages all models.
      */
     public function actionAdmin() {
-        $model = new Post('search');
+        $model = new Comments('search');
         if (!empty($_POST['action'])) {
             switch ($_POST['action']) {
                 case 'delete':
@@ -119,55 +133,38 @@ class PostController extends Controller {
             }
         }
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Post']))
-            $model->attributes = $_GET['Post'];
-        if (!empty(Yii::app()->user->category_user)) {
-            $model->post_category = Yii::app()->user->category_user;
-        }
+        if (isset($_GET['Comments']))
+            $model->attributes = $_GET['Comments'];
+
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-    
-    public function actionList() {
-        $model = new Post('search');
-        if (!empty($_POST['action'])) {
-            switch ($_POST['action']) {
-                case 'delete':
-                    if (isset($_POST['items']) && !empty($_POST['items'])) {
-                        $items = $_POST['items'];
-                        foreach ($model::model()->findAllByPk($items) as $item) {
-                            $item->delete();
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Post']))
-            $model->attributes = $_GET['Post'];
-        if (!empty(Yii::app()->user->category_user)) {
-            $model->post_category = Yii::app()->user->category_user;
-        }
-        
-        if (!empty(Yii::app()->user->role) && Yii::app()->user->role === 'author') {
-            $model->post_author = Yii::app()->user->id;
-        }
-        $this->render('list', array(
-            'model' => $model,
+
+    /**
+     * Manages all models.
+     */
+    public function actionIndex() {
+        $dataProvider = new CActiveDataProvider('Comments', array(
+            'criteria' => array(
+                'condition' => 'comment_post_id=' . $_REQUEST['post_id'],
+                'order' => 'comment_date DESC',
+            ),
+        ));
+        $this->renderPartial('index', array(
+            'dataProvider' => $dataProvider->getData(),
         ));
     }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return Post the loaded model
+     * @return Comments the loaded model
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = Post::model()->findByPk($id);
+        $model = Comments::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -175,10 +172,10 @@ class PostController extends Controller {
 
     /**
      * Performs the AJAX validation.
-     * @param Post $model the model to be validated
+     * @param Comments $model the model to be validated
      */
     protected function performAjaxValidation($model) {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'post-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'comments-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
