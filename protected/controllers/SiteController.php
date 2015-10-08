@@ -51,74 +51,10 @@ class SiteController extends Controller
 	/**
 	 * Displays the contact page
 	 */
-	public function actionContact()
+	public function actionPost()
 	{
-		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
-		{
-			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-				$headers="From: $name <{$model->email}>\r\n".
-					"Reply-To: {$model->email}\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-Type: text/plain; charset=UTF-8";
-
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				$this->refresh();
-			}
-		}
-		$this->render('contact',array('model'=>$model));
-	}
-
-	/**
-	 * Displays the login page
-	 */
-	public function actionLogin()
-	{
-		if (!Yii::app()->user->isGuest)
-			$this->redirect(Yii::app()->homeUrl);
-
-		$model = new LoginForm('login');
-
-		// if it is ajax validation request
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
-		// collect user input data
-		if (isset($_POST['LoginForm'])) {
-			$model->attributes = $_POST['LoginForm'];
-
-			if ($model->validate('login') && $model->login()) {
-				$this->redirect(Yii::app()->user->returnUrl);
-			}
-		}
-
-		$this->render('login', array('model' => $model));
-	}
-
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		//obtains all assigned roles for this user id
-		$roleAssigned = Yii::app()->authManager->getRoles(Yii::app()->user->id);
-
-		if (!empty($roleAssigned)) { //checks that there are assigned roles
-			$auth = Yii::app()->authManager; //initializes the authManager
-			foreach ($roleAssigned as $n => $role) {
-				if ($auth->revoke($n, Yii::app()->user->id)) //remove each assigned role for this user
-					Yii::app()->authManager->save(); //again always save the result
-			}
-		}
-
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+            $id = Yii::app()->request->getParam('id',1);
+            $model=  Post::model()->findByAttributes(array('post_id'=>$id));
+            $this->render('post',array('model'=>$model));
 	}
 }

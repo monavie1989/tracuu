@@ -23,8 +23,8 @@ class Post extends PostBase {
     public $category_name;
     public $author_name;
     public $approved_name;
-    public $post_tag;
-    public $old_post_tag;
+    public $post_tag = array();
+    public $old_post_tag = array();
 
     /**
      * Returns the static model of the specified AR class.
@@ -107,6 +107,26 @@ class Post extends PostBase {
             ),
         ));
     }
+    
+    public function searchByKeyword($keyword = '', $page = 1) {
+        $sql = 'SELECT * FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
+        $command = Yii::app()->db->createCommand();
+        $result = Yii::app()->db->createCommand()
+                ->select('*')
+                ->from('tbl_post')
+                ->where('MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)')
+                ->limit((int)Yii::app()->params['defaultPageSize'],($page-1)*(int)Yii::app()->params['defaultPageSize'])
+                ->queryAll();
+        //$command->limit(2,0)->queryAll();
+        return $result;
+    }
+    
+    public function countByKeyword($keyword = '') {
+        $sql = 'SELECT COUNT(*) AS postNumber FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
+        $command = Yii::app()->db->createCommand($sql);
+        $result = $command->queryRow();
+        return $result['postNumber'];
+    }
 
     public function beforeFind() {
         $criteria = new CDbCriteria;
@@ -137,12 +157,25 @@ class Post extends PostBase {
 
     public function beforeSave() {
         // code modify insert here
+        $CDbCriteria = new CDbCriteria();
         if ($this->isNewRecord) {
             $this->post_date = new CDbExpression('NOW()');
             if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'author') {
                 $this->post_author = Yii::app()->user->id;
+                $this->post_category = Yii::app()->user->category_id;
             }
+        } else {
+            $CDbCriteria->condition = "post_id != " . $this->post_id;
         }
+        $tmp = $post_name = Common::sanitize_title_with_dashes($this->post_title);
+        $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name), $CDbCriteria);
+        $i = 1;
+        while ($check_post_name) {
+            $post_name = $tmp . '-' . $i;
+            $check_post_name = Post::model()->findByAttributes(array('post_name' => $post_name));
+            $i++;
+        }
+        $this->post_name = $post_name;
         if ($this->post_status == 'Publish' || $this->post_status == 'Private') {
             if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'publisher') {
                 if (empty($this->post_approved)) {
@@ -164,7 +197,6 @@ class Post extends PostBase {
         // code modify insert here
         $add = array_diff($this->post_tag, $this->old_post_tag);
         $del = array_diff($this->old_post_tag, $this->post_tag);
-        var_dump($add);
         foreach ($add as $key => $val) {
             $PostTag = new PostTag;
             $PostTag->post_id = $this->post_id;

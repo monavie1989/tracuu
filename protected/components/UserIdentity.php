@@ -25,14 +25,14 @@ class UserIdentity extends CUserIdentity {
      * @return boolean whether authentication succeeds.
      */
     public function authenticate() {
-        
-        $user = User::model()->findByAttributes(array('username'=>$this->username,'status'=>1));
+
+        $user = User::model()->findByAttributes(array('username' => $this->username, 'status' => 1));
         if ($user === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         } else {
             // check Auto or Not
             $password = ($this->autoLogin == false) ? md5($this->password) : $this->password;
-		
+
             if ($user->password !== $password) {
                 $this->errorCode = self::ERROR_PASSWORD_INVALID;
             } else {
@@ -43,7 +43,7 @@ class UserIdentity extends CUserIdentity {
                     $lastLogin = $user->lastvisited;
                 }
                 $role = $user->role;
-                $role_info = UserAuth::model()->findByAttributes(array('name'=>$role));
+                $role_info = UserAuth::model()->findByAttributes(array('name' => $role));
                 $auth = Yii::app()->authManager;
                 if (!$auth->isAssigned($role, $this->_id)) {
                     if ($auth->assign($role, $this->_id)) {
@@ -57,6 +57,7 @@ class UserIdentity extends CUserIdentity {
                 $this->setState('role_type', $role_info->type);
                 $this->setState('role_name', $role_info->title);
                 $this->setState('lastvisited', $lastLogin);
+                $this->setState('category_id', $user->category_id);
                 $this->errorCode = self::ERROR_NONE;
             }
         }
@@ -68,4 +69,3 @@ class UserIdentity extends CUserIdentity {
     }
 
 }
-

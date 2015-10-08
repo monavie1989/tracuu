@@ -22,7 +22,12 @@
     ?>
     <div class="field-group">
         <?php echo $form->textField($model, 'post_title', array('size' => 50, 'maxlength' => 50, 'class' => 'textField', 'placeholder' => 'Tên bài viết')); ?>
-        <?php echo $form->dropDownList($model, 'post_author', $post_author, array('class' => 'textField', 'empty' => 'Tác giả', 'style' => 'width:125px;')); ?>
+        <?php
+        $role = Yii::app()->user->role;
+        if (in_array($role, array('administrator', 'moderator', 'publisher'))) {
+            echo $form->dropDownList($model, 'post_author', $post_author, array('class' => 'textField', 'empty' => 'Tác giả', 'style' => 'width:125px;'));
+        }
+        ?>
         <?php echo $form->dropDownList($model, 'post_approved_user', $post_approved_user, array('class' => 'textField', 'empty' => 'Người duyệt', 'style' => 'width:125px;')); ?>
         <?php echo $form->dropDownList($model, 'post_status', $post_status, array('class' => 'textField', 'empty' => 'Trạng thái', 'style' => 'width:125px;')); ?>
         <?php echo CHtml::submitButton('Tìm kiếm', array('class' => 'btn button_search_summit', 'style' => 'margin-top: -10px; position: relative;')); ?>

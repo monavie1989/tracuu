@@ -2,6 +2,7 @@
 /* @var $this RegisterFormController */
 /* @var $model RegisterForm */
 /* @var $form CActiveForm */
+$this->body_class = 'register';
 ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'registration',
@@ -23,41 +24,41 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <?php echo $form->textField($model,'fname',array('class'=>'form-control input-lg','placeholder'=>'Họ')); ?>
+                    <?php echo $form->textField($model,'fname',array('class'=>'form-control','placeholder'=>'Họ')); ?>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <?php echo $form->textField($model,'lname',array('class'=>'form-control input-lg','placeholder'=>'Tên')); ?>
+                    <?php echo $form->textField($model,'lname',array('class'=>'form-control','placeholder'=>'Tên')); ?>
                 </div>
             </div>
         </div>
         <div class="form-group">
-                <?php echo $form->textField($model,'username',array('class'=>'form-control input-lg','placeholder'=>'Tài khoản')); ?>
+                <?php echo $form->textField($model,'username',array('class'=>'form-control','placeholder'=>'Tài khoản')); ?>
         </div>
         <div class="form-group">
-            <?php echo $form->textField($model,'email',array('class'=>'form-control input-lg','placeholder'=>'Email')); ?>
+            <?php echo $form->textField($model,'email',array('class'=>'form-control','placeholder'=>'Email')); ?>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <?php echo $form->textField($model,'password',array('class'=>'form-control input-lg','placeholder'=>'Mật khẩu')); ?>
+                    <?php echo $form->passwordField($model,'password',array('class'=>'form-control','placeholder'=>'Mật khẩu')); ?>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <?php echo $form->textField($model,'password2',array('class'=>'form-control input-lg','placeholder'=>'Xác nhận mật khẩu')); ?>
+                    <?php echo $form->passwordField($model,'password2',array('class'=>'form-control','placeholder'=>'Xác nhận mật khẩu')); ?>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <?php echo $form->textField($model,'phone',array('class'=>'form-control input-lg','placeholder'=>'Điện thoại')); ?>
+            <?php echo $form->textField($model,'phone',array('class'=>'form-control','placeholder'=>'Điện thoại')); ?>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <div class='input-group date' id='datetimepicker'>
-                        <?php echo $form->textField($model,'birthday',array('class'=>'form-control input-lg','placeholder'=>'Ngày sinh')); ?>
+                        <?php echo $form->textField($model,'birthday',array('class'=>'form-control','placeholder'=>'Ngày sinh')); ?>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -66,7 +67,7 @@
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
-                    <?php echo $form->dropDownList($model,'gender',array('0'=>'Nam','1'=>'Nữ'),array('class'=>'form-control input-lg','placeholder'=>'Giới tính')); ?>
+                    <?php echo $form->dropDownList($model,'gender',array('0'=>'Nam','1'=>'Nữ'),array('class'=>'form-control','placeholder'=>'Giới tính')); ?>
                 </div>
             </div>
         </div>

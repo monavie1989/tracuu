@@ -1,4 +1,4 @@
-<form class="search">
+<form class="search" action="<?php echo Yii::app()->createUrl('search/index')?>">
     <div class="form-border">
         <input type="text" maxlength="2048" name="q" placeholder="Tìm kiếm">
         
