@@ -54,6 +54,7 @@ class PostController extends Controller {
 
         if (isset($_POST['Post'])) {
             $model->attributes = $_POST['Post'];
+            $model->post_tag = !empty($_POST['Post']['post_tag']) ? $_POST['Post']['post_tag'] : array();
             if ($model->save())
                 $this->redirect(array('admin'));
         }
@@ -73,9 +74,9 @@ class PostController extends Controller {
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-
         if (isset($_POST['Post'])) {
             $model->attributes = $_POST['Post'];
+            $model->post_tag = !empty($_POST['Post']['post_tag']) ? $_POST['Post']['post_tag'] : array();
             if ($model->save())
                 $this->redirect(array('admin'));
         }

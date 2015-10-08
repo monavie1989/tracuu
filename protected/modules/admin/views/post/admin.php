@@ -1,6 +1,6 @@
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading">Quản lý <?php echo $this->controllerLabel; ?></h3><a href="<?php echo Yii::app()->createUrl('admin/post/create'); ?>" class="pull-right"><?php echo CHtml::submitButton('Thêm mới',array('class'=>'btn btn-primary','style'=>'top: 0; right:0; position: absolute;')); ?></a>
+        <h3 class="heading">Quản lý <?php echo $this->controllerLabel; ?></h3>
         <?php
         $this->breadcrumbs = array(
             $this->controllerLabel => array('index'),

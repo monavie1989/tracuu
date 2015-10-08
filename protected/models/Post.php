@@ -4,13 +4,14 @@
  * This is the model class for table "tbl_post".
  *
  * The followings are the available columns in table 'tbl_post':
- * @property string $post_ID
+ * @property string $post_id
  * @property integer $post_author
  * @property string $post_date
  * @property string $post_content_head
  * @property string $post_content_body
  * @property string $post_content_foot
  * @property string $post_title
+ * @property integer $post_category
  * @property string $post_status
  * @property string $post_name
  * @property string $post_guild
@@ -22,6 +23,8 @@ class Post extends PostBase {
     public $category_name;
     public $author_name;
     public $approved_name;
+    public $post_tag;
+    public $old_post_tag;
 
     /**
      * Returns the static model of the specified AR class.
@@ -34,7 +37,7 @@ class Post extends PostBase {
 
     public function attributeLabels() {
         return array(
-            'post_ID' => 'Post',
+            'post_id' => 'Post',
             'post_author' => 'Tác giả',
             'author_name' => 'Tác giả',
             'post_date' => 'Ngày tạo',
@@ -67,7 +70,7 @@ class Post extends PostBase {
         $criteria->compare('`u1`.username', $this->author_name, true);
         $criteria->compare('`u2`.username', $this->approved_name, true);
 
-        $criteria->compare('post_ID', $this->post_ID, true);
+        $criteria->compare('post_id', $this->post_id, true);
         $criteria->compare('post_author', $this->post_author);
         $criteria->compare('post_date', $this->post_date, true);
         $criteria->compare('post_content_head', $this->post_content_head, true);
@@ -117,6 +120,16 @@ class Post extends PostBase {
         return parent::afterFind();
     }
 
+    public function afterFind() {
+        // code modify insert here
+        $this->old_post_tag = $this->post_tag = Yii::app()->db->createCommand()
+                ->select('tag_id')
+                ->from('tbl_post_tag')
+                ->where('post_id=:id', array(':id' => $this->post_id))
+                ->queryColumn();
+        return parent::afterFind();
+    }
+
     protected function afterDelete() {
         // code modify insert here
         return parent::afterDelete();
@@ -126,10 +139,18 @@ class Post extends PostBase {
         // code modify insert here
         if ($this->isNewRecord) {
             $this->post_date = new CDbExpression('NOW()');
+            if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'author') {
+                $this->post_author = Yii::app()->user->id;
+            }
         }
         if ($this->post_status == 'Publish' || $this->post_status == 'Private') {
-            if (empty($this->post_approved)) {
-                $this->post_approved = new CDbExpression('NOW()');
+            if (!empty(Yii::app()->user->role) && Yii::app()->user->role == 'publisher') {
+                if (empty($this->post_approved)) {
+                    $this->post_approved = new CDbExpression('NOW()');
+                }
+                if (empty($this->post_approved_user)) {
+                    $this->post_approved_user = Yii::app()->user->id;
+                }
             }
         } else {
             $this->post_approved = NULL;
@@ -139,10 +160,21 @@ class Post extends PostBase {
         return parent::beforeSave();
     }
 
-    public function afterFind() {
+    public function afterSave() {
         // code modify insert here
-
-        return parent::afterFind();
+        $add = array_diff($this->post_tag, $this->old_post_tag);
+        $del = array_diff($this->old_post_tag, $this->post_tag);
+        var_dump($add);
+        foreach ($add as $key => $val) {
+            $PostTag = new PostTag;
+            $PostTag->post_id = $this->post_id;
+            $PostTag->tag_id = $val;
+            $PostTag->save();
+        }
+        foreach ($del as $key => $val) {
+            PostTag::model()->deleteAllByAttributes(array('post_id' => $this->post_id, 'tag_id' => $val));
+        }
+        return parent::afterSave();
     }
 
 }

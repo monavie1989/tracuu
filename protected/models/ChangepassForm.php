@@ -7,8 +7,6 @@
  */
 class ChangepassForm extends CFormModel
 {
-    public $id;
-    public $current_password;
     public $password;
     public $password2;
 
@@ -20,8 +18,6 @@ class ChangepassForm extends CFormModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-                array('current_password, password, password2', 'required','message'=>'Trường thông tin {attribute} không được để trống.'),
-                array('current_password', 'validateCurrentPassword'),
                 array('password', 'length', 'max'=>64),
                 array('password2', 'compare', 'compareAttribute'=>'password', 'operator'=>'=','message'=>'{attribute} không đúng.'),
                 // The following rule is used by search().
@@ -35,15 +31,8 @@ class ChangepassForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'current_password' => 'Mật khẩu hiện tại',
             'password' => 'Mật khẩu mới',
             'password2' => 'Xác nhận mật khẩu mới',
         );
-    }
-
-    public function validateCurrentPassword($attribute,$params) {
-        $user = User::model()->find(array('select'=>'id, username, password','condition'=>'id=:id','params'=>array(':id'=>$this->id)));
-        if(empty($user) || (!empty($user) && $user->password != md5($this->$attribute)))
-            $this->addError ($attribute, 'Mật khẩu hiện tại không đúng');
     }
 }

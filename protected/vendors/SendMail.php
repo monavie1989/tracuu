@@ -44,10 +44,10 @@ class SendMail {
         $this->emailer->Body = $body;
         if ($this->emailer->Send()) {
             //Log::addlog('Toemail '.$toEmail.' <> Form Email : '.$fromEmail,'SendMail.log');
-            return '';
+            return true;
         } else {
             // Log::addlog('Toemail '.$toEmail.' <> Form Email : '.$fromEmail,'ErrorSendMail.log');
-            return "Fail to send your message!";
+            return false;
         }
     }
 

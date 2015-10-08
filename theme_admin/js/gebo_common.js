@@ -1,5 +1,22 @@
 /* [ ---- Gebo Admin Panel - common ---- ] */
-
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+Array.prototype.pushUnique = function (item){
+    if(this.indexOf(item) == -1) {
+    //if(jQuery.inArray(item, this) == -1) {
+        this.push(item);
+        return true;
+    }
+    return false;
+}
 	//* detect touch devices 
     function is_touch_device() {
 	  return !!('ontouchstart' in window);

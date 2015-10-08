@@ -9,6 +9,7 @@ return array(
     'name' => 'Tra cứu',
     // preloading 'log' component
     'preload' => array('log'),
+    'theme'=>'classic',
     'language' => 'vi',
     // autoloading model and component classes
     'import' => array(
