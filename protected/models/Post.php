@@ -109,10 +109,12 @@ class Post extends PostBase {
     }
     
     public function searchByKeyword($keyword = '', $page = 1) {
-        $sql = 'SELECT * FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
-        $command = Yii::app()->db->createCommand();
         $result = Yii::app()->db->createCommand()
-                ->select('*')
+                ->select('*, CONCAT(
+                    CASE WHEN NOT ISNULL(post_content_head) THEN CONCAT("<div class=\'post_content_head\'>" ,post_content_head,"</div>") ELSE "" END
+                    ,CASE WHEN NOT ISNULL(post_content_body) THEN CONCAT("<div class=\'post_content_body\'>",post_content_body,"</div>") ELSE "" END
+                    ,CASE WHEN NOT ISNULL(post_content_foot) THEN CONCAT("<div class=\'post_content_foot\'>",post_content_foot,"</div>") ELSE "" END
+                ) as post_content')
                 ->from('tbl_post')
                 ->where('MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)')
                 ->limit((int)Yii::app()->params['defaultPageSize'],($page-1)*(int)Yii::app()->params['defaultPageSize'])

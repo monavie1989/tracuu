@@ -7,34 +7,16 @@
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css">
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/search.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/theme_admin/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/theme_admin/bootstrap/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/theme_admin/css/style.css" />
         <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
     </head>
 
-    <body class="search-result <?php echo Yii::app()->controller->id .'-'.Yii::app()->controller->action->id;?>">
+    <body class="search-result <?php echo Yii::app()->controller->id . '-' . Yii::app()->controller->action->id; ?>">
 
         <div class="wrapper" id="page">
             <div id="header" class="wrap_container">
-                <div class="form-search">
-                    <form action="">
-                        <input type="text" name="q" size="60" value="<?php echo Yii::app()->request->getParam('q', ''); ?>"/>
-                        <input type="submit" value="Tìm kiếm"/>
-                        <span class="advance">Nâng cao</span>
-                        <div id="advanced-search" style="display: none; position: absolute; top: 57px; left: 0px; height: 50px; width: 100%;padding: 0 40px;">
-                            <div class="btn-group">
-                                <button data-toggle="dropdown" class="btn dropdown-toggle" id="select-category">Tất cả danh mục  <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li data-value=""><a href="#">Tất cả danh mục</a></li>
-                                    <li data-value="1"><a href="#">Danh mục 1</a></li>
-                                    <li data-value="2"><a href="#">Danh mục 2</a></li>
-                                    <li data-value="3"><a href="#">Danh mục 3</a></li>
-                                </ul>
-                                <input type="hidden" name="category" class="category">
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
                 <div id="mainmenu">
                     <?php
                     $this->widget('zii.widgets.CMenu', array(

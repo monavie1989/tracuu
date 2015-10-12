@@ -1,6 +1,6 @@
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading">Profile - Change Password</h3>
+        <h3 class="heading">Thay đổi mật khẩu</h3>
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'changepassword-form',

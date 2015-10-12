@@ -64,7 +64,7 @@ class ProfileController extends Controller {
                 $model->scenario = 'update';
                 $model->password = md5($model->n_password);
                 $model->save();
-                Yii::app()->user->setFlash('msg', 'Change password success.');
+                Yii::app()->user->setFlash('msg', 'Thay đổi mật khẩu thành công.');
                 $this->redirect('index');
             } else {
                 if (!empty($model->errors)) {
@@ -76,7 +76,6 @@ class ProfileController extends Controller {
         $this->render('changepassword', array(
             'model' => $model,
         ));
-        exit();
     }
 
     /**
@@ -90,7 +89,7 @@ class ProfileController extends Controller {
             $model->attributes = $_POST['Profile'];
             if ($model->validate()) {
                 $model->save();
-                Yii::app()->user->setFlash('msg', 'Change Profile success.');
+                Yii::app()->user->setFlash('msg', 'Cập nhật thông tin thành công.');
                 $this->redirect('index');
             }
         }

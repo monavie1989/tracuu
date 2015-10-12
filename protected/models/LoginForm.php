@@ -49,7 +49,7 @@ class LoginForm extends CFormModel {
     public function authenticate($attribute, $params) {
         $this->_identity = new UserIdentity($this->username, $this->password, $this->autoLogin);
         if (!$this->_identity->authenticate())
-            $this->addError('password', Yii::t('default', 'Incorrect username or password'));
+            $this->addError('password', Yii::t('default', 'Tài khoản và mật khẩu không hợp lệ'));
     }
 
     /**
