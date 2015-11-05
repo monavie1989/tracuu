@@ -12,7 +12,7 @@
             'type' => 'customize',
             'items' => array(
                 array('label' => 'Danh sách', 'url' => array('/admin/post/admin')),
-//				array('label' => 'Thêm mới', 'url' => array('/admin/post/create')),
+				array('label' => 'Thêm mới', 'url' => array('/admin/post/create'), 'itemOptions' => array('class' => 'hidden')),
 				array('label' => 'Sửa Bài viết', 'url' => array('/admin/post/update'), 'itemOptions' => array('class' => 'hidden')),
 				array('label' => 'Chuyên mục', 'url' => array('/admin/category/admin')),
 				array('label' => 'Thẻ', 'url' => array('/admin/tag/admin')),

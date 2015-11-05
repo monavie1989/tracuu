@@ -16,7 +16,7 @@
         <div class="wrapper" id="page">
             <div id="header" class="wrap_container">
                 <div class="form-search">
-                    <form action="">
+                    <form action="<?php echo Yii::app()->createUrl('search/index');?>">
                         <input type="text" name="q" size="60" value="<?php echo Yii::app()->request->getParam('q', ''); ?>"/>
                         <input type="submit" value="Tìm kiếm"/>
                         <span class="advance">Nâng cao</span>

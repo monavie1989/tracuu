@@ -416,3 +416,18 @@ body.post #footer, body.register #footer
 .stb-twitter.stb-box{background:#55acee;color:#fff;position:relative;text-transform:none;width:13.8rem;margin-top:10px;}
 
 .post .datetime{font-style: italic;}
+
+
+
+/* post-detail */
+.title_post{
+	color: #5ca038;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    padding:10px 0 5px;
+}
+.summary_post{
+	font-size: 11px;
+    padding-bottom: 5px;
+}

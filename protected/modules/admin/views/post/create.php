@@ -31,24 +31,6 @@
                         ?>
                         <?php echo $form->error($model, 'post_content_head'); ?>
                     </div>
-                    <div class="row-fluid">
-                        <?php echo $form->labelEx($model, 'post_content_body'); ?>
-                        <?php
-                        $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
-                            "attribute" => "post_content_body",
-                        ));
-                        ?>
-                        <?php echo $form->error($model, 'post_content_body'); ?>
-                    </div>
-                    <div class="row-fluid">
-                        <?php echo $form->labelEx($model, 'post_content_foot'); ?>
-                        <?php
-                        $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
-                            "attribute" => "post_content_foot",
-                        ));
-                        ?>
-                        <?php echo $form->error($model, 'post_content_foot'); ?>
-                    </div>
                 </div>
                 <div class="span3">
                     <div class="row-fluid">

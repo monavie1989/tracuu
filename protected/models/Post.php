@@ -41,7 +41,7 @@ class Post extends PostBase {
             'post_author' => 'Tác giả',
             'author_name' => 'Tác giả',
             'post_date' => 'Ngày tạo',
-            'post_content_head' => 'Nội dung mở đầu',
+            'post_content_head' => 'Nội dung',
             'post_content_body' => 'Nội dung chính',
             'post_content_foot' => 'Nội dung kết thúc',
             'post_title' => 'Tiêu đề',
@@ -114,9 +114,11 @@ class Post extends PostBase {
                     CASE WHEN NOT ISNULL(post_content_head) THEN CONCAT("<div class=\'post_content_head\'>" ,post_content_head,"</div>") ELSE "" END
                     ,CASE WHEN NOT ISNULL(post_content_body) THEN CONCAT("<div class=\'post_content_body\'>",post_content_body,"</div>") ELSE "" END
                     ,CASE WHEN NOT ISNULL(post_content_foot) THEN CONCAT("<div class=\'post_content_foot\'>",post_content_foot,"</div>") ELSE "" END
-                ) as post_content')
+                ) as post_content
+                , MATCH(post_title, post_content_head) AGAINST(\'+'.$keyword.'\' IN NATURAL LANGUAGE MODE) as po')
                 ->from('tbl_post')
-                ->where('MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)')
+                ->where('MATCH(post_title, post_content_head) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE) OR MATCH(post_title, post_content_head) AGAINST(\'+'.$keyword.'\' IN NATURAL LANGUAGE MODE)')
+                ->order('po DESC')
                 ->limit((int)Yii::app()->params['defaultPageSize'],($page-1)*(int)Yii::app()->params['defaultPageSize'])
                 ->queryAll();
         //$command->limit(2,0)->queryAll();
@@ -124,7 +126,7 @@ class Post extends PostBase {
     }
     
     public function countByKeyword($keyword = '') {
-        $sql = 'SELECT COUNT(*) AS postNumber FROM tbl_post WHERE MATCH(post_title, post_content_body) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
+        $sql = 'SELECT COUNT(*) AS postNumber FROM tbl_post WHERE MATCH(post_title, post_content_head) AGAINST(\'+'.$keyword.'\' IN BOOLEAN MODE)';
         $command = Yii::app()->db->createCommand($sql);
         $result = $command->queryRow();
         return $result['postNumber'];

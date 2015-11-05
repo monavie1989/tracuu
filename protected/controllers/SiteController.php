@@ -43,6 +43,9 @@ class SiteController extends Controller {
     public function actionPost() {
         $id = Yii::app()->request->getParam('id', 1);
         $model = Post::model()->findByAttributes(array('post_id' => $id));
+		if(!empty($model)){
+			$this->pageTitle = $model->post_title . " | " . $model->category_name;
+		}
         $this->render('post', array('model' => $model));
     }
 
