@@ -43,6 +43,10 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php echo $form->error($model, 'post_content_body'); ?>
             </div>
             <div class="row-fluid">
+                dfd
+                <?php $this->widget('widgets.tinymce.TinyMCE', array('model'=>$model, 'field'=>'post_content_body')); ?>
+            </div>
+            <div class="row-fluid">
                 <?php echo $form->labelEx($model, 'post_content_foot'); ?>
                 <?php
                 $this->widget("application.extensions.ckeditor.CKEditor", array("model" => $model,
