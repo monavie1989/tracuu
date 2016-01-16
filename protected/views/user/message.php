@@ -1,1 +1,1 @@
-<?php  echo $message; ?>
+<div class="message-box"><?php  echo $message; ?></div>

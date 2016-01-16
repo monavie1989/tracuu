@@ -21,5 +21,5 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
         
-        public $body_class = '';
+	public $body_class = '';
 }

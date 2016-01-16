@@ -46,7 +46,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-gebo" onclick="window.location.href = '<?php echo Yii::app()->createUrl('user/changepassword'); ?>';
-                return false;">Change Password</button>
+                return false;">Đổi mật khẩu</button>
                 <?php $this->endWidget(); ?>
                 <?php
                 $form_profile = $this->beginWidget('CActiveForm', array(
@@ -80,7 +80,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-gebo" onclick="window.location.href = '<?php echo Yii::app()->createUrl('user/update'); ?>';
-                return false;">Update Profile</button>
+                return false;">Cập nhật</button>
                 <?php $this->endWidget(); ?>
     </div>
 </div>

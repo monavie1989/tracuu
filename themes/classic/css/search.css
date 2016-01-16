@@ -1,9 +1,4 @@
-.search-result #header
-{
-    overflow: hidden;
-    padding: 10px 40px;
-    background: #f1f1f1;
-}
+
 .search-result #header .form-search
 {
     display: inline-block;
@@ -77,12 +72,6 @@
 {
 
 }
-.search-result .content {
-    clear: both;
-    padding-top:10px;
-    width: 1000px;
-    margin: auto;
-}
 .search-result .content .row {margin-bottom: 23px;}
 .search-result .content .row .title {
     display: block;
@@ -97,35 +86,10 @@
     line-height: 21.6px;
     text-decoration: none;
 }
-.search-result .content .row .title a:hover {;
+.search-result .content .row .title a:hover {
     text-decoration: underline;
 }
-.search-result #footer
-{
-    width: inherit;
-    position: relative;
-}
-.search-result #mainmenu {
-    margin-right: 40px;
-    float: right;
-}
-.search-result  #mainmenu ul {
-    list-style: none;
-    margin: 0;
-    overflow: hidden;
-}
-#mainmenu ul li {
-    display: inline-block;
-    float: left;
-    padding:5px;
-}
-#mainmenu ul li a{
-    text-decoration: none;
-    color:#000;
-}
-#mainmenu ul li a:hover{
-    text-decoration: underline;
-}
+
 .search {
     width: 600px;
     position: absolute;
@@ -142,7 +106,7 @@
     height: 38px;
     vertical-align: top;
     position: relative;
-    padding: 7px 10px 3px 10px;
+    padding: 7px 0 3px 0;
 }
 
 .search .form-border input[type="text"] {
@@ -151,8 +115,9 @@
     line-height: 32px !important;
     height: 32px !important;
     border: none;
-    width: 577px;
+    width: 100%;
     outline: none;
+    padding-left: 10px;
 }
 .search .button {text-align: center;}
 .search input[type="submit"] {
@@ -186,45 +151,45 @@
     color: #222;
 }
 .pagination {
-  display: inline-block;
-  padding-left: 0;
-  margin: 20px 0;
-  border-radius: 4px;
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
 }
 .pagination > li {
-  display: inline;
+    display: inline;
 }
 .pagination > li > a,
 .pagination > li > span {
-  position: relative;
-  float: left;
-  padding: 6px 12px;
-  margin-left: -1px;
-  line-height: 1.42857143;
-  color: #337ab7;
-  text-decoration: none;
-  background-color: #fff;
-  border: 1px solid #ddd;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
-  margin-left: 0;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 .pagination > li > a:hover,
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
-  z-index: 3;
-  color: #23527c;
-  background-color: #eee;
-  border-color: #ddd;
+    z-index: 3;
+    color: #23527c;
+    background-color: #eee;
+    border-color: #ddd;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -232,11 +197,11 @@
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  z-index: 2;
-  color: #fff;
-  cursor: default;
-  background-color: #337ab7;
-  border-color: #337ab7;
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
 }
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,
@@ -244,78 +209,78 @@
 .pagination > .disabled > a,
 .pagination > .disabled > a:hover,
 .pagination > .disabled > a:focus {
-  color: #777;
-  cursor: not-allowed;
-  background-color: #fff;
-  border-color: #ddd;
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
 }
 .pagination-lg > li > a,
 .pagination-lg > li > span {
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3333333;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
 }
 .pagination-lg > li:first-child > a,
 .pagination-lg > li:first-child > span {
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 .pagination-lg > li:last-child > a,
 .pagination-lg > li:last-child > span {
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 .pagination-sm > li > a,
 .pagination-sm > li > span {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
 }
 .pagination-sm > li:first-child > a,
 .pagination-sm > li:first-child > span {
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 .pagination-sm > li:last-child > a,
 .pagination-sm > li:last-child > span {
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .pager {
-  padding-left: 0;
-  margin: 20px 0;
-  text-align: center;
-  list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+    text-align: center;
+    list-style: none;
 }
 .pager li {
-  display: inline;
+    display: inline;
 }
 .pager li > a,
 .pager li > span {
-  display: inline-block;
-  padding: 5px 14px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 15px;
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
 }
 .pager li > a:hover,
 .pager li > a:focus {
-  text-decoration: none;
-  background-color: #eee;
+    text-decoration: none;
+    background-color: #eee;
 }
 .pager .next > a,
 .pager .next > span {
-  float: right;
+    float: right;
 }
 .pager .previous > a,
 .pager .previous > span {
-  float: left;
+    float: left;
 }
 .pager .disabled > a,
 .pager .disabled > a:hover,
 .pager .disabled > a:focus,
 .pager .disabled > span {
-  color: #777;
-  cursor: not-allowed;
-  background-color: #fff;
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
 }

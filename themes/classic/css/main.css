@@ -1,19 +1,66 @@
+* {
+    padding:0;
+    margin: 0;
+}
 html {
     background: #FFF;
 }
 body
 {
-	margin: 0;
-	padding: 0;
-	color: #555;
-	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #FFF;
-        height: 100%;
+    margin: 0;
+    padding: 0;
+    color: #555;
+    font: normal 10pt Arial,Helvetica,sans-serif;
+    background: #FFF;
+    height: 100%;
+}
+form {
+    margin: 0 0 20px;
+}
+
+.control-group {
+    margin-bottom: 10px;
+}
+.wrap_container{
+    padding: 10px 40px;
+}
+
+#main_content{
+    padding-bottom: 100px;
+}
+#header
+{
+    overflow: hidden;
+    background: #f1f1f1;
+}
+
+#mainmenu ul {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+}
+#mainmenu ul li {
+    display: inline-block;
+    float: left;
+    padding:5px;
+}
+#mainmenu ul li a{
+    text-decoration: none;
+    color:#000;
+}
+#mainmenu ul li a:hover{
+    text-decoration: underline;
+}
+body.site-index #header .form-search{
+    display: none;
 }
 
 #page
 {
 
+}
+.item-search + .item-search {
+    padding-top:20px;
 }
 .main #header
 {
@@ -117,7 +164,7 @@ body
     text-decoration: none;
 }
 .main .content .row .title a:hover {;
-    text-decoration: underline;
+                                    text-decoration: underline;
 }
 .main #mainmenu {
     margin-right: 40px;
@@ -208,12 +255,23 @@ body
 {
     padding: 20px;
 }
-
-#sidebar
-{
-
+.message-box {
+    padding: 150px 0;
+    text-align: center;
 }
-
+.errorSummary ul {
+    padding-left: 15px;
+}
+#login-form {
+}
+.errorSummary ul li{
+    color: #f00;
+    font-size: 12px;
+}
+.errorMessage{
+    color: #f00;
+    font-size: 12px;
+}
 #footer
 {
     padding: 10px;
@@ -221,9 +279,10 @@ body
     font-size: 0.8em;
     text-align: center;
     background: #f2f2f2;
-    border-top: 1px solid #e4e4e4;
+    border-top: 2px solid #e4e4e4;
     position: fixed;
     bottom:0;
+    z-index: 1000;
 }
 
 body.post #footer, body.register #footer
@@ -231,7 +290,7 @@ body.post #footer, body.register #footer
     position:  initial!important;
 }
 #mainmenu {
-    margin-right: 40px;
+    /*margin-right: 40px;*/
     float: right;
 }
 #mainmenu ul {
@@ -357,3 +416,18 @@ body.post #footer, body.register #footer
 .stb-twitter.stb-box{background:#55acee;color:#fff;position:relative;text-transform:none;width:13.8rem;margin-top:10px;}
 
 .post .datetime{font-style: italic;}
+
+
+
+/* post-detail */
+.title_post{
+	color: #5ca038;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    padding:10px 0 5px;
+}
+.summary_post{
+	font-size: 11px;
+    padding-bottom: 5px;
+}
