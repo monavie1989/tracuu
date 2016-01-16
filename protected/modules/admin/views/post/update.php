@@ -41,8 +41,7 @@
                         <?php echo $form->error($model, 'post_content_body'); ?>
                     </div>
                     <div class="row-fluid">
-                        dfd
-                        <?php $this->widget('application.widgets.tinymce.TinyMCE', array('model'=>$model, 'field'=>'post_content_head')); ?>
+                        <?php $this->widget('application.widgets.tinymce.TinyMCE', array('model'=>$model, 'field'=>'post_content_head', 'options'=> array('height'=>600))); ?>
                     </div>
                     <div class="row-fluid">
                         <?php echo $form->labelEx($model, 'post_content_foot'); ?>
