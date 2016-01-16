@@ -133,6 +133,7 @@ class TinyMCE extends CWidget
         'end_container_on_empty_block'=>'',
         'nowrap'=>'',
         'object_resizing'=>'',
+        'readonly' => 1
     );
 
     public function init() {
