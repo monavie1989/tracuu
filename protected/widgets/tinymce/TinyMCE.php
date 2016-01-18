@@ -23,6 +23,8 @@ class TinyMCE extends CWidget
     
     public $mode = 'advanced';
     
+    public $htmlOptions = '';
+
     public $options = array();
     
     protected $_options = array(
@@ -133,7 +135,7 @@ class TinyMCE extends CWidget
         'end_container_on_empty_block'=>'',
         'nowrap'=>'',
         'object_resizing'=>'',
-        'readonly' => 1
+        'readonly' => false
     );
 
     public function init() {
@@ -170,7 +172,8 @@ class TinyMCE extends CWidget
         
         $model = $this->model;
         if($this->_options['selector'] == '') {
-            $this->_options['selector'] = '#'.strtolower(get_class($model)) .'-'.$this->field;
+            $this->_options['selector'] = '#tinymce_'.get_class($model) .'_'.$this->field;
+            $this->htmlOptions['id'] = 'tinymce_'.get_class($model) .'_'.$this->field;
         }
         
         if($this->_options['plugins'] == '') {
@@ -242,7 +245,7 @@ class TinyMCE extends CWidget
         return $this->render('tinymce',array(
             'model'=>$this->model,
             'field'=>$this->field,
-            'cssClass'=>$this->cssClass,
+            'htmlOptions'=>$this->htmlOptions,
         ));
     }
 }
